@@ -824,6 +824,40 @@ title       : Versatile Description Format specification
 author      : Nikolay Gniteev (godhart@gmail.com)
 version     : 1.0.draft.0
 vdf         : "1.0"   # Используемая спецификация формата
+
+# Установка значений тэгов в frontmatter части
+assign      :
+  # Установка значений тэга output
+  output    : 
+    doc     :
+      cell  : last-doc-cell-name
+    src     :
+      cell  : last-src-cell-name
+
+# Установка значений переменных в frontmatter части
+var         :
+  # Установка скалярной переменной
+  var1_name : value
+
+  # Установка списка
+  var2_name : 
+            - value1
+            - value2
+
+  # Установка словаря
+  var3_name : 
+    keyA    : valueA
+    keyB    : valueB
+
+  # Установка сложно-составного значения
+  var4_name : 
+    keyCA   : valueCA
+    keyCB   : 
+            - valueCB1
+            - valueCB2
+    keyCC   : 
+      subCC1: valueCC1
+      subCC2: valueCC2
 ```
 
 
