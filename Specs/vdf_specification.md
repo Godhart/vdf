@@ -2,7 +2,7 @@
 
 title       : Versatile Description Format specification
 author      : Nikolay Gniteev (godhart@gmail.com)
-version     : 1.0.draft.0
+version     : 1.0.draft.1
 description : Specification of Versatile Description Format (for hardware)
 
 ---
