@@ -1,0 +1,13 @@
+_fallback_:
+  # Fallback spec, based on markdown
+  ext             : null
+  spec:
+    escape_symbol : null
+    fenced_seq    : "```"
+    fenced_regex  : "^(`+)([\\w-]*)$"
+    cells_split   : ["", "---", ""]
+    frontmatter   : True
+
+markdown:
+  ext             : [".md"]
+  spec            : {} # NOTE: spec would be same as fallback

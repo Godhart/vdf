@@ -1,0 +1,145 @@
+import re
+import yaml
+from pathlib import Path
+from .helpers import *
+
+
+S_ESCAPE_SYMBOL = "escape_symbol"
+S_FENCED_SEQ    = "fenced_seq"
+S_FENCED_REGEX  = "fenced_regex"
+S_CELLS_SPLIT   = "cells_split"
+S_FALLBACK      = "_fallback_"
+
+S_MARKDOWN      = "markdown"
+S_SPEC          = "spec"
+S_EXT           = "ext"
+
+
+def load_source_formats(path):
+    with open(path, "rb") as f:
+        data = yaml.safe_load(f)
+    for k,v in data[S_FALLBACK][S_SPEC].items():
+        for format_ in data:
+            if format_ == S_FALLBACK:
+                continue
+            if S_SPEC not in data[format_]:
+                data[format_][S_SPEC] = {}
+            if k not in data[format_][S_SPEC]:
+                data[format_][k] = v
+    return data
+
+
+SOURCE_FORMATS = load_source_formats(Path(__file__).parent / "source_formats.yaml")
+
+
+class SourceReader:
+    """
+    Class for reading data from misc sources
+    """
+
+
+class SourceText:
+    """
+    Class for ops with text source
+    """
+    def __init__(self,
+            lines           :list[str],
+            format          :str=S_MARKDOWN,
+            escape_symbol   :str|None=None,
+            fenced_seq      :str|None=None,
+            fenced_regex    :str|None=None,
+            cells_split     :list[str]|None=None,
+            frontmatter     :bool|None=None,
+    ):
+        self._lines = list(enumerate(lines))
+        self.format = format
+
+        # NOTE: set dummy values for type-hinting as actual values are applied in generalized way
+        self.escape_symbol  = ""
+        self.fenced_seq     = ""
+        self.fenced_regex   = ""
+        self.cells_split    = [""]
+        self.frontmatter    = True
+
+        spec = to_dict(
+            escape_symbol   = escape_symbol,
+            fenced_seq      = fenced_seq,
+            fenced_regex    = fenced_regex,
+            cells_split     = cells_split,
+            frontmatter     = frontmatter,
+        )
+        for k,v in spec.items():
+            spec[k] = v or SOURCE_FORMATS[format][S_SPEC][k]
+            setattr(self, k, spec[k])
+
+    @property
+    def lines(self):
+        """
+        List of lines
+        Each item is tuple of two with
+        - line index in a source, starting from zero
+        - line content
+        """
+        return self._lines
+
+    def replace_escaped(self, line, replacement_char):
+        """
+        Replaces escaped chars in line with replacement_char
+        """
+        if self.escape_symbol is None:
+            return line
+        result = ""
+        prev = None
+        for char in line:
+            if prev == self.escape_symbol:
+                result += replacement_char
+                prev = replacement_char
+            else:
+                result += char
+                prev = char
+        return result
+
+    def fenced_check(self, line):
+        """
+        Checks that line is a start of fenced section. If so - full fence sequence and fenced type are returned
+        Otherwise None,None is returned
+        """
+        if line[:len(self.fenced_seq)] == self.fenced_seq:
+            m = re.match(self.fenced_regex)
+            if m is not None:
+                return m.groups()
+        else:
+            return None, None
+
+    def split_ahead(self, lines, offs):
+        """
+        Checks that lines starting from offs are cells split sequence
+        Returns tuple of two with
+        - True/False as check result
+        - length of split sequence in lines
+        """
+        lookup = lines[offs:offs+len(self.cells_split)]
+        lookup = [v[1] for v in lookup]
+        return lookup == self.cells_split, len(self.cells_split)
+
+
+class SourceBinary:
+    """
+    Class for ops with binary source
+    """
+
+
+class Line:
+
+    def __init__(self, idx:int, content:str, source:list):
+        self.idx = idx
+        self.content = content
+        self.source = source
+
+
+class Fenced:
+
+    def __init__(self, idx:int, content:list[Line], source):
+        self.idx = idx
+        self.content = content
+        self.source = source

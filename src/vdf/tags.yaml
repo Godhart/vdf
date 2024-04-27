@@ -1,0 +1,162 @@
+_fallback_  :
+  kind      : undefined # main, output, attribute, post, pre
+  runner    : null
+  subtags   : {}
+  args      : []
+  output    : [value]
+  accumulate: False # Values from multiple tags in a cell are accumulated
+
+tag_test1   :
+  kind      : main
+  runner    : TagTest1
+  vars      :
+    var_name          : var_value
+    mandatory_arg     : null
+    optional_arg      : optional_arg_default
+  subtags   :
+    sub1    :
+      vars  :
+        var_name      : var_value_when_sub1
+    sub2    :
+      vars  :
+        var_name      : var_value_when_sub2
+    sub3    :
+      vars  :
+        var_name      : var_value_when_sub3
+        mandatory_arg : mandatory_when_sub3
+    sub4    :
+      vars  :
+        var_name      : var_value_when_sub4
+        optional_arg  : optional_when_sub4
+    sub5    :
+      vars  :
+        var_name      : var_value_when_sub5
+        mandatory_arg : mandatory_when_sub5
+        optional_arg  : optional_when_sub5
+  args      :
+    - var_name        : mandatory_arg
+      mandatory       : True
+      format          : \\w+
+    - var_name        : optional_arg
+      mandatory       : False
+      format          : "[\\w\\s\\/]+"
+  output    : [def]
+
+code        :
+  kind      : main
+  runner    : TagCode
+  vars      :
+        content   : both
+        section   : code
+  subtags   :
+    declaration:
+      vars  :
+        content   : declaration
+        action    : add
+    body    :
+      vars  :
+        content   : body
+        action    : add
+  args      :
+    - var_name    : action
+      mandatory   : False
+      format      : add|new
+  output    : [def]
+
+header      :
+  kind      : main
+  runner    : TagCode
+  vars      :
+        content   : both
+        section   : header
+  subtags   :
+    declaration:
+      vars  :
+        content   : declaration
+        action    : add
+    body    :
+      vars  :
+        content   : body
+        action    : add
+  args      :
+    - var_name    : action
+      mandatory   : False
+      format      : add|new
+  output    : [src]
+
+unit        :
+  kind      : main
+  runner    : TagCode
+  vars      :
+        content   : both
+        section   : unit
+  subtags   :
+    generics:
+      vars  :
+        content   : generics
+        action    : add
+    interface:
+      vars  :
+        content   : interface
+        action    : add
+  args      :
+    - var_name    : action
+      mandatory   : False
+      format      : add|new
+  output    : [src]
+
+package     :
+  kind      : main
+  runner    : TagCode
+  vars      :
+        content   : both
+        section   : package
+  requires  : # Mandatory attribute tags
+    - target
+  subtags   :
+    declaration:
+      vars  :
+        content   : declaration
+        action    : add
+    body    :
+      vars  :
+        content   : body
+        action    : add
+  args      :
+    - var_name    : action
+      mandatory   : False
+      format      : add|new
+  output    : [src]
+
+entity      :
+  kind      : main
+  runner    : TagContext
+  vars      :
+    name    : null
+  args      :
+    - var_name    : name
+      mandatory   : False
+      format      : \\w+
+
+display     :
+  kind      : main
+  runner    : TagDisplay
+  vars      :
+    display_format  : null
+  args      :
+    - var_name      : display_format
+      mandatory     : False
+      format        : "[\\w`~!@#$%^&*(),./\\\\<>?|-=\\[\\]{}]+"
+  output    : [value]
+
+# show        :
+#   kind      : output
+#   runner    : TagShow
+#   accumulate: True
+
+# format      :
+#   kind      : attribute
+#   args      :
+#     - var_name  : kind
+#       mandatory : True
+#       format    : \\w+

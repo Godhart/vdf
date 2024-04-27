@@ -1,0 +1,59 @@
+_fallback_:
+  render: RenderGeneric
+  sections: [content]
+
+text:
+  render: RenderGeneric
+  sections: [content]
+
+markdown:
+  render: RenderMarkup
+  sections: [frontmatter, content]
+
+vhdl:
+  render: RenderVHDL
+  sections:
+    - header_declaration
+    - unit_generics
+    - unit_interface
+    - header_body
+    - code_declaration
+    - code_body
+
+vhdl_package:
+  render: RenderVHDL
+  sections:
+    - header_declaration
+    - header_body
+    - code_declaration
+    - code_body
+
+verilog:
+  render: RenderVerilog
+  sections:
+    - header_declaration
+    - unit_generics
+    - unit_interface
+    - code_declaration
+    - code_body
+
+verilog_header:
+  render: RenderVerilog
+  sections:
+    - header_declaration
+    - code_body
+
+sv:
+  render: Verilog
+  sections:
+    - header_declaration
+    - unit_generics
+    - unit_interface
+    - code_declaration
+    - code_body
+
+sv_header:
+  render: RenderVerilog
+  sections:
+    - header_declaration
+    - code_body
