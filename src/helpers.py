@@ -1,5 +1,7 @@
 import inspect
+from pathlib import Path
 
+_STRINGABLE = (Path, )
 
 def any_to_dict_list_scalar(inst, instance_map=None, lists_as_tuple=True):
     if instance_map is None:
@@ -10,6 +12,8 @@ def any_to_dict_list_scalar(inst, instance_map=None, lists_as_tuple=True):
     elif isinstance(inst, (str, int, float, bool, )):
         result = inst
     elif inspect.isclass(inst):
+        result = str(inst)
+    elif isinstance(inst, _STRINGABLE):
         result = str(inst)
     elif isinstance(inst, dict) or (
             hasattr(inst, "items")  and callable(getattr(inst, "items"))
