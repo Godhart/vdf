@@ -108,7 +108,7 @@ class RawDocument:
         while i < len(step2)-1:
             i += 1
 
-            # Check if following sequence is cells split                
+            # Check if following sequence is cells split
             split_ahead, next_split_skip = source.split_ahead(raw_lines, i)
             if split_ahead:
                 # Put accumulated into cells list, start new cell

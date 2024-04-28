@@ -10,7 +10,7 @@ class BuildOrder:
     """
     Class for handling build order etc.
     """
-    
+
 
 class VdfOutput:
     """

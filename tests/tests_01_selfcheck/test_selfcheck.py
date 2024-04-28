@@ -16,7 +16,7 @@ def test_selfcheck(test_set):
     Self-checking boilerplate for tests
     When used for actual tests:
     - populate test/gold folders with necessary data
-    - replace copy_tree call with function/sequence under test 
+    - replace copy_tree call with function/sequence under test
     """
     input_path, gold_path, output_path = init_test_paths(__file__, test_set)
 

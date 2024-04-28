@@ -34,7 +34,7 @@ class Cell:
         )
         self.tag = tag
         self.optional_tags = optional_tags
-        
+
     @property
     def cell_kind(self):
         return "Cell"
@@ -121,15 +121,15 @@ class RunContext:
     @property
     def doc(self):
         return self._doc
-    
+
     @property
     def files(self):
         return self._files
-    
+
     @property
     def cells(self):
         return self._cells
-    
+
     @property
     def vars(self):
         return self._vars

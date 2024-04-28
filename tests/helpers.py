@@ -40,8 +40,8 @@ def copy_tree(src, dst, dirs_exist_ok=False, hidden=True):
             os.makedirs(dst / d, exist_ok=dirs_exist_ok)
             copy_tree(root / d, dst / d, dirs_exist_ok, hidden)
         break
-    
-    
+
+
 def list_tests(test_file_location, folders):
     tests = []
     for f in folders:
