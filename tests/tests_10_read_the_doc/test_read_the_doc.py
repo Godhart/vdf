@@ -51,6 +51,6 @@ if __name__ == "__main__":
     """
     NOTE: this branch is for debug purposes only
     """
-    value = test_parse_input_file("1-simple_one")
+    value = test_parse_input_file("markdown-01-simple")
     result = any_to_dict_list_scalar(value)
     a = 1
