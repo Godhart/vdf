@@ -3,7 +3,7 @@
 
 title       : Simple Markdown-VHDL VDF example
 author      : Nikolay Gniteev (godhart@gmail.com)
-version     : 1.0
+version     : "1.0.1"
 vdf         : "1.0" 
 
 ---
