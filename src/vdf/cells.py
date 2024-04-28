@@ -50,7 +50,7 @@ class Cell:
         location = self._location
         if self.location is None or len(self.location) == 0:
             location =  ["Undefined"]
-        return ":".join([str(v) for v in location])
+        return "_"+":".join([str(v) for v in location])
 
     @property
     def location(self):
