@@ -68,7 +68,7 @@
         "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
         0
       ],
-      "name": "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md:0",
+      "name": "_tests/tests_10_read_the_doc/test/markdown-01-simple/data.md:0",
       "optional_tags": null,
       "output_context": {
         "cells": {
@@ -80,7 +80,7 @@
       },
       "tag": null
     },
-    "sources": {
+    "source": {
       "cells": [
         {
           "cell_kind": "DocCell",
@@ -116,7 +116,7 @@
             "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
             10
           ],
-          "name": "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md:10",
+          "name": "_tests/tests_10_read_the_doc/test/markdown-01-simple/data.md:10",
           "optional_tags": null,
           "output_context": {
             "cells": {
@@ -196,7 +196,7 @@
             "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
             16
           ],
-          "name": "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md:16",
+          "name": "_tests/tests_10_read_the_doc/test/markdown-01-simple/data.md:16",
           "optional_tags": null,
           "output_context": {
             "cells": {
@@ -249,7 +249,7 @@
             "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
             10
           ],
-          "name": "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md:10",
+          "name": "_tests/tests_10_read_the_doc/test/markdown-01-simple/data.md:10",
           "optional_tags": null,
           "output_context": {
             "cells": {
@@ -329,7 +329,7 @@
             "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
             16
           ],
-          "name": "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md:16",
+          "name": "_tests/tests_10_read_the_doc/test/markdown-01-simple/data.md:16",
           "optional_tags": null,
           "output_context": {
             "cells": {
@@ -409,7 +409,7 @@
         "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
         0
       ],
-      "name": "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md:0",
+      "name": "_tests/tests_10_read_the_doc/test/markdown-01-simple/data.md:0",
       "optional_tags": null,
       "output_context": {
         "cells": {

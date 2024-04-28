@@ -58,7 +58,7 @@ doc:
     location: &id003
     - tests/tests_10_read_the_doc/test/markdown-01-simple/data.md
     - 0
-    name: tests/tests_10_read_the_doc/test/markdown-01-simple/data.md:0
+    name: _tests/tests_10_read_the_doc/test/markdown-01-simple/data.md:0
     optional_tags: null
     output_context: &id004
       cells:
@@ -67,7 +67,7 @@ doc:
       files: {}
       vars: {}
     tag: null
-  sources:
+  source:
     cells: &id001
     - cell_kind: DocCell
       content:
@@ -97,7 +97,7 @@ doc:
       location:
       - tests/tests_10_read_the_doc/test/markdown-01-simple/data.md
       - 10
-      name: tests/tests_10_read_the_doc/test/markdown-01-simple/data.md:10
+      name: _tests/tests_10_read_the_doc/test/markdown-01-simple/data.md:10
       optional_tags: null
       output_context:
         cells:
@@ -161,7 +161,7 @@ doc:
       location:
       - tests/tests_10_read_the_doc/test/markdown-01-simple/data.md
       - 16
-      name: tests/tests_10_read_the_doc/test/markdown-01-simple/data.md:16
+      name: _tests/tests_10_read_the_doc/test/markdown-01-simple/data.md:16
       optional_tags: null
       output_context:
         cells:
@@ -180,7 +180,7 @@ preparsed:
     hash: 0bff425eadb01d4ce39d5836f65a8fd1
     input_context: null
     location: *id003
-    name: tests/tests_10_read_the_doc/test/markdown-01-simple/data.md:0
+    name: _tests/tests_10_read_the_doc/test/markdown-01-simple/data.md:0
     optional_tags: null
     output_context: *id004
     tag: null
