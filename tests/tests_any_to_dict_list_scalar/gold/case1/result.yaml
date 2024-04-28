@@ -1,0 +1,41 @@
+bool: true
+cls: <class 'tests.tests_any_to_dict_list_scalar.test_any_to_dict_list_scalar.case1.<locals>.Dictable'>
+complex: (0.2+0.3j)
+dict: &id001
+  key1: value1
+  key2: value2
+dictable: &id002
+  key1: value1
+  key2: value2
+float: 1.1
+int: 1
+list: &id003
+- 1
+- 2
+- 3
+nested_dict: &id004
+  (1,):
+    key1: value1
+    key2: value2
+nested_list: &id005
+- - 4
+  - 5
+  - 6
+- key1: value1
+  key2: value2
+prop: it's a property
+ref:
+  bool: true
+  cls: <class 'tests.tests_any_to_dict_list_scalar.test_any_to_dict_list_scalar.case1.<locals>.Dictable'>
+  complex: (0.2+0.3j)
+  dict: *id001
+  dictable: *id002
+  float: 1.1
+  int: 1
+  list: *id003
+  nested_dict: *id004
+  nested_list: *id005
+  prop: it's a property
+str: a string
+stringable: '1970-01-01 00:00:42+00:00'
+void: null
