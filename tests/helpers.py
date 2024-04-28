@@ -45,6 +45,8 @@ def copy_tree(src, dst, dirs_exist_ok=False, hidden=True):
 def list_tests(test_file_location, folders):
     tests = []
     for f in folders:
-        tests += os.listdir(Path(test_file_location).parent / f)
+        for _, dirs, _ in os.walk(Path(test_file_location).parent / f):
+            tests += dirs
+            break
     tests = list(set(tests))
     return tests
