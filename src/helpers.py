@@ -65,3 +65,9 @@ def any_to_dict_list_scalar(inst, instance_map=None, lists_as_tuple=True):
             tmp[k] = v
         result = tmp
     return result
+
+def to_dict(**kwargs):
+    """
+    Returns dict, constructed from kwargs
+    """
+    return {**kwargs}
