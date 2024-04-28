@@ -1,14 +1,6 @@
 from .source_io import SourceText, Line, Fenced
 from .cells import Cell, CellsStream, CodeCell, DocCell
-
-
-S_KIND      = "kind"
-S_FENCED    = "fenced"
-S_NAME      = "name"
-S_LINE      = "line"
-S_LINES     = "lines"
-S_START     = "start"
-S_END       = "end"
+from .literals import *
 
 
 class RawDocument:

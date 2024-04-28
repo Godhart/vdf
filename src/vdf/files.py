@@ -2,11 +2,7 @@ from pathlib import Path
 import yaml
 from . import files_render
 from .source_io import GeneratedLine
-
-
-S_FALLBACK = "_fallback_"
-S_SECTIONS = "sections"
-S_RENDER   = "render"
+from .literals import *
 
 _RENDERS   = (files_render, )
 

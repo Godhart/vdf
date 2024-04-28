@@ -1,8 +1,8 @@
 from pathlib import Path
 import yaml
+from .literals import *
 
 
-S_FALLBACK      = "_fallback_"
 _RUNNERS        = []
 
 

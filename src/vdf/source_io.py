@@ -1,20 +1,8 @@
 import re
 import yaml
 from pathlib import Path
-from .helpers import *
-
-
-S_ESCAPE_SYMBOL = "escape_symbol"
-S_FENCED_SEQ    = "fenced_seq"
-S_FENCED_REGEX  = "fenced_regex"
-S_CELLS_SPLIT   = "cells_split"
-S_FALLBACK      = "_fallback_"
-
-S_MARKDOWN      = "markdown"
-S_SPEC          = "spec"
-S_EXT           = "ext"
-S_KIND          = "kind"
-S_TEXT          = "text"
+from ..helpers import *
+from .literals import *
 
 
 def load_source_formats(path):
