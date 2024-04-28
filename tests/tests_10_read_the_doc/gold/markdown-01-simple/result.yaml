@@ -39,7 +39,7 @@ doc:
       source:
       - tests/tests_10_read_the_doc/test/markdown-01-simple/data.md
       - 4
-    - content: 'version     : 1.0
+    - content: 'version     : "1.0"
 
         '
       idx: 5
@@ -53,7 +53,7 @@ doc:
       source:
       - tests/tests_10_read_the_doc/test/markdown-01-simple/data.md
       - 6
-    hash: 0bff425eadb01d4ce39d5836f65a8fd1
+    hash: 98b4b2de2975680ff58b3a6d5ab033c7
     input_context: null
     location: &id003
     - tests/tests_10_read_the_doc/test/markdown-01-simple/data.md
@@ -177,7 +177,7 @@ preparsed:
   frontmatter:
     cell_kind: Cell
     content: *id002
-    hash: 0bff425eadb01d4ce39d5836f65a8fd1
+    hash: 98b4b2de2975680ff58b3a6d5ab033c7
     input_context: null
     location: *id003
     name: _tests/tests_10_read_the_doc/test/markdown-01-simple/data.md:0
@@ -216,7 +216,7 @@ preparsed:
 
         '
     - - 5
-      - 'version     : 1.0
+      - 'version     : "1.0"
 
         '
     - - 6

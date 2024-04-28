@@ -46,7 +46,7 @@
           ]
         },
         {
-          "content": "version     : 1.0\n",
+          "content": "version     : \"1.0\"\n",
           "idx": 5,
           "source": [
             "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
@@ -62,7 +62,7 @@
           ]
         }
       ],
-      "hash": "0bff425eadb01d4ce39d5836f65a8fd1",
+      "hash": "98b4b2de2975680ff58b3a6d5ab033c7",
       "input_context": null,
       "location": [
         "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
@@ -387,7 +387,7 @@
           ]
         },
         {
-          "content": "version     : 1.0\n",
+          "content": "version     : \"1.0\"\n",
           "idx": 5,
           "source": [
             "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
@@ -403,7 +403,7 @@
           ]
         }
       ],
-      "hash": "0bff425eadb01d4ce39d5836f65a8fd1",
+      "hash": "98b4b2de2975680ff58b3a6d5ab033c7",
       "input_context": null,
       "location": [
         "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
@@ -455,7 +455,7 @@
         ],
         [
           5,
-          "version     : 1.0\n"
+          "version     : \"1.0\"\n"
         ],
         [
           6,
@@ -561,7 +561,7 @@
       ],
       [
         5,
-        "version     : 1.0\n"
+        "version     : \"1.0\"\n"
       ],
       [
         6,
