@@ -9,54 +9,54 @@ doc:
         '
       idx: 0
       source:
-      - tests/read_the_doc/test/markdown-01-simple/data.md
+      - tests/tests_10_read_the_doc/test/markdown-01-simple/data.md
       - 0
     - content: '# Frontmatter part:
 
         '
       idx: 1
       source:
-      - tests/read_the_doc/test/markdown-01-simple/data.md
+      - tests/tests_10_read_the_doc/test/markdown-01-simple/data.md
       - 1
     - content: '
 
         '
       idx: 2
       source:
-      - tests/read_the_doc/test/markdown-01-simple/data.md
+      - tests/tests_10_read_the_doc/test/markdown-01-simple/data.md
       - 2
     - content: 'title       : Versatile Description Format specification
 
         '
       idx: 3
       source:
-      - tests/read_the_doc/test/markdown-01-simple/data.md
+      - tests/tests_10_read_the_doc/test/markdown-01-simple/data.md
       - 3
     - content: 'author      : Nikolay Gniteev (godhart@gmail.com)
 
         '
       idx: 4
       source:
-      - tests/read_the_doc/test/markdown-01-simple/data.md
+      - tests/tests_10_read_the_doc/test/markdown-01-simple/data.md
       - 4
     - content: 'version     : 1.0.draft.0
 
         '
       idx: 5
       source:
-      - tests/read_the_doc/test/markdown-01-simple/data.md
+      - tests/tests_10_read_the_doc/test/markdown-01-simple/data.md
       - 5
     - content: "vdf         : \"1.0\"   # Используемая спецификация \n"
       idx: 6
       source:
-      - tests/read_the_doc/test/markdown-01-simple/data.md
+      - tests/tests_10_read_the_doc/test/markdown-01-simple/data.md
       - 6
     hash: f756c80619360b397a55b4309a0bbb24
     input_context: null
     location: &id003
-    - tests/read_the_doc/test/markdown-01-simple/data.md
+    - tests/tests_10_read_the_doc/test/markdown-01-simple/data.md
     - 0
-    name: tests/read_the_doc/test/markdown-01-simple/data.md:0
+    name: tests/tests_10_read_the_doc/test/markdown-01-simple/data.md:0
     optional_tags: null
     output_context: &id004
       cells:
@@ -74,28 +74,28 @@ doc:
           '
         idx: 10
         source:
-        - tests/read_the_doc/test/markdown-01-simple/data.md
+        - tests/tests_10_read_the_doc/test/markdown-01-simple/data.md
         - 10
       - content: '
 
           '
         idx: 11
         source:
-        - tests/read_the_doc/test/markdown-01-simple/data.md
+        - tests/tests_10_read_the_doc/test/markdown-01-simple/data.md
         - 11
       - content: 'test section
 
           '
         idx: 12
         source:
-        - tests/read_the_doc/test/markdown-01-simple/data.md
+        - tests/tests_10_read_the_doc/test/markdown-01-simple/data.md
         - 12
       hash: 09210ed97ba2bcdcc497d291a2bee898
       input_context: null
       location:
-      - tests/read_the_doc/test/markdown-01-simple/data.md
+      - tests/tests_10_read_the_doc/test/markdown-01-simple/data.md
       - 10
-      name: tests/read_the_doc/test/markdown-01-simple/data.md:10
+      name: tests/tests_10_read_the_doc/test/markdown-01-simple/data.md:10
       optional_tags: null
       output_context:
         cells:
@@ -112,54 +112,54 @@ doc:
             '
           idx: 16
           source:
-          - tests/read_the_doc/test/markdown-01-simple/data.md
+          - tests/tests_10_read_the_doc/test/markdown-01-simple/data.md
           - 16
         - content: '%%vdf code
 
             '
           idx: 17
           source:
-          - tests/read_the_doc/test/markdown-01-simple/data.md
+          - tests/tests_10_read_the_doc/test/markdown-01-simple/data.md
           - 17
         - content: '
 
             '
           idx: 18
           source:
-          - tests/read_the_doc/test/markdown-01-simple/data.md
+          - tests/tests_10_read_the_doc/test/markdown-01-simple/data.md
           - 18
         - content: '---
 
             '
           idx: 19
           source:
-          - tests/read_the_doc/test/markdown-01-simple/data.md
+          - tests/tests_10_read_the_doc/test/markdown-01-simple/data.md
           - 19
         - content: '
 
             '
           idx: 20
           source:
-          - tests/read_the_doc/test/markdown-01-simple/data.md
+          - tests/tests_10_read_the_doc/test/markdown-01-simple/data.md
           - 20
         - content: '```
 
             '
           idx: 21
           source:
-          - tests/read_the_doc/test/markdown-01-simple/data.md
+          - tests/tests_10_read_the_doc/test/markdown-01-simple/data.md
           - 21
         idx: 16
         kind: vhdl
         source:
-        - tests/read_the_doc/test/markdown-01-simple/data.md
+        - tests/tests_10_read_the_doc/test/markdown-01-simple/data.md
         - 16
       hash: df5e155e10bfc9c7d3a1eddef3dce153
       input_context: null
       location:
-      - tests/read_the_doc/test/markdown-01-simple/data.md
+      - tests/tests_10_read_the_doc/test/markdown-01-simple/data.md
       - 16
-      name: tests/read_the_doc/test/markdown-01-simple/data.md:16
+      name: tests/tests_10_read_the_doc/test/markdown-01-simple/data.md:16
       optional_tags: null
       output_context:
         cells:
@@ -178,7 +178,7 @@ preparsed:
     hash: f756c80619360b397a55b4309a0bbb24
     input_context: null
     location: *id003
-    name: tests/read_the_doc/test/markdown-01-simple/data.md:0
+    name: tests/tests_10_read_the_doc/test/markdown-01-simple/data.md:0
     optional_tags: null
     output_context: *id004
     tag: null
@@ -280,7 +280,7 @@ preparsed:
 
         '
     source: &id007
-    - tests/read_the_doc/test/markdown-01-simple/data.md
+    - tests/tests_10_read_the_doc/test/markdown-01-simple/data.md
 source:
   cells_split: *id005
   escape_symbol: null

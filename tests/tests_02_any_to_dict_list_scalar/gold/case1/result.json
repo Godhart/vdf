@@ -1,6 +1,6 @@
 {
   "bool": true,
-  "cls": "<class 'tests.tests_any_to_dict_list_scalar.test_any_to_dict_list_scalar.case1.<locals>.Dictable'>",
+  "cls": "<class 'tests.tests_02_any_to_dict_list_scalar.test_any_to_dict_list_scalar.case1.<locals>.Dictable'>",
   "complex": "(0.2+0.3j)",
   "dict": {
     "key1": "value1",
@@ -37,7 +37,7 @@
   "prop": "it's a property",
   "ref": {
     "bool": true,
-    "cls": "<class 'tests.tests_any_to_dict_list_scalar.test_any_to_dict_list_scalar.case1.<locals>.Dictable'>",
+    "cls": "<class 'tests.tests_02_any_to_dict_list_scalar.test_any_to_dict_list_scalar.case1.<locals>.Dictable'>",
     "complex": "(0.2+0.3j)",
     "dict": {
       "key1": "value1",
