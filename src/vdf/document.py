@@ -25,7 +25,7 @@ class Document:
         return self._frontmatter
     
     @property
-    def sources(self):
+    def source(self):
         return self._source
 
     @property
