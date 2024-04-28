@@ -1,7 +1,7 @@
 from pathlib import Path
 import yaml
-import files_render
-from .processing import GeneratedLine
+from . import files_render
+from .source_io import GeneratedLine
 
 
 S_FALLBACK = "_fallback_"
@@ -45,6 +45,7 @@ class File:
             path:str,
             kind:str=FILE_KIND_TXT,
             encoding:str='utf-8',
+            eol:str='\n',
             file_spec:dict=None,
             sections_data:dict=None
     ):
@@ -70,6 +71,7 @@ class File:
         self.render = render
 
         self.encoding = encoding
+        self.eol = eol
         if sections_data is not None:
             for k in sections_data:
                 if k not in self.sections:

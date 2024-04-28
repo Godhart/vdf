@@ -1,36 +1,9 @@
 from pathlib import Path
 import yaml
-import tags_runners
-from .input import Fenced
-from .context import RunContext
 
 
 S_FALLBACK      = "_fallback_"
-_RUNNERS        = (tags_runners, )
-
-
-def load_tags(path):
-    with open(path, "rb") as f:
-        data = yaml.safe_load(f)
-    for k,v in data[S_FALLBACK].items():
-        for tagdef in data:
-            if tagdef == S_FALLBACK:
-                continue
-            if tagdef[:1] == "_":
-                raise ValueError(f"Tag name shouldn't start with '_' (tag name = '{tagdef}')")
-            if k not in data[tagdef]:
-                data[tagdef] = v
-    # TODO: more sanity/safety checks
-    for tagdef in data:
-        if tagdef == S_FALLBACK:
-            continue
-        data[tagdef] = TagDef(**data[tagdef], fallback=data[S_FALLBACK])
-    del data[S_FALLBACK]
-    result = TagDefs(data)
-    return result
-
-
-TAG_DEFS = load_tags(Path(__file__).parent / "tags.yaml")
+_RUNNERS        = []
 
 
 class TagVar:
@@ -70,11 +43,13 @@ class TagDef:
     def __init__(
             self,
             kind      : str,
-            runner    : str|callable,
+            runner    : str,    # TODO: |callable into typehint,
             vars      : dict,
             subtags   : dict,
             args      : list[dict],
             output    : list[str],
+            accumulate: bool,
+            requires  : list[str],
         ):
         self.kind = kind
 
@@ -103,6 +78,8 @@ class TagDef:
             self.args.append(TagArg(**v))
 
         self.output = [*output]
+        self.accumulate = accumulate
+        self.requires = requires
 
     def match(self, line, offs) -> int:
         """
@@ -140,3 +117,33 @@ class TagsInstances:
     """
     def __init__(self, tags: list[TagInstance]):
         self.tags = tags
+
+
+# NOTE: import and _RUNNERS redefined here due to circular references troubles
+from . import tags_runners
+_RUNNERS.append(tags_runners)
+
+
+# NOTE: load tags here since classes are defined above
+def load_tags(path):
+    with open(path, "rb") as f:
+        data = yaml.safe_load(f)
+    for k,v in data[S_FALLBACK].items():
+        for tagdef in data:
+            if tagdef == S_FALLBACK:
+                continue
+            if tagdef[:1] == "_":
+                raise ValueError(f"Tag name shouldn't start with '_' (tag name = '{tagdef}')")
+            if k not in data[tagdef]:
+                data[tagdef][k] = v
+    # TODO: more sanity/safety checks
+    for tagdef in data:
+        if tagdef == S_FALLBACK:
+            continue
+        data[tagdef] = TagDef(**data[tagdef])
+    del data[S_FALLBACK]
+    result = TagDefs(data)
+    return result
+
+
+TAG_DEFS = load_tags(Path(__file__).parent / "tags.yaml")

@@ -13,6 +13,8 @@ S_FALLBACK      = "_fallback_"
 S_MARKDOWN      = "markdown"
 S_SPEC          = "spec"
 S_EXT           = "ext"
+S_KIND          = "kind"
+S_TEXT          = "text"
 
 
 def load_source_formats(path):
@@ -25,11 +27,12 @@ def load_source_formats(path):
             if S_SPEC not in data[format_]:
                 data[format_][S_SPEC] = {}
             if k not in data[format_][S_SPEC]:
-                data[format_][k] = v
+                data[format_][S_SPEC][k] = v
     return data
 
 
 SOURCE_FORMATS = load_source_formats(Path(__file__).parent / "source_formats.yaml")
+SOURCE_ENCODING = ['utf-8',]
 
 
 class SourceReader:
@@ -43,6 +46,7 @@ class SourceText:
     Class for ops with text source
     """
     def __init__(self,
+            source          :list,
             lines           :list[str],
             format          :str=S_MARKDOWN,
             escape_symbol   :str|None=None,
@@ -51,6 +55,7 @@ class SourceText:
             cells_split     :list[str]|None=None,
             frontmatter     :bool|None=None,
     ):
+        self._source = [*source]
         self._lines = list(enumerate(lines))
         self.format = format
 
@@ -71,6 +76,10 @@ class SourceText:
         for k,v in spec.items():
             spec[k] = v or SOURCE_FORMATS[format][S_SPEC][k]
             setattr(self, k, spec[k])
+            
+    @property
+    def source(self):
+        return [*self._source]
 
     @property
     def lines(self):
@@ -101,11 +110,12 @@ class SourceText:
 
     def fenced_check(self, line):
         """
-        Checks that line is a start of fenced section. If so - full fence sequence and fenced type are returned
+        Checks that line is a start of fenced section.
+        If so - full fence sequence and fenced type are returned
         Otherwise None,None is returned
         """
         if line[:len(self.fenced_seq)] == self.fenced_seq:
-            m = re.match(self.fenced_regex)
+            m = re.match(self.fenced_regex, line)
             if m is not None:
                 return m.groups()
         else:
@@ -119,8 +129,14 @@ class SourceText:
         - length of split sequence in lines
         """
         lookup = lines[offs:offs+len(self.cells_split)]
-        lookup = [v[1] for v in lookup]
-        return lookup == self.cells_split, len(self.cells_split)
+        split_skip = 0
+        split_detected = False
+        if None not in lookup:
+            lookup = [v.strip() for v in lookup]
+            split_detected = lookup == self.cells_split
+            if split_detected:
+                split_skip = len(self.cells_split)
+        return split_detected, split_skip
 
 
 class SourceBinary:
@@ -130,16 +146,71 @@ class SourceBinary:
 
 
 class Line:
-
+    """
+    Stands for every single line in text file
+    """
     def __init__(self, idx:int, content:str, source:list):
         self.idx = idx
         self.content = content
-        self.source = source
+        self.source = source + [idx]
+
+
+class GeneratedLine:
+    """
+    Class contains generated line data and reference
+    to source that was used to produce it
+    """
+    def __init__(self, value, source_line_location: list):
+        self.value = value
+        self.source_line_location = [*source_line_location]
+        # NOTE: source line location is rather abstract but recommended content is:
+        # - VDF file location
+        # - cell location (starting line of cell within VDF file)
+        # - line location (starting line within cell's data)
 
 
 class Fenced:
-
-    def __init__(self, idx:int, content:list[Line], source):
+    """
+    Contains all lines of fenced section 
+    """
+    def __init__(self, idx:int, kind:str, content:list[Line], source:list):
         self.idx = idx
-        self.content = content
-        self.source = source
+        self.kind = kind
+        self.content = [*content]
+        self.source = source + [idx]
+
+
+def load_from_file(path):
+    path = Path(path)
+    file_kind = None
+    for k,v in SOURCE_FORMATS.items():
+        if k == S_FALLBACK:
+            continue
+        if path.suffix in v[S_EXT]:
+            file_kind = k
+            break
+    if file_kind is None:
+        file_kind = "markdown"
+    file_spec = SOURCE_FORMATS[file_kind][S_SPEC]
+    if SOURCE_FORMATS[file_kind][S_KIND] == S_TEXT:
+        with open(path, "rb") as f:
+            data = f.read()
+        lines = None
+        for enc in SOURCE_ENCODING:
+            try:
+                lines = data.decode(enc)
+            except:
+                pass
+        if lines is None:
+            raise ValueError(
+                f"Failed to decode data using provided encodings!"
+                f" ({', '.join(SOURCE_ENCODING)})"
+            )
+        lines = lines.split("\n")
+        lines = [l.replace("\r","") + "\n" for l in lines]
+        result = SourceText([path], lines, file_kind, **file_spec)
+    else:
+        with open(path, "rb") as f:
+            data = f.read()
+        result = SourceBinary([path], data, file_kind, **file_spec)
+    return result

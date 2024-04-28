@@ -1,6 +1,7 @@
 _fallback_:
   # Fallback spec, based on markdown
   ext             : null
+  kind            : text
   spec:
     escape_symbol : null
     fenced_seq    : "```"
@@ -10,4 +11,5 @@ _fallback_:
 
 markdown:
   ext             : [".md"]
+  kind            : text
   spec            : {} # NOTE: spec would be same as fallback

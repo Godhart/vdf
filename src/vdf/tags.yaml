@@ -5,6 +5,7 @@ _fallback_  :
   args      : []
   output    : [value]
   accumulate: False # Values from multiple tags in a cell are accumulated
+  requires  : []
 
 tag_test1   :
   kind      : main
@@ -129,7 +130,7 @@ package     :
   output    : [src]
 
 entity      :
-  kind      : main
+  kind      : attribute
   runner    : TagContext
   vars      :
     name    : null

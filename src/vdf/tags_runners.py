@@ -1,7 +1,6 @@
 from .input import Fenced as _Fenced
 from .tags import TagInstance as _TagInstance
 from .tags import TagsInstances as _TagsInstances
-from .context import RunContext as _RunContext
 
 
 class _TagRunnerResult:
@@ -28,7 +27,8 @@ class _TagRunner:
     optional_kwargs = set()
 
     def __init__(self,
-            tag: _TagInstance, optional_tags:_TagsInstances, data:_Fenced, context:_RunContext):
+            tag: _TagInstance, optional_tags:_TagsInstances, data:_Fenced, context):
+        # NOTE: context is a RunContext but due to circular refs is not typehinted
         self._tag = tag
         self._data = data
         self._optional_tags = optional_tags
@@ -92,16 +92,22 @@ class TagCode(_TagRunner):
         super(TagCode, self).__init__(data, subtags, optional_tags, context, **kwargs)
 
 
-def tag_display(data: _Fenced, subtags, optional_tags, context):
+class TagContext(_TagRunner):
+    """
+    Updates context vars etc.
+    """
+
+
+class TagDisplay(_TagRunner):
     """
     Run expression, display expression result
     """
-    stdout = None
-    value = None
-    return value, stdout, value
+    # stdout = None
+    # value = None
+    # return value, stdout, value
 
 
-def tag_show(data: _Fenced, subtags, optional_tags, context):
+class TagShow(_TagRunner):
     """
-    Display accumulated results from previous code cell run
+    Display accumulated results
     """

@@ -21,8 +21,9 @@ class RawDocument:
     ):
         self.autoparse = autoparse
         self.source = source
-        self.cells = None
-        self.frontmatter = None
+        if not self.autoparse:
+            self.cells = None
+            self.frontmatter = None
 
     @property
     def source(self):
@@ -63,64 +64,90 @@ class RawDocument:
         step2 = []  # list with Lines and Fenced sections
         fenced_idx = None
         fenced_end = None
-        fenced_name = None
+        fenced_kind = None
         fenced_lines = []
         for idx, line in step1:
             if fenced_end is None:
                 # If fenced section hasn't started yet
-                fenced_end, fenced_name = source.fenced_check(line.strip())
+                fenced_end, fenced_kind = source.fenced_check(line.strip())
                 if fenced_end is None:
-                    step2.append(idx, line, Line(idx, line))
+                    step2.append((idx, line, Line(idx, line, source.source)))
                     continue
                 else:
                     fenced_idx = idx
-                    fenced_lines.append(idx, line, Line(idx,line))
+                    fenced_lines.append(Line(idx,line, source.source))
             else:
                 # If inside fenced section
-                fenced_lines.append((idx, line))
+                fenced_lines.append(Line(idx,line, source.source))
                 if line.strip() == fenced_end:
-                    step2.append(idx, None, Fenced(idx, {S_KIND:S_FENCED, S_NAME: fenced_name, S_LINES: fenced_lines, S_START: fenced_idx, S_END: idx+1}))
+                    step2.append((
+                        idx,
+                        None,
+                        Fenced(
+                            fenced_idx,
+                            fenced_kind,
+                            fenced_lines,
+                            source.source
+                        ),
+                    ))
                     fenced_idx = None
                     fenced_end = None
-                    fenced_name = None
+                    fenced_kind = None
                     fenced_lines = []
         if len(fenced_lines) > 0:
             # Last fenced section
-            step2.append(idx, None, Fenced(idx, {S_KIND:S_FENCED, S_NAME: fenced_name, S_LINES: fenced_lines, S_START: fenced_idx, S_END: idx+1}))
+            step2.append((
+                idx,
+                None,
+                Fenced(
+                    fenced_idx,
+                    fenced_kind,
+                    fenced_lines,
+                    source.source
+                ),
+            ))
 
         # Step 3.
         step3 = []      # List of cells' content. Each item contains list of Lines and Fenced sections, related to a cell
         cell_data =  [] # Accumulated content for a single cell as a list
         i = -1
         split_ahead, split_skip = False, 0
-        while i < len(step2):
+        raw_lines = [v[1] for v in step2]
+        while i < len(step2)-1:
             i += 1
 
-            # Check if following sequence is cells split
-            split_ahead, split_skip = source.split_ahead(step2, i)
+            # Check if following sequence is cells split                
+            split_ahead, next_split_skip = source.split_ahead(raw_lines, i)
             if split_ahead:
                 # Put accumulated into cells list, start new cell
-                step3.append(cell_data)
+                if len(cell_data) > 0:
+                    cell_source = cell_data[0].source
+                else:
+                    cell_source = step2[i][2].source
+                step3.append((cell_data, cell_source))
                 cell_data = []
-                split_skip -= 1
+                split_skip = next_split_skip - 1
                 continue
 
             # If part of split sequence should be skipped - skip it
             if split_skip > 0:
                 split_skip -= 1
                 continue
-            
+
             # Accumulate data for next cell
             cell_data.append(step2[i][2])
 
         if len(cell_data) > 0:
             # Last cell
-            step3.append(cell_data)
+            step3.append((cell_data, cell_data[0].source))
             cell_data = []
 
         cells = []
-        for cell_data in step3:
-            cells.append(Cell(cell_data))
+        for cell_data, cell_source in step3:
+            cells.append(Cell(
+                cell_data,
+                cell_source,
+            ))
 
         result = CellsStream(cells)
 
@@ -137,9 +164,12 @@ class RawDocument:
         raw_cells = raw_cells_stream.cells
         frontmatter = None
 
-        if self.source.frontmatter and len(raw_cells > 1):
-            frontmatter = raw_cells[0]
-            raw_cells = raw_cells[1:]
+        if self.source.frontmatter and len(raw_cells) > 1:
+            if len(raw_cells[0].content) > 0 \
+            and isinstance(raw_cells[0].content[0], Line) \
+            and raw_cells[0].content[0].content.strip() == "---":
+                frontmatter = raw_cells[0]
+                raw_cells = raw_cells[1:]
 
         for cell in raw_cells:
             stripped_cell_content = [
@@ -153,7 +183,7 @@ class RawDocument:
             else:
                 cell_type = DocCell
                 cell_content = cell.content
-            result_cells.append(cell_type(cell_content, cell.location))
+            result_cells.append(cell_type(cell_content, cell.location, name=cell.name))
 
         result = CellsStream(result_cells)
         return result, frontmatter
@@ -169,7 +199,7 @@ class RawDocument:
     def parse_code_content(first_line:str, content:str) -> CodeCell:
         lines = [
             first_line,
-            *content.split("\n"),
+            *[l+"\n" for l in content.split("\n")],
         ]
         lines = \
               [Line(None, "``````````````````````````````````````````")] \
@@ -178,6 +208,6 @@ class RawDocument:
         fenced = Fenced(0, lines)
         result = CodeCell(
             content = fenced,
-            location= ["Unavailable"]
+            location= ["Unavailable"],  # TODO: get GUID of the cell
         )
         return result
