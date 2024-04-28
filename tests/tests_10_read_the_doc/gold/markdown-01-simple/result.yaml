@@ -25,7 +25,7 @@ doc:
       source:
       - tests/tests_10_read_the_doc/test/markdown-01-simple/data.md
       - 2
-    - content: 'title       : Versatile Description Format specification
+    - content: 'title       : Simple test for markdown input
 
         '
       idx: 3
@@ -39,19 +39,21 @@ doc:
       source:
       - tests/tests_10_read_the_doc/test/markdown-01-simple/data.md
       - 4
-    - content: 'version     : 1.0.draft.0
+    - content: 'version     : 1.0
 
         '
       idx: 5
       source:
       - tests/tests_10_read_the_doc/test/markdown-01-simple/data.md
       - 5
-    - content: "vdf         : \"1.0\"   # Используемая спецификация \n"
+    - content: 'vdf         : "1.0"   # Используемая спецификация
+
+        '
       idx: 6
       source:
       - tests/tests_10_read_the_doc/test/markdown-01-simple/data.md
       - 6
-    hash: f756c80619360b397a55b4309a0bbb24
+    hash: 0bff425eadb01d4ce39d5836f65a8fd1
     input_context: null
     location: &id003
     - tests/tests_10_read_the_doc/test/markdown-01-simple/data.md
@@ -175,7 +177,7 @@ preparsed:
   frontmatter:
     cell_kind: Cell
     content: *id002
-    hash: f756c80619360b397a55b4309a0bbb24
+    hash: 0bff425eadb01d4ce39d5836f65a8fd1
     input_context: null
     location: *id003
     name: tests/tests_10_read_the_doc/test/markdown-01-simple/data.md:0
@@ -206,7 +208,7 @@ preparsed:
 
         '
     - - 3
-      - 'title       : Versatile Description Format specification
+      - 'title       : Simple test for markdown input
 
         '
     - - 4
@@ -214,11 +216,13 @@ preparsed:
 
         '
     - - 5
-      - 'version     : 1.0.draft.0
+      - 'version     : 1.0
 
         '
     - - 6
-      - "vdf         : \"1.0\"   # Используемая спецификация \n"
+      - 'vdf         : "1.0"   # Используемая спецификация
+
+        '
     - - 7
       - '
 

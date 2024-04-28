@@ -30,7 +30,7 @@
           ]
         },
         {
-          "content": "title       : Versatile Description Format specification\n",
+          "content": "title       : Simple test for markdown input\n",
           "idx": 3,
           "source": [
             "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
@@ -46,7 +46,7 @@
           ]
         },
         {
-          "content": "version     : 1.0.draft.0\n",
+          "content": "version     : 1.0\n",
           "idx": 5,
           "source": [
             "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
@@ -54,7 +54,7 @@
           ]
         },
         {
-          "content": "vdf         : \"1.0\"   # \u0418\u0441\u043f\u043e\u043b\u044c\u0437\u0443\u0435\u043c\u0430\u044f \u0441\u043f\u0435\u0446\u0438\u0444\u0438\u043a\u0430\u0446\u0438\u044f \n",
+          "content": "vdf         : \"1.0\"   # \u0418\u0441\u043f\u043e\u043b\u044c\u0437\u0443\u0435\u043c\u0430\u044f \u0441\u043f\u0435\u0446\u0438\u0444\u0438\u043a\u0430\u0446\u0438\u044f\n",
           "idx": 6,
           "source": [
             "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
@@ -62,7 +62,7 @@
           ]
         }
       ],
-      "hash": "f756c80619360b397a55b4309a0bbb24",
+      "hash": "0bff425eadb01d4ce39d5836f65a8fd1",
       "input_context": null,
       "location": [
         "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
@@ -371,7 +371,7 @@
           ]
         },
         {
-          "content": "title       : Versatile Description Format specification\n",
+          "content": "title       : Simple test for markdown input\n",
           "idx": 3,
           "source": [
             "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
@@ -387,7 +387,7 @@
           ]
         },
         {
-          "content": "version     : 1.0.draft.0\n",
+          "content": "version     : 1.0\n",
           "idx": 5,
           "source": [
             "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
@@ -395,7 +395,7 @@
           ]
         },
         {
-          "content": "vdf         : \"1.0\"   # \u0418\u0441\u043f\u043e\u043b\u044c\u0437\u0443\u0435\u043c\u0430\u044f \u0441\u043f\u0435\u0446\u0438\u0444\u0438\u043a\u0430\u0446\u0438\u044f \n",
+          "content": "vdf         : \"1.0\"   # \u0418\u0441\u043f\u043e\u043b\u044c\u0437\u0443\u0435\u043c\u0430\u044f \u0441\u043f\u0435\u0446\u0438\u0444\u0438\u043a\u0430\u0446\u0438\u044f\n",
           "idx": 6,
           "source": [
             "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
@@ -403,7 +403,7 @@
           ]
         }
       ],
-      "hash": "f756c80619360b397a55b4309a0bbb24",
+      "hash": "0bff425eadb01d4ce39d5836f65a8fd1",
       "input_context": null,
       "location": [
         "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
@@ -447,7 +447,7 @@
         ],
         [
           3,
-          "title       : Versatile Description Format specification\n"
+          "title       : Simple test for markdown input\n"
         ],
         [
           4,
@@ -455,11 +455,11 @@
         ],
         [
           5,
-          "version     : 1.0.draft.0\n"
+          "version     : 1.0\n"
         ],
         [
           6,
-          "vdf         : \"1.0\"   # \u0418\u0441\u043f\u043e\u043b\u044c\u0437\u0443\u0435\u043c\u0430\u044f \u0441\u043f\u0435\u0446\u0438\u0444\u0438\u043a\u0430\u0446\u0438\u044f \n"
+          "vdf         : \"1.0\"   # \u0418\u0441\u043f\u043e\u043b\u044c\u0437\u0443\u0435\u043c\u0430\u044f \u0441\u043f\u0435\u0446\u0438\u0444\u0438\u043a\u0430\u0446\u0438\u044f\n"
         ],
         [
           7,
@@ -553,7 +553,7 @@
       ],
       [
         3,
-        "title       : Versatile Description Format specification\n"
+        "title       : Simple test for markdown input\n"
       ],
       [
         4,
@@ -561,11 +561,11 @@
       ],
       [
         5,
-        "version     : 1.0.draft.0\n"
+        "version     : 1.0\n"
       ],
       [
         6,
-        "vdf         : \"1.0\"   # \u0418\u0441\u043f\u043e\u043b\u044c\u0437\u0443\u0435\u043c\u0430\u044f \u0441\u043f\u0435\u0446\u0438\u0444\u0438\u043a\u0430\u0446\u0438\u044f \n"
+        "vdf         : \"1.0\"   # \u0418\u0441\u043f\u043e\u043b\u044c\u0437\u0443\u0435\u043c\u0430\u044f \u0441\u043f\u0435\u0446\u0438\u0444\u0438\u043a\u0430\u0446\u0438\u044f\n"
       ],
       [
         7,
