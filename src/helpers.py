@@ -55,7 +55,7 @@ def any_to_dict_list_scalar(inst, instance_map=None, lists_as_tuple=True):
                 result[k] = any_to_dict_list_scalar(v, instance_map, lists_as_tuple)
     if isinstance(result, dict):
         tmp = {}
-        for k,v in result.items():
+        for k,v in sorted(result.items(), key=lambda x: str(x[0])):
             if not isinstance(k, (str, int, )):
                 k = str(k)
             tmp[k] = v
