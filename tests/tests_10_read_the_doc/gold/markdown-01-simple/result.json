@@ -142,7 +142,7 @@
                   ]
                 },
                 {
-                  "content": "%%vdf code\n",
+                  "content": "%%vdf #code\n",
                   "idx": 17,
                   "source": [
                     "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
@@ -190,13 +190,311 @@
               ]
             }
           ],
-          "hash": "df5e155e10bfc9c7d3a1eddef3dce153",
+          "hash": "7a368912db8b48f572585ad59301479d",
           "input_context": null,
           "location": [
             "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
             16
           ],
           "name": "_tests/tests_10_read_the_doc/test/markdown-01-simple/data.md:16",
+          "optional_tags": null,
+          "output_context": {
+            "cells": {
+              "cells": []
+            },
+            "doc": null,
+            "files": {},
+            "vars": {}
+          },
+          "tag": null
+        },
+        {
+          "cell_kind": "DocCell",
+          "content": [
+            {
+              "content": "# Second header\n",
+              "idx": 25,
+              "source": [
+                "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
+                25
+              ]
+            },
+            {
+              "content": "\n",
+              "idx": 26,
+              "source": [
+                "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
+                26
+              ]
+            },
+            {
+              "content": "text goes here\n",
+              "idx": 27,
+              "source": [
+                "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
+                27
+              ]
+            },
+            {
+              "content": "\n",
+              "idx": 28,
+              "source": [
+                "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
+                28
+              ]
+            }
+          ],
+          "hash": "4db6e0b0af57375885ee0cecc62c8442",
+          "input_context": null,
+          "location": [
+            "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
+            25
+          ],
+          "name": "_tests/tests_10_read_the_doc/test/markdown-01-simple/data.md:25",
+          "optional_tags": null,
+          "output_context": {
+            "cells": {
+              "cells": []
+            },
+            "doc": null,
+            "files": {},
+            "vars": {}
+          },
+          "tag": null
+        },
+        {
+          "cell_kind": "CodeCell",
+          "content": [
+            {
+              "content": [
+                {
+                  "content": "```vhdl\n",
+                  "idx": 29,
+                  "source": [
+                    "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
+                    29
+                  ]
+                },
+                {
+                  "content": "%%vdf #code #kind header\n",
+                  "idx": 30,
+                  "source": [
+                    "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
+                    30
+                  ]
+                },
+                {
+                  "content": "\n",
+                  "idx": 31,
+                  "source": [
+                    "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
+                    31
+                  ]
+                },
+                {
+                  "content": "---\n",
+                  "idx": 32,
+                  "source": [
+                    "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
+                    32
+                  ]
+                },
+                {
+                  "content": "\n",
+                  "idx": 33,
+                  "source": [
+                    "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
+                    33
+                  ]
+                },
+                {
+                  "content": "```\n",
+                  "idx": 34,
+                  "source": [
+                    "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
+                    34
+                  ]
+                }
+              ],
+              "idx": 29,
+              "kind": "vhdl",
+              "source": [
+                "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
+                29
+              ]
+            }
+          ],
+          "hash": "eae1a8ace0710d0e8d5dc7562f27d825",
+          "input_context": null,
+          "location": [
+            "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
+            29
+          ],
+          "name": "_tests/tests_10_read_the_doc/test/markdown-01-simple/data.md:29",
+          "optional_tags": null,
+          "output_context": {
+            "cells": {
+              "cells": []
+            },
+            "doc": null,
+            "files": {},
+            "vars": {}
+          },
+          "tag": null
+        },
+        {
+          "cell_kind": "DocCell",
+          "content": [
+            {
+              "content": "\n",
+              "idx": 35,
+              "source": [
+                "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
+                35
+              ]
+            },
+            {
+              "content": "moar text here\n",
+              "idx": 36,
+              "source": [
+                "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
+                36
+              ]
+            },
+            {
+              "content": "\n",
+              "idx": 37,
+              "source": [
+                "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
+                37
+              ]
+            }
+          ],
+          "hash": "60bcf0cfdc5e7205d06c155b27dfef66",
+          "input_context": null,
+          "location": [
+            "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
+            35
+          ],
+          "name": "_tests/tests_10_read_the_doc/test/markdown-01-simple/data.md:35",
+          "optional_tags": null,
+          "output_context": {
+            "cells": {
+              "cells": []
+            },
+            "doc": null,
+            "files": {},
+            "vars": {}
+          },
+          "tag": null
+        },
+        {
+          "cell_kind": "CodeCell",
+          "content": [
+            {
+              "content": [
+                {
+                  "content": "```vhdl\n",
+                  "idx": 38,
+                  "source": [
+                    "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
+                    38
+                  ]
+                },
+                {
+                  "content": "%%vdf #code #kind package\n",
+                  "idx": 39,
+                  "source": [
+                    "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
+                    39
+                  ]
+                },
+                {
+                  "content": "\n",
+                  "idx": 40,
+                  "source": [
+                    "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
+                    40
+                  ]
+                },
+                {
+                  "content": "---\n",
+                  "idx": 41,
+                  "source": [
+                    "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
+                    41
+                  ]
+                },
+                {
+                  "content": "\n",
+                  "idx": 42,
+                  "source": [
+                    "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
+                    42
+                  ]
+                },
+                {
+                  "content": "```\n",
+                  "idx": 43,
+                  "source": [
+                    "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
+                    43
+                  ]
+                }
+              ],
+              "idx": 38,
+              "kind": "vhdl",
+              "source": [
+                "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
+                38
+              ]
+            }
+          ],
+          "hash": "6e0c3365f1f8e4f4408aed4d565dfaad",
+          "input_context": null,
+          "location": [
+            "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
+            38
+          ],
+          "name": "_tests/tests_10_read_the_doc/test/markdown-01-simple/data.md:38",
+          "optional_tags": null,
+          "output_context": {
+            "cells": {
+              "cells": []
+            },
+            "doc": null,
+            "files": {},
+            "vars": {}
+          },
+          "tag": null
+        },
+        {
+          "cell_kind": "DocCell",
+          "content": [
+            {
+              "content": "\n",
+              "idx": 44,
+              "source": [
+                "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
+                44
+              ]
+            },
+            {
+              "content": "and a bit more text\n",
+              "idx": 45,
+              "source": [
+                "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
+                45
+              ]
+            }
+          ],
+          "hash": "c2754113eda23736daf924c08928e553",
+          "input_context": null,
+          "location": [
+            "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
+            44
+          ],
+          "name": "_tests/tests_10_read_the_doc/test/markdown-01-simple/data.md:44",
           "optional_tags": null,
           "output_context": {
             "cells": {
@@ -275,7 +573,7 @@
                   ]
                 },
                 {
-                  "content": "%%vdf code\n",
+                  "content": "%%vdf #code\n",
                   "idx": 17,
                   "source": [
                     "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
@@ -323,13 +621,311 @@
               ]
             }
           ],
-          "hash": "df5e155e10bfc9c7d3a1eddef3dce153",
+          "hash": "7a368912db8b48f572585ad59301479d",
           "input_context": null,
           "location": [
             "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
             16
           ],
           "name": "_tests/tests_10_read_the_doc/test/markdown-01-simple/data.md:16",
+          "optional_tags": null,
+          "output_context": {
+            "cells": {
+              "cells": []
+            },
+            "doc": null,
+            "files": {},
+            "vars": {}
+          },
+          "tag": null
+        },
+        {
+          "cell_kind": "DocCell",
+          "content": [
+            {
+              "content": "# Second header\n",
+              "idx": 25,
+              "source": [
+                "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
+                25
+              ]
+            },
+            {
+              "content": "\n",
+              "idx": 26,
+              "source": [
+                "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
+                26
+              ]
+            },
+            {
+              "content": "text goes here\n",
+              "idx": 27,
+              "source": [
+                "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
+                27
+              ]
+            },
+            {
+              "content": "\n",
+              "idx": 28,
+              "source": [
+                "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
+                28
+              ]
+            }
+          ],
+          "hash": "4db6e0b0af57375885ee0cecc62c8442",
+          "input_context": null,
+          "location": [
+            "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
+            25
+          ],
+          "name": "_tests/tests_10_read_the_doc/test/markdown-01-simple/data.md:25",
+          "optional_tags": null,
+          "output_context": {
+            "cells": {
+              "cells": []
+            },
+            "doc": null,
+            "files": {},
+            "vars": {}
+          },
+          "tag": null
+        },
+        {
+          "cell_kind": "CodeCell",
+          "content": [
+            {
+              "content": [
+                {
+                  "content": "```vhdl\n",
+                  "idx": 29,
+                  "source": [
+                    "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
+                    29
+                  ]
+                },
+                {
+                  "content": "%%vdf #code #kind header\n",
+                  "idx": 30,
+                  "source": [
+                    "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
+                    30
+                  ]
+                },
+                {
+                  "content": "\n",
+                  "idx": 31,
+                  "source": [
+                    "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
+                    31
+                  ]
+                },
+                {
+                  "content": "---\n",
+                  "idx": 32,
+                  "source": [
+                    "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
+                    32
+                  ]
+                },
+                {
+                  "content": "\n",
+                  "idx": 33,
+                  "source": [
+                    "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
+                    33
+                  ]
+                },
+                {
+                  "content": "```\n",
+                  "idx": 34,
+                  "source": [
+                    "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
+                    34
+                  ]
+                }
+              ],
+              "idx": 29,
+              "kind": "vhdl",
+              "source": [
+                "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
+                29
+              ]
+            }
+          ],
+          "hash": "eae1a8ace0710d0e8d5dc7562f27d825",
+          "input_context": null,
+          "location": [
+            "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
+            29
+          ],
+          "name": "_tests/tests_10_read_the_doc/test/markdown-01-simple/data.md:29",
+          "optional_tags": null,
+          "output_context": {
+            "cells": {
+              "cells": []
+            },
+            "doc": null,
+            "files": {},
+            "vars": {}
+          },
+          "tag": null
+        },
+        {
+          "cell_kind": "DocCell",
+          "content": [
+            {
+              "content": "\n",
+              "idx": 35,
+              "source": [
+                "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
+                35
+              ]
+            },
+            {
+              "content": "moar text here\n",
+              "idx": 36,
+              "source": [
+                "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
+                36
+              ]
+            },
+            {
+              "content": "\n",
+              "idx": 37,
+              "source": [
+                "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
+                37
+              ]
+            }
+          ],
+          "hash": "60bcf0cfdc5e7205d06c155b27dfef66",
+          "input_context": null,
+          "location": [
+            "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
+            35
+          ],
+          "name": "_tests/tests_10_read_the_doc/test/markdown-01-simple/data.md:35",
+          "optional_tags": null,
+          "output_context": {
+            "cells": {
+              "cells": []
+            },
+            "doc": null,
+            "files": {},
+            "vars": {}
+          },
+          "tag": null
+        },
+        {
+          "cell_kind": "CodeCell",
+          "content": [
+            {
+              "content": [
+                {
+                  "content": "```vhdl\n",
+                  "idx": 38,
+                  "source": [
+                    "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
+                    38
+                  ]
+                },
+                {
+                  "content": "%%vdf #code #kind package\n",
+                  "idx": 39,
+                  "source": [
+                    "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
+                    39
+                  ]
+                },
+                {
+                  "content": "\n",
+                  "idx": 40,
+                  "source": [
+                    "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
+                    40
+                  ]
+                },
+                {
+                  "content": "---\n",
+                  "idx": 41,
+                  "source": [
+                    "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
+                    41
+                  ]
+                },
+                {
+                  "content": "\n",
+                  "idx": 42,
+                  "source": [
+                    "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
+                    42
+                  ]
+                },
+                {
+                  "content": "```\n",
+                  "idx": 43,
+                  "source": [
+                    "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
+                    43
+                  ]
+                }
+              ],
+              "idx": 38,
+              "kind": "vhdl",
+              "source": [
+                "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
+                38
+              ]
+            }
+          ],
+          "hash": "6e0c3365f1f8e4f4408aed4d565dfaad",
+          "input_context": null,
+          "location": [
+            "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
+            38
+          ],
+          "name": "_tests/tests_10_read_the_doc/test/markdown-01-simple/data.md:38",
+          "optional_tags": null,
+          "output_context": {
+            "cells": {
+              "cells": []
+            },
+            "doc": null,
+            "files": {},
+            "vars": {}
+          },
+          "tag": null
+        },
+        {
+          "cell_kind": "DocCell",
+          "content": [
+            {
+              "content": "\n",
+              "idx": 44,
+              "source": [
+                "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
+                44
+              ]
+            },
+            {
+              "content": "and a bit more text\n",
+              "idx": 45,
+              "source": [
+                "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
+                45
+              ]
+            }
+          ],
+          "hash": "c2754113eda23736daf924c08928e553",
+          "input_context": null,
+          "location": [
+            "tests/tests_10_read_the_doc/test/markdown-01-simple/data.md",
+            44
+          ],
+          "name": "_tests/tests_10_read_the_doc/test/markdown-01-simple/data.md:44",
           "optional_tags": null,
           "output_context": {
             "cells": {
@@ -503,7 +1099,7 @@
         ],
         [
           17,
-          "%%vdf code\n"
+          "%%vdf #code\n"
         ],
         [
           18,
@@ -520,6 +1116,102 @@
         [
           21,
           "```\n"
+        ],
+        [
+          22,
+          "\n"
+        ],
+        [
+          23,
+          "---\n"
+        ],
+        [
+          24,
+          "\n"
+        ],
+        [
+          25,
+          "# Second header\n"
+        ],
+        [
+          26,
+          "\n"
+        ],
+        [
+          27,
+          "text goes here\n"
+        ],
+        [
+          28,
+          "\n"
+        ],
+        [
+          29,
+          "```vhdl\n"
+        ],
+        [
+          30,
+          "%%vdf #code #kind header\n"
+        ],
+        [
+          31,
+          "\n"
+        ],
+        [
+          32,
+          "---\n"
+        ],
+        [
+          33,
+          "\n"
+        ],
+        [
+          34,
+          "```\n"
+        ],
+        [
+          35,
+          "\n"
+        ],
+        [
+          36,
+          "moar text here\n"
+        ],
+        [
+          37,
+          "\n"
+        ],
+        [
+          38,
+          "```vhdl\n"
+        ],
+        [
+          39,
+          "%%vdf #code #kind package\n"
+        ],
+        [
+          40,
+          "\n"
+        ],
+        [
+          41,
+          "---\n"
+        ],
+        [
+          42,
+          "\n"
+        ],
+        [
+          43,
+          "```\n"
+        ],
+        [
+          44,
+          "\n"
+        ],
+        [
+          45,
+          "and a bit more text\n"
         ]
       ],
       "source": [
@@ -609,7 +1301,7 @@
       ],
       [
         17,
-        "%%vdf code\n"
+        "%%vdf #code\n"
       ],
       [
         18,
@@ -626,6 +1318,102 @@
       [
         21,
         "```\n"
+      ],
+      [
+        22,
+        "\n"
+      ],
+      [
+        23,
+        "---\n"
+      ],
+      [
+        24,
+        "\n"
+      ],
+      [
+        25,
+        "# Second header\n"
+      ],
+      [
+        26,
+        "\n"
+      ],
+      [
+        27,
+        "text goes here\n"
+      ],
+      [
+        28,
+        "\n"
+      ],
+      [
+        29,
+        "```vhdl\n"
+      ],
+      [
+        30,
+        "%%vdf #code #kind header\n"
+      ],
+      [
+        31,
+        "\n"
+      ],
+      [
+        32,
+        "---\n"
+      ],
+      [
+        33,
+        "\n"
+      ],
+      [
+        34,
+        "```\n"
+      ],
+      [
+        35,
+        "\n"
+      ],
+      [
+        36,
+        "moar text here\n"
+      ],
+      [
+        37,
+        "\n"
+      ],
+      [
+        38,
+        "```vhdl\n"
+      ],
+      [
+        39,
+        "%%vdf #code #kind package\n"
+      ],
+      [
+        40,
+        "\n"
+      ],
+      [
+        41,
+        "---\n"
+      ],
+      [
+        42,
+        "\n"
+      ],
+      [
+        43,
+        "```\n"
+      ],
+      [
+        44,
+        "\n"
+      ],
+      [
+        45,
+        "and a bit more text\n"
       ]
     ],
     "source": [

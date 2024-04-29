@@ -15,8 +15,32 @@ test section
 ---
 
 ```vhdl
-%%vdf code
+%%vdf #code
 
 ---
 
 ```
+
+---
+
+# Second header
+
+text goes here
+
+```vhdl
+%%vdf #code #kind header
+
+---
+
+```
+
+moar text here
+
+```vhdl
+%%vdf #code #kind package
+
+---
+
+```
+
+and a bit more text
