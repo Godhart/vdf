@@ -1,17 +1,21 @@
 __fallback__:
   render: RenderGeneric
+  ext: .generic
   sections: [content]
 
 text:
   render: RenderGeneric
+  ext: .txt
   sections: [content]
 
 markdown:
   render: RenderMarkup
+  ext: .md
   sections: [frontmatter, content]
 
 vhdl:
   render: RenderVHDL
+  ext: .vhd
   sections:
     - header_declaration
     - unit_generics
@@ -20,8 +24,9 @@ vhdl:
     - code_declaration
     - code_body
 
-vhdl_package:
+vhdl-package:
   render: RenderVHDL
+  ext: .vhd
   sections:
     - header_declaration
     - header_body
@@ -30,6 +35,7 @@ vhdl_package:
 
 verilog:
   render: RenderVerilog
+  ext: .v
   sections:
     - header_declaration
     - unit_generics
@@ -37,14 +43,16 @@ verilog:
     - code_declaration
     - code_body
 
-verilog_header:
+verilog-header:
   render: RenderVerilog
+  ext: .vh
   sections:
     - header_declaration
     - code_body
 
 sv:
   render: Verilog
+  ext: .sv
   sections:
     - header_declaration
     - unit_generics
@@ -52,8 +60,9 @@ sv:
     - code_declaration
     - code_body
 
-sv_header:
+sv-header:
   render: RenderVerilog
+  ext: .svh
   sections:
     - header_declaration
     - code_body
