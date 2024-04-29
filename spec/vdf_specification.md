@@ -861,17 +861,21 @@ author      : Nikolay Gniteev (godhart@gmail.com)
 version     : 1.0.draft.0
 vdf         : "1.0"   # Используемая спецификация формата
 
-# Установка значений тэгов в frontmatter части
-assign      :
+# Установка атрибутов, определяемых тэгами, в frontmatter части через словарь
+attr      :
   # Установка значений тэга output
-  output    :
-    doc     :
-      cell  : last-doc-cell-name
-    src     :
-      cell  : last-src-cell-name
+  tag1_name : value
+  tag2_name :
+    subtag  :
+      etc   : value
+
+# Установка атрибутов, определяемых тэгами, в frontmatter части через список (эквивалентно записи attr выше)
+define      :
+  - tag1_name-value
+  - tag2_name-subtag-etc-value
 
 # Установка значений переменных в frontmatter части
-var         :
+vars        :
   # Установка скалярной переменной
   var1_name : value
 
