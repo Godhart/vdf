@@ -129,11 +129,11 @@ package     :
       format      : add|new
   output    : [src]
 
-entity      :
+subject     :
   kind      : attribute
-  runner    : TagContext
+  runner    : TagAttr
   vars      :
-    name    : null
+    name    : main
   args      :
     - var_name    : name
       mandatory   : False

@@ -47,7 +47,7 @@ class _TagRunner:
                     del mandatory_left[k]
                 if k in optional_fallback:
                     del optional_fallback[k]
-                
+
             if not arg_found:
                 raise ValueError(f"Argument with name '{k}' is not supported!")
         if len(mandatory_left) > 0:
@@ -55,7 +55,17 @@ class _TagRunner:
         for k, v in optional_fallback.items():
             setattr(self, f"_{k}", v)
 
+    def init_document():
+        """
+        Provide defaults for document's tag subsection of this tag runner
+        Return None if defaults are not required
+        """
+        return None
+
     def run():
+        """
+        Apply tag action according to context
+        """
         data_out = None
         stdout = None
         stderr = None
@@ -92,9 +102,9 @@ class TagCode(_TagRunner):
         super(TagCode, self).__init__(data, subtags, optional_tags, context, **kwargs)
 
 
-class TagContext(_TagRunner):
+class TagAttr(_TagRunner):
     """
-    Updates context vars etc.
+    Updates doc's attributes
     """
 
 
