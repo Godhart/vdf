@@ -1,3 +1,4 @@
+---
 #var-frontmatter #format-yaml
 
 title       : Versatile Description Format specification
