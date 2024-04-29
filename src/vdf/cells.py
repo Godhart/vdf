@@ -74,6 +74,12 @@ class Cell:
             self._hash = md5(bytes).hexdigest()
         return self._hash
 
+    def raw_lines(self):
+        result = []
+        for v in self.content:
+            result += v.raw_lines()
+        return result
+
 
 class DocCell(Cell):
     """

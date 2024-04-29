@@ -64,7 +64,7 @@ class SourceText:
         for k,v in spec.items():
             spec[k] = v or SOURCE_FORMATS[format][S_SPEC][k]
             setattr(self, k, spec[k])
-            
+
     @property
     def source(self):
         return [*self._source]
@@ -142,6 +142,9 @@ class Line:
         self.content = content
         self.source = source + [idx]
 
+    def raw_lines(self):
+        return [self.content]
+
 
 class GeneratedLine:
     """
@@ -159,7 +162,7 @@ class GeneratedLine:
 
 class Fenced:
     """
-    Contains all lines of fenced section 
+    Contains all lines of fenced section
     """
     def __init__(self, idx:int, kind:str, content:list[Line], source:list):
         self.idx = idx
@@ -167,6 +170,11 @@ class Fenced:
         self.content = [*content]
         self.source = source + [idx]
 
+    def raw_lines(self):
+        result = []
+        for v in self.content:
+            result += v.lines
+        return result
 
 def load_from_file(path):
     path = Path(path)
