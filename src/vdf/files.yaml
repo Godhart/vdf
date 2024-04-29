@@ -1,4 +1,4 @@
-_fallback_:
+__fallback__:
   render: RenderGeneric
   sections: [content]
 
