@@ -170,15 +170,34 @@ class RawDocument:
                 or len(v.content.strip()) > 0
             ]
             if len(stripped_cell_content) == 1 and isinstance(stripped_cell_content[0], Fenced):
-                cell_type = CodeCell
-                cell_content = stripped_cell_content
+                result_cells.append(CodeCell(stripped_cell_content, cell.location)) # TODO: wtf this for? , name=cell.name))
             else:
-                cell_type = DocCell
-                cell_content = cell.content
-            result_cells.append(cell_type(cell_content, cell.location, name=cell.name))
+                result_cells += self.raw_cell_process(cell)
 
         result = CellsStream(result_cells)
         return result, frontmatter
+
+    def raw_cell_process(self, cell:Cell):
+        result = []
+        doc_items = []
+        for item in cell.content:
+            if isinstance(item, Line):
+                doc_items.append(item)
+                continue
+            # It's fenced section
+            if item.content[1].content[:len(S_VDF_PREAMBLE)] == S_VDF_PREAMBLE:
+                # If it's vdf then it CodeCell
+                if len(doc_items) > 0:
+                    result.append(DocCell(doc_items, doc_items[0].source))
+                doc_items = []
+                result.append(CodeCell([item], item.source))
+            else:
+                doc_items.append(item)
+        # Last doc item (if there is any)
+        if len(doc_items) > 0:
+            result.append(DocCell(doc_items, doc_items[0].source))
+        doc_items = []
+        return result
 
     def parse(self):
         """
