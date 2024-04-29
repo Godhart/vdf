@@ -31,6 +31,7 @@ class Cell:
             files=Files([]),
             cells=CellsStream([]),
             vars ={},
+            attr ={},
         )
         self.tag = tag
         self.optional_tags = optional_tags
@@ -114,15 +115,17 @@ class RunContext:
     """
     def __init__(
             self,
-            doc     :CellsStream,
-            files   :Files,
-            cells   :CellsStream,
-            vars    :dict,
+            doc     :CellsStream,   # DocCells
+            files   :Files,         # All produced files
+            cells   :CellsStream,   # CodeCells
+            vars    :dict,          # All the variables
+            attr    :dict,          # All the tag-defined attributes
     ):
         self._doc   = doc
         self._files = files
         self._cells = cells
         self._vars  = vars
+        self._attr  = attr
 
     @property
     def doc(self):
