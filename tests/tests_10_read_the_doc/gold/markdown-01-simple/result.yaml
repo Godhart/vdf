@@ -1,6 +1,9 @@
 doc:
-  branches: {}
-  flows: {}
+  branches:
+    data: {}
+  default_branch: __main__
+  flows:
+    data: {}
   frontmatter:
     cell_kind: Cell
     content: &id002
@@ -59,14 +62,19 @@ doc:
     - tests/tests_10_read_the_doc/test/markdown-01-simple/data.md
     - 0
     name: _tests/tests_10_read_the_doc/test/markdown-01-simple/data.md:0
-    optional_tags: null
-    output_context: &id004
-      cells:
-        cells: []
-      doc: null
-      files: {}
-      vars: {}
-    tag: null
+    output_context: null
+    tags: null
+  root_context:
+    attrs:
+      data: {}
+    code:
+      cells: []
+    doc:
+      cells: []
+    files: {}
+    vars:
+      data: {}
+    vdf_ver: '1.0'
   source:
     cells: &id001
     - cell_kind: DocCell
@@ -98,14 +106,8 @@ doc:
       - tests/tests_10_read_the_doc/test/markdown-01-simple/data.md
       - 10
       name: _tests/tests_10_read_the_doc/test/markdown-01-simple/data.md:10
-      optional_tags: null
-      output_context:
-        cells:
-          cells: []
-        doc: null
-        files: {}
-        vars: {}
-      tag: null
+      output_context: null
+      tags: null
     - cell_kind: CodeCell
       content:
       - content:
@@ -162,14 +164,8 @@ doc:
       - tests/tests_10_read_the_doc/test/markdown-01-simple/data.md
       - 16
       name: _tests/tests_10_read_the_doc/test/markdown-01-simple/data.md:16
-      optional_tags: null
-      output_context:
-        cells:
-          cells: []
-        doc: null
-        files: {}
-        vars: {}
-      tag: null
+      output_context: null
+      tags: null
     - cell_kind: DocCell
       content:
       - content: '# Second header
@@ -206,14 +202,8 @@ doc:
       - tests/tests_10_read_the_doc/test/markdown-01-simple/data.md
       - 25
       name: _tests/tests_10_read_the_doc/test/markdown-01-simple/data.md:25
-      optional_tags: null
-      output_context:
-        cells:
-          cells: []
-        doc: null
-        files: {}
-        vars: {}
-      tag: null
+      output_context: null
+      tags: null
     - cell_kind: CodeCell
       content:
       - content:
@@ -270,14 +260,8 @@ doc:
       - tests/tests_10_read_the_doc/test/markdown-01-simple/data.md
       - 29
       name: _tests/tests_10_read_the_doc/test/markdown-01-simple/data.md:29
-      optional_tags: null
-      output_context:
-        cells:
-          cells: []
-        doc: null
-        files: {}
-        vars: {}
-      tag: null
+      output_context: null
+      tags: null
     - cell_kind: DocCell
       content:
       - content: '
@@ -307,14 +291,8 @@ doc:
       - tests/tests_10_read_the_doc/test/markdown-01-simple/data.md
       - 35
       name: _tests/tests_10_read_the_doc/test/markdown-01-simple/data.md:35
-      optional_tags: null
-      output_context:
-        cells:
-          cells: []
-        doc: null
-        files: {}
-        vars: {}
-      tag: null
+      output_context: null
+      tags: null
     - cell_kind: CodeCell
       content:
       - content:
@@ -371,14 +349,8 @@ doc:
       - tests/tests_10_read_the_doc/test/markdown-01-simple/data.md
       - 38
       name: _tests/tests_10_read_the_doc/test/markdown-01-simple/data.md:38
-      optional_tags: null
-      output_context:
-        cells:
-          cells: []
-        doc: null
-        files: {}
-        vars: {}
-      tag: null
+      output_context: null
+      tags: null
     - cell_kind: DocCell
       content:
       - content: '
@@ -401,14 +373,8 @@ doc:
       - tests/tests_10_read_the_doc/test/markdown-01-simple/data.md
       - 44
       name: _tests/tests_10_read_the_doc/test/markdown-01-simple/data.md:44
-      optional_tags: null
-      output_context:
-        cells:
-          cells: []
-        doc: null
-        files: {}
-        vars: {}
-      tag: null
+      output_context: null
+      tags: null
 preparsed:
   autoparse: true
   cells:
@@ -420,20 +386,19 @@ preparsed:
     input_context: null
     location: *id003
     name: _tests/tests_10_read_the_doc/test/markdown-01-simple/data.md:0
-    optional_tags: null
-    output_context: *id004
-    tag: null
+    output_context: null
+    tags: null
   source:
-    cells_split: &id005
+    cells_split: &id004
     - ''
     - '---'
     - ''
     escape_symbol: null
-    fenced_regex: ^(`+)([\w-]*)$
+    fenced_regex: ^(`{3,})([\w-]+)?$
     fenced_seq: '```'
     format: markdown
     frontmatter: true
-    lines: &id006
+    lines: &id005
     - - 0
       - '---
 
@@ -618,14 +583,14 @@ preparsed:
       - 'and a bit more text
 
         '
-    source: &id007
+    source: &id006
     - tests/tests_10_read_the_doc/test/markdown-01-simple/data.md
 source:
-  cells_split: *id005
+  cells_split: *id004
   escape_symbol: null
-  fenced_regex: ^(`+)([\w-]*)$
+  fenced_regex: ^(`{3,})([\w-]+)?$
   fenced_seq: '```'
   format: markdown
   frontmatter: true
-  lines: *id006
-  source: *id007
+  lines: *id005
+  source: *id006
