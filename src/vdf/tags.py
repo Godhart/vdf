@@ -233,6 +233,8 @@ def parse_tag(line:str) -> TagInstance:
             tag_subtag = "-".join(subtags_items)
             for _,v in tag_def.subtags[tag_subtag].vars.items():
                 _apply_tag_var(tag_def, tag_vars, v.name, v.value, line)
+                # TODO: change tag_args_spec
+                # remove args that are setting vars that were set already
 
     # Look for args
     kw_part = False # True if keyworded part started
