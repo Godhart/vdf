@@ -1,7 +1,23 @@
 import inspect
 from pathlib import Path
+import os
+
 
 _STRINGABLE = (Path, )
+
+# Allow to run code that looks unsafe
+_DEFAULT_UNSAFE_ALLOWED = "true"
+
+# Allow to run with critical TODOs by default
+_DEFAULT_CRITICAL_TODO_ALLOWED = "true"
+
+# Allow to run with stub functions by default
+_DEFAULT_STUB_ALLOWED = "true"
+
+# Allow to run with non-implemented functions by default
+# (but will break anyway if they are called)
+_DEFAULT_NOT_IMPLEMENTED_ALLOWED = "true"
+
 
 def any_to_dict_list_scalar(inst, instance_map=None, lists_as_tuple=True):
     if instance_map is None:
@@ -71,3 +87,74 @@ def to_dict(**kwargs):
     Returns dict, constructed from kwargs
     """
     return {**kwargs}
+
+
+def unsafe(f):
+    """
+    Decorator allows run function with unsafe code parts
+    if VDF_UNSAFE_ALLOWED is set
+    """
+    if not os.environ.get(
+        "VDF_CRITICAL_TODO_ALLOWED",
+        _DEFAULT_UNSAFE_ALLOWED).lower() in ("1", "true", "yes"
+    ):
+        raise NotImplementedError(
+            f"There is unsafe code in function '{f.__name__}'!"
+            " Implement properly before going to prod!"
+        )
+    def wrapped(*args, **kwargs):
+        return f(*args, **kwargs)
+    return wrapped
+
+
+def critical_todo(f):
+    """
+    Decorator allows run function with critical TODOs
+    if VDF_CRITICAL_TODO_ALLOWED is set
+    """
+    if not os.environ.get(
+        "VDF_CRITICAL_TODO_ALLOWED",
+        _DEFAULT_CRITICAL_TODO_ALLOWED).lower() in ("1", "true", "yes"
+    ):
+        raise NotImplementedError(
+            f"There is critical TODOs left in function '{f.__name__}'!"
+            " Implement properly before going to prod!"
+        )
+    def wrapped(*args, **kwargs):
+        return f(*args, **kwargs)
+    return wrapped
+
+
+def stub_alert(f):
+    """
+    Decorator allows run subbed function
+    if VDF_STUB_ALLOWED is set
+    """
+    if not os.environ.get(
+        "VDF_STUB_ALLOWED",
+        _DEFAULT_STUB_ALLOWED).lower() in ("1", "true", "yes"
+    ):
+        raise NotImplementedError(
+            f"Function '{f.__name__}' is a stub! Implement properly before going to prod!"
+        )
+    def wrapped(*args, **kwargs):
+        return f(*args, **kwargs)
+    return wrapped
+
+
+def not_implemented(f):
+    """
+    Decorator allows compile function but not run
+    if VDF_NOT_IMPLEMENTED_ALLOWED is set
+    """
+    if not os.environ.get(
+        "VDF_NOT_IMPLEMENTED_ALLOWED",
+        _DEFAULT_NOT_IMPLEMENTED_ALLOWED).lower() in ("1", "true", "yes"
+    ):
+        raise NotImplementedError(f"Function '{f.__name__}' is not implemented at all!")
+    def wrapped(*args, **kwargs):
+        # Fail anyway
+        def ff(*args, **kwargs):
+            raise NotImplementedError(f"Function '{f.__name__}' is not implemented at all!")
+        return ff(*args, **kwargs)
+    return wrapped
