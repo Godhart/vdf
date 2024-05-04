@@ -79,24 +79,13 @@ class SourceText:
         """
         return self._lines
 
-    def replace_escaped(self, line, replacement_char):
+    def replace_escaped(self, line:str, replacement_char:str):
         """
         Replaces escaped chars in line with replacement_char
         """
-        if self.escape_symbol is None:
-            return line
-        result = ""
-        prev = None
-        for char in line:
-            if prev == self.escape_symbol:
-                result += replacement_char
-                prev = replacement_char
-            else:
-                result += char
-                prev = char
-        return result
+        return replace_escaped(line, replacement_char, self.escape_symbol)
 
-    def fenced_check(self, line):
+    def fenced_check(self, line:str):
         """
         Checks that line is a start of fenced section.
         If so - full fence sequence and fenced type are returned
@@ -109,7 +98,7 @@ class SourceText:
         else:
             return None, None
 
-    def split_ahead(self, lines, offs):
+    def split_ahead(self, lines:str, offs:int):
         """
         Checks that lines starting from offs are cells split sequence
         Returns tuple of two with
