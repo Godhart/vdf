@@ -16,8 +16,8 @@ from src.vdf.processing import VdfProcessor
 
 
 def preprocess_input_file(doc:Document):
-    VdfProcessor().process_doc(doc)
-    return doc
+    stages = VdfProcessor().process_doc(doc)
+    return stages[-1][0]
 
 
 @pytest.mark.parametrize("test_set", list_tests(__file__, ["test","gold"]))
@@ -45,6 +45,6 @@ if __name__ == "__main__":
     """
     NOTE: this branch is for debug purposes only
     """
-    value = test_preprocess_the_doc("markdown-01-simple")
+    value = test_preprocess_the_doc("markdown-vhdl-01-simple")
     result = any_to_dict_list_scalar(value)
     a = 1
