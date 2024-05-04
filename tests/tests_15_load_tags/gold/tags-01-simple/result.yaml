@@ -1,0 +1,293 @@
+TAG_DEFS:
+  tags:
+    code:
+      accumulate: false
+      args:
+      - format: add|new
+        mandatory: false
+        var_name: action
+      - format: body|declaration
+        mandatory: false
+        var_name: content
+      kind: main
+      name: code
+      output:
+      - __def__
+      requires: []
+      runner: <class 'src.vdf.tags_runners.TagCode'>
+      subtags:
+        body:
+          vars:
+            action:
+              name: action
+              value: add
+            content:
+              name: content
+              value: body
+        declaration:
+          vars:
+            action:
+              name: action
+              value: add
+            content:
+              name: content
+              value: declaration
+      value: null
+      vars:
+        action:
+          name: action
+          value: add
+        content:
+          name: content
+          value: both
+        section:
+          name: section
+          value: code
+    display:
+      accumulate: false
+      args: []
+      kind: main
+      name: display
+      output:
+      - value
+      requires: []
+      runner: <class 'src.vdf.tags_runners.TagDisplay'>
+      subtags: {}
+      value: ?.*
+      vars: {}
+    header:
+      accumulate: false
+      args:
+      - format: add|new
+        mandatory: false
+        var_name: action
+      - format: body|declaration
+        mandatory: false
+        var_name: content
+      kind: main
+      name: header
+      output:
+      - src
+      requires: []
+      runner: <class 'src.vdf.tags_runners.TagCode'>
+      subtags:
+        body:
+          vars:
+            action:
+              name: action
+              value: add
+            content:
+              name: content
+              value: body
+        declaration:
+          vars:
+            action:
+              name: action
+              value: add
+            content:
+              name: content
+              value: declaration
+      value: null
+      vars:
+        action:
+          name: action
+          value: add
+        content:
+          name: content
+          value: both
+        section:
+          name: section
+          value: header
+    package:
+      accumulate: false
+      args:
+      - format: add|new
+        mandatory: false
+        var_name: action
+      - format: body|declaration
+        mandatory: false
+        var_name: content
+      kind: main
+      name: package
+      output:
+      - src
+      requires:
+      - target
+      runner: <class 'src.vdf.tags_runners.TagCode'>
+      subtags:
+        body:
+          vars:
+            action:
+              name: action
+              value: add
+            content:
+              name: content
+              value: body
+        declaration:
+          vars:
+            action:
+              name: action
+              value: add
+            content:
+              name: content
+              value: declaration
+      value: null
+      vars:
+        action:
+          name: action
+          value: add
+        content:
+          name: content
+          value: both
+        section:
+          name: section
+          value: package
+    show:
+      accumulate: true
+      args:
+      - format: add|new
+        mandatory: false
+        var_name: action
+      - format: \\w+
+        mandatory: false
+        var_name: display
+      kind: attribute
+      name: show
+      output:
+      - value
+      requires: []
+      runner: <class 'src.vdf.tags_runners.TagAttr'>
+      subtags: {}
+      value: null
+      vars:
+        action:
+          name: action
+          value: add
+        display:
+          name: display
+          value: __default__
+    subject:
+      accumulate: false
+      args:
+      - format: \\w+
+        mandatory: false
+        var_name: name
+      kind: attribute
+      name: subject
+      output:
+      - value
+      requires: []
+      runner: <class 'src.vdf.tags_runners.TagAttr'>
+      subtags: {}
+      value: null
+      vars:
+        name:
+          name: name
+          value: null
+    tag_test1:
+      accumulate: false
+      args:
+      - format: \\w+
+        mandatory: true
+        var_name: mandatory_arg
+      - format: '[\w\s\/]+'
+        mandatory: false
+        var_name: optional_arg
+      kind: main
+      name: tag_test1
+      output:
+      - __default__
+      requires: []
+      runner: <class 'src.vdf.tags_runners.TagTest1'>
+      subtags:
+        sub1:
+          vars:
+            var_name:
+              name: var_name
+              value: var_value_when_sub1
+        sub2:
+          vars:
+            var_name:
+              name: var_name
+              value: var_value_when_sub2
+        sub3:
+          vars:
+            mandatory_arg:
+              name: mandatory_arg
+              value: mandatory_when_sub3
+            var_name:
+              name: var_name
+              value: var_value_when_sub3
+        sub4:
+          vars:
+            optional_arg:
+              name: optional_arg
+              value: optional_when_sub4
+            var_name:
+              name: var_name
+              value: var_value_when_sub4
+        sub5:
+          vars:
+            mandatory_arg:
+              name: mandatory_arg
+              value: mandatory_when_sub5
+            optional_arg:
+              name: optional_arg
+              value: optional_when_sub5
+            var_name:
+              name: var_name
+              value: var_value_when_sub5
+      value: null
+      vars:
+        mandatory_arg:
+          name: mandatory_arg
+          value: null
+        optional_arg:
+          name: optional_arg
+          value: optional_arg_default
+        var_name:
+          name: var_name
+          value: var_value
+    unit:
+      accumulate: false
+      args:
+      - format: add|new
+        mandatory: false
+        var_name: action
+      - format: generics|interface
+        mandatory: false
+        var_name: content
+      kind: main
+      name: unit
+      output:
+      - src
+      requires: []
+      runner: <class 'src.vdf.tags_runners.TagCode'>
+      subtags:
+        generics:
+          vars:
+            action:
+              name: action
+              value: add
+            content:
+              name: content
+              value: generics
+        interface:
+          vars:
+            action:
+              name: action
+              value: add
+            content:
+              name: content
+              value: interface
+      value: null
+      vars:
+        action:
+          name: action
+          value: add
+        content:
+          name: content
+          value: both
+        section:
+          name: section
+          value: unit
