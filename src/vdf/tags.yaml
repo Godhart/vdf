@@ -1,8 +1,13 @@
 __fallback__  :
   kind      : undefined # main, output, attribute, post, pre
   runner    : null
+  vars      : {}
+  # TODO: for kw_part vars requires format specification
+  # NOTE: it would be reasonable to move format from arg to var
   subtags   : {}
   args      : []
+  value     : null  # if not null then value format should be specified
+  # TODO: state in spec that value is separated from args with --
   output    : [value]
   accumulate: False # Values from multiple tags in a cell are accumulated
   requires  : []
@@ -41,7 +46,7 @@ tag_test1   :
     - var_name        : optional_arg
       mandatory       : False
       format          : "[\\w\\s\\/]+"
-  output    : [def]
+  output    : [__default__]
 
 code        :
   kind      : main
@@ -49,6 +54,7 @@ code        :
   vars      :
         content   : both
         section   : code
+        action    : add
   subtags   :
     declaration:
       vars  :
@@ -62,7 +68,7 @@ code        :
     - var_name    : action
       mandatory   : False
       format      : add|new
-  output    : [def]
+  output    : [__def__]
 
 header      :
   kind      : main
@@ -70,6 +76,7 @@ header      :
   vars      :
         content   : both
         section   : header
+        action    : add
   subtags   :
     declaration:
       vars  :
@@ -91,6 +98,7 @@ unit        :
   vars      :
         content   : both
         section   : unit
+        action    : add
   subtags   :
     generics:
       vars  :
@@ -112,6 +120,7 @@ package     :
   vars      :
         content   : both
         section   : package
+        action    : add
   requires  : # Mandatory attribute tags
     - target
   subtags   :
@@ -133,7 +142,7 @@ subject     :
   kind      : attribute
   runner    : TagAttr
   vars      :
-    name    : main
+    name    : null
   args      :
     - var_name    : name
       mandatory   : False
@@ -142,18 +151,23 @@ subject     :
 display     :
   kind      : main
   runner    : TagDisplay
-  vars      :
-    display_format  : null
-  args      :
-    - var_name      : display_format
-      mandatory     : False
-      format        : "[\\w`~!@#$%^&*(),./\\\\<>?|-=\\[\\]{}]+"
+  value     : "?.*"
   output    : [value]
 
-# show        :
-#   kind      : output
-#   runner    : TagShow
-#   accumulate: True
+# TODO: name
+# TODO: parent
+# TODO: output to override output
+
+show        :
+  kind      : attribute
+  runner    : TagAttr
+  accumulate: True
+  vars      :
+    display : __default__
+  args      :
+    - var_name    : display
+      mandatory   : False
+      format      : \\w+
 
 # format      :
 #   kind      : attribute
