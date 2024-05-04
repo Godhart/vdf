@@ -174,13 +174,17 @@ def load_tags(path):
 TAG_DEFS = load_tags(Path(__file__).parent / "tags.yaml")
 
 
-def _apply_tag_var(tag_def:TagDef, vars, name, value):
+def _apply_tag_var(tag_def:TagDef, vars, name, value, line):
     if name not in tag_def.vars:
-        raise ValueError(f"Variable with name '{name}' is not specified for tag")
+        raise ValueError(
+            f"Variable with name '{name}' is not specified for tag!"
+            f" (line '{line}')")
     if name not in vars:
         vars[name] = TagVar(name, value)
     else:
-        vars[name].value = value
+        raise ValueError(
+            f"Variable '{name}' is already defined for tag!"
+            f" (line '{line}')")
 
 
 @critical_todo
@@ -228,7 +232,7 @@ def parse_tag(line:str) -> TagInstance:
         if len(subtags_items) > 0:
             tag_subtag = "-".join(subtags_items)
             for _,v in tag_def.subtags[tag_subtag].vars.items():
-                _apply_tag_var(tag_def, tag_vars, v.name, v.value)
+                _apply_tag_var(tag_def, tag_vars, v.name, v.value, line)
 
     # Look for args
     kw_part = False # True if keyworded part started
@@ -270,7 +274,7 @@ def parse_tag(line:str) -> TagInstance:
 
         if kw_part:
             var_name, var_value = arg_value.split(":",1)
-            _apply_tag_var(tag_def, tag_vars, var_name, var_value)
+            _apply_tag_var(tag_def, tag_vars, var_name, var_value, line)
             continue
 
         # Get arg spec
@@ -291,7 +295,7 @@ def parse_tag(line:str) -> TagInstance:
         # TODO: check arg_value against required format
 
         if format_ok:
-            _apply_tag_var(tag_def, tag_vars, arg_spec.var_name, arg_value)
+            _apply_tag_var(tag_def, tag_vars, arg_spec.var_name, arg_value, line)
             tag_args.append(arg_value)
         else:
             if arg_spec.mandatory:
