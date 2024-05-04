@@ -21,7 +21,8 @@ def parse_input_file(input_path):
     result['preparsed'] = preparsed = RawDocument(source)
     result['doc'] = Document(
         source=preparsed.cells,
-        frontmatter=preparsed.frontmatter
+        frontmatter=preparsed.frontmatter,
+        root_context=None,
     )
 
     return result
