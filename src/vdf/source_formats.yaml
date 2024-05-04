@@ -5,7 +5,7 @@ __fallback__:
   spec:
     escape_symbol : null
     fenced_seq    : "```"
-    fenced_regex  : "^(`+)([\\w-]*)$"
+    fenced_regex  : "^(`{3,})([\\w-]+)?$" # TODO: read fenced spec carefully
     cells_split   : ["", "---", ""]
     frontmatter   : True
 

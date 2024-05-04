@@ -3,6 +3,7 @@ import yaml
 from . import files_render
 from .source_io import GeneratedLine
 from .literals import *
+from ..helpers import *
 
 _RENDERS   = (files_render, )
 
@@ -36,6 +37,7 @@ class File:
     Represents current file state
     contains sections, that are modified via tags
     """
+    @unsafe
     def __init__(
             self,
             path:str,

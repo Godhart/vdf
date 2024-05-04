@@ -1,5 +1,6 @@
 from pathlib import Path
 import yaml
+from ..helpers import *
 
 
 class _FileRender:
@@ -49,8 +50,16 @@ class RenderVHDL(_FileRender):
     Makes VHDL File
     """
 
+    @not_implemented
+    def __init__(self):
+        pass
+
 
 class RenderVerilog(_FileRender):
     """
     Makes Verilog / System Verilog File
     """
+
+    @not_implemented
+    def __init__(self):
+        pass

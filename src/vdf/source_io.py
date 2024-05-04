@@ -141,9 +141,15 @@ class Line:
         self.idx = idx
         self.content = content
         self.source = source + [idx]
+        # TODO: line can have complicated history, need to take into account
+        # for example: original line were modified by one tag,
+        # then modified by another and so on
 
-    def raw_lines(self):
+    def raw_lines(self) -> list[str]:
         return [self.content]
+
+    def flat_lines(self):
+        result = [self]
 
 
 class GeneratedLine:
@@ -154,7 +160,8 @@ class GeneratedLine:
     def __init__(self, value, source_line_location: list):
         self.value = value
         self.source_line_location = [*source_line_location]
-        # NOTE: source line location is rather abstract but recommended content is:
+        # NOTE: source line location is rather abstract
+        # but recommended content is:
         # - VDF file location
         # - cell location (starting line of cell within VDF file)
         # - line location (starting line within cell's data)
@@ -170,10 +177,16 @@ class Fenced:
         self.content = [*content]
         self.source = source + [idx]
 
-    def raw_lines(self):
+    def raw_lines(self) -> list[str]:
         result = []
         for v in self.content:
-            result += v.lines
+            result += v.raw_lines()
+        return result
+
+    def flat_lines(self) -> list[Line]:
+        result = []
+        for v in self.content:
+            result += v.flat_lines()
         return result
 
 def load_from_file(path):

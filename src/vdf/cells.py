@@ -1,5 +1,4 @@
 from .source_io import Line, Fenced, GeneratedLine
-# from .context import RunContext
 from .files import Files
 from .tags import TagInstance, TagsInstances
 from hashlib import md5
@@ -14,8 +13,7 @@ class Cell:
             content         : list[Line|Fenced],
             location        : list,
             input_context     = None, # NOTE: type is RunContext, look below
-            tag             : TagInstance = None,
-            optional_tags   : TagsInstances = None,
+            tags            : TagsInstances = None,
             name            : str|None = None,
     ):
         self._content = content
@@ -23,18 +21,8 @@ class Cell:
         self._hash = None
         self._location = location
         self.input_context = input_context
-        doc = None
-        if input_context is not None:
-            doc = input_context.doc
-        self.output_context = RunContext(
-            doc=doc,
-            files=Files([]),
-            cells=CellsStream([]),
-            vars ={},
-            attr ={},
-        )
-        self.tag = tag
-        self.optional_tags = optional_tags
+        self.output_context = None
+        self.tags = tags
 
     @property
     def cell_kind(self):
@@ -75,10 +63,16 @@ class Cell:
             self._hash = md5(bytes).hexdigest()
         return self._hash
 
-    def raw_lines(self):
+    def raw_lines(self) -> list[str]:
         result = []
         for v in self.content:
             result += v.raw_lines()
+        return result
+
+    def flat_lines(self) -> list[Line]:
+        result = []
+        for v in self.content:
+            result += v.flat_lines()
         return result
 
 
@@ -108,6 +102,25 @@ class CellsStream:
         self.cells = cells
 
 
+class Vars:
+    """
+    Variables collection
+    Class is required since complex things like scope would be used
+    """
+    def __init__(self, vars:dict):
+        self.data = vars
+        # TODO: var's scopes
+
+
+class Attrs:
+    """
+    Attributes collection
+    Class to handle things that can't be foreseen now
+    """
+    def __init__(self, attrs:dict):
+        self.data = attrs
+
+
 class RunContext:
     """
     Run Context
@@ -117,15 +130,17 @@ class RunContext:
             self,
             doc     :CellsStream,   # DocCells
             files   :Files,         # All produced files
-            cells   :CellsStream,   # CodeCells
-            vars    :dict,          # All the variables
-            attr    :dict,          # All the tag-defined attributes
+            code    :CellsStream,   # CodeCells
+            vars    :Vars,          # All the variables
+            attrs   :Attrs,         # All the tag-defined attributes
+            vdf_ver :str,           # Used VDF spec version
     ):
         self._doc   = doc
         self._files = files
-        self._cells = cells
+        self._code  = code
         self._vars  = vars
-        self._attr  = attr
+        self._attrs  = attrs
+        self.vdf_ver = vdf_ver
 
     @property
     def doc(self):
@@ -136,9 +151,13 @@ class RunContext:
         return self._files
 
     @property
-    def cells(self):
-        return self._cells
+    def code(self):
+        return self._code
 
     @property
     def vars(self):
         return self._vars
+
+    @property
+    def attrs(self):
+        return self._attrs

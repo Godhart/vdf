@@ -1,6 +1,7 @@
 from pathlib import Path
 import yaml
 from .literals import *
+from ..helpers import *
 
 
 _RUNNERS        = []
@@ -97,7 +98,7 @@ class TagDefs:
     """
     Class for tags defs consolidation
     """
-    def __init__(self, tags: list[TagDef]):
+    def __init__(self, tags: dict[str:TagDef]):
         self.tags = tags
 
 
@@ -125,6 +126,7 @@ _RUNNERS.append(tags_runners)
 
 
 # NOTE: load tags here since classes are defined above
+@unsafe
 def load_tags(path):
     with open(path, "rb") as f:
         data = yaml.safe_load(f)
@@ -147,3 +149,8 @@ def load_tags(path):
 
 
 TAG_DEFS = load_tags(Path(__file__).parent / "tags.yaml")
+
+
+@stub_alert
+def parse_tags(lines:list[str]) -> tuple[list[TagsInstances], str, str]:
+    return [], None, None

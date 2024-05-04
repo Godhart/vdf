@@ -3,6 +3,22 @@ from .cells import Cell, CellsStream, CodeCell, DocCell
 from .literals import *
 
 
+def is_vdf(kind, content):
+    if kind is not None:
+        if kind == S_VDF or kind[-1-len(S_VDF):] == "-"+S_VDF:
+            return True
+
+    if isinstance(content, (list, tuple)) and len(content) > 0:
+        if isinstance(content[0], str):
+            first_line = content[1]
+        else:
+            first_line = content[1].content
+        if first_line[:len(S_VDF_PREAMBLE)] == S_VDF_PREAMBLE:
+            return True
+
+    return False
+
+
 class RawDocument:
     """
     Class for raw source document representation and handling
@@ -185,7 +201,7 @@ class RawDocument:
                 doc_items.append(item)
                 continue
             # It's fenced section
-            if item.content[1].content[:len(S_VDF_PREAMBLE)] == S_VDF_PREAMBLE:
+            if is_vdf(item.kind, item.content):
                 # If it's vdf then it CodeCell
                 if len(doc_items) > 0:
                     result.append(DocCell(doc_items, doc_items[0].source))

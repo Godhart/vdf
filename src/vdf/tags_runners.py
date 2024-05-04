@@ -26,12 +26,15 @@ class _TagRunner:
     # Each tuple contains name of optional kwarg, value class and default value.
     optional_kwargs = set()
 
-    def __init__(self,
-            tag: _TagInstance, optional_tags:_TagsInstances, data:_Fenced, context):
+    def __init__(
+            self,
+            tag: _TagInstance,
+            data:_Fenced,
+            context,
+    ):
         # NOTE: context is a RunContext but due to circular refs is not typehinted
         self._tag = tag
         self._data = data
-        self._optional_tags = optional_tags
         self._context = context
         mandatory_left = [v for _,v in self.mandatory_kwargs]
         optional_fallback = {k:v for k,_,v in self.optional_kwargs}
@@ -55,14 +58,15 @@ class _TagRunner:
         for k, v in optional_fallback.items():
             setattr(self, f"_{k}", v)
 
-    def init_document():
+    @staticmethod
+    def defaults():
         """
-        Provide defaults for document's tag subsection of this tag runner
+        Provide defaults for document's attributes subsection of this tag runner
         Return None if defaults are not required
         """
         return None
 
-    def run():
+    def apply():
         """
         Apply tag action according to context
         """
@@ -73,7 +77,7 @@ class _TagRunner:
         return _TagRunnerResult(data_out, stdout, stderr, value)
 
 
-class TagTest1:
+class TagTest1(_TagRunner):
     """
     Class to test tag specifications
     """
@@ -97,9 +101,15 @@ class TagCode(_TagRunner):
         ("content",     "both"),
     ])
 
-    def __init__(self, data:_Fenced, subtags, optional_tags, context, **kwargs):
-        self._
-        super(TagCode, self).__init__(data, subtags, optional_tags, context, **kwargs)
+    def __init__(
+            self,
+            tag: _TagInstance,
+            data:_Fenced,
+            context,
+            **kwargs
+    ):
+        self._xxx
+        super(TagCode, self).__init__(tag, data, context, **kwargs)
 
 
 class TagAttr(_TagRunner):
