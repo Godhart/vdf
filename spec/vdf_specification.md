@@ -759,6 +759,10 @@ description : Specification of Versatile Description Format (for hardware)
 
 > М.б. использован для описательных ячеек
 
+<!--
+TODO: символ для строгого условия (атрибут/переменная должны существовать)
+-->
+
 ### ignore
 
 Полностью игнорировать ячейку при обработке
@@ -770,6 +774,8 @@ description : Specification of Versatile Description Format (for hardware)
 ### hide
 
 Скрыть ячейку / часть ячейки из вывода в печать
+
+При этом ячейка будет присутствовать в истории и на неё можно ссылаться
 
 Формат `hide-[subset-]<value>`
 
