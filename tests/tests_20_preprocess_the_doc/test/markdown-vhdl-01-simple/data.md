@@ -63,7 +63,8 @@ It's value would be defined by result of sum function, running every clk period
 > (it's accumulator by the way)
 
 ```vhdl
-%%vdf #code
+%%vdf \
+#code
 signal s : unsigned(7 downto 0) := x"00";
 ---
 s <= sum(s,a,b) when rising_edge(clk);
