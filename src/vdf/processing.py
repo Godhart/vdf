@@ -2,7 +2,7 @@ import yaml
 from copy import deepcopy
 
 from .cells import Cell, CodeCell, DocCell, CellsStream, Vars, Attrs, RunContext
-from .tags import parse_tags
+from .tags import parse_tags, get_name, get_parent
 from .files import Files
 from .input import RawDocument, is_vdf
 from .document import Document, Episode
@@ -93,7 +93,8 @@ class VdfProcessor:
                     def_lang = def_lang[:-1-len(S_VDF)]
                 if def_lang is not None and def_lang == "":
                     def_lang = None
-                tags, t_name, t_parent = parse_tags(raw_lines[1:])
+                tags = parse_tags(raw_lines[1:])
+                t_name, t_parent = get_name(tags), get_parent(tags)
                 # NOTE: tags may span across multiple lines if lines are ending with \
                 # and "lines merging" is not natively supported by input format
             else:
