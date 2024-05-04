@@ -82,6 +82,7 @@ def any_to_dict_list_scalar(inst, instance_map=None, lists_as_tuple=True):
         result = tmp
     return result
 
+
 def to_dict(**kwargs):
     """
     Returns dict, constructed from kwargs
@@ -158,3 +159,21 @@ def not_implemented(f):
             raise NotImplementedError(f"Function '{f.__name__}' is not implemented at all!")
         return ff(*args, **kwargs)
     return wrapped
+
+
+def replace_escaped(line:str, replacement_char:str, escape_symbol:str="\\"):
+        """
+        Replaces escaped chars in line with replacement_char
+        """
+        if escape_symbol is None:
+            return line
+        result = ""
+        prev = None
+        for char in line:
+            if prev == escape_symbol:
+                result += replacement_char
+                prev = replacement_char
+            else:
+                result += char
+                prev = char
+        return result
