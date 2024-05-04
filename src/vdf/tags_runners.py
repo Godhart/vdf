@@ -108,7 +108,6 @@ class TagCode(_TagRunner):
             context,
             **kwargs
     ):
-        self._xxx
         super(TagCode, self).__init__(tag, data, context, **kwargs)
 
 
