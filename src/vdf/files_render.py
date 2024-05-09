@@ -140,7 +140,7 @@ class _FileRender:
         Returns pure line and mapping info (with description of line's source)
         """
         if C_RENDER_MAGIC not in line:
-            return line, "[[Template]]"
+            return line, '[["Template"]]'
         offs = line.index(C_RENDER_MAGIC)
         data = json.loads(line[offs + len(C_RENDER_MAGIC):])
         if flow is not None:
