@@ -17,8 +17,8 @@ markdown:
   ext: .md
   sections: [frontmatter, content]
   template : |-
-    {% if 'frontmatter' in sections %}---
-    {{ render_section('header__body') }}
+    {% if hasattr(file_vars, 'frontmatter') %}---
+    {{ yaml(file_vars.frontmatter) }}
 
     ---
     {% endif %}
@@ -37,7 +37,7 @@ vhdl:
   template : |
     {% if 'header__declaration' in sections %}{{ render_section('header__declaration') }}
     {% endif %}
-    entity {{ vars.subject }} is{% if 'unit__generics' in sections %}
+    entity {{ file_vars.subject }} is{% if 'unit__generics' in sections %}
         generic (
     {{ render_section('unit__generics', '        ') }}
         );{% endif %}{% if 'unit__interface' in sections %}
@@ -49,7 +49,7 @@ vhdl:
 
     {% if 'header__body' in sections %}{{ render_section('header__body') }}
 
-    {% endif %}architecture rtl of {{ vars.subject }} is
+    {% endif %}architecture rtl of {{ file_vars.subject }} is
     {% if 'code__declaration' in sections %}{{ render_section('code__declaration', '    ') }}{% endif %}
     begin
     {% if 'code__body' in sections %}{{ render_section('code__body', '    ') }}{% endif %}
