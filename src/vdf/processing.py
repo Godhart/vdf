@@ -1,14 +1,15 @@
-import yaml
+import ruamel.yaml
+yaml = ruamel.yaml.YAML()
 from copy import deepcopy
 
-from .cells import Cell, CodeCell, DocCell, CellsStream, Vars, Attrs, RunContext
+from .literals import *
+from ..helpers import *
+from .cells import Cell, CodeCell, DocCell
 from .tags import parse_tags, get_name, get_parent
-from .files import Files
 from .input import RawDocument, is_vdf
 from .document import Document, Episode
-from .literals import *
-from .tags import TAG_DEFS
-from ..helpers import *
+from .tags import TAG_DEFS, TagsInstances
+from .tags_phases import TAG_PHASES_ORDER
 
 
 class VdfProcessor:
@@ -21,7 +22,7 @@ class VdfProcessor:
     def process_cell(
         self,
         document    : Document,
-        cell        : Cell,
+        cell        : Cell|tuple[str,str],
     ) -> tuple[Document, Cell]:
         """
         Process cell depending on it's content and current document state
@@ -70,6 +71,7 @@ class VdfProcessor:
 
         # Make sure cell wasn't processed yet
         if cell.input_context is not None \
+        or cell.run_context is not None \
         or cell.output_context is not None \
         or cell.tags is not None \
         :
@@ -78,7 +80,7 @@ class VdfProcessor:
         # Get cell's lines in simple and linear form
         raw_lines = [v.replace("\n", "") for v in cell.raw_lines()]
 
-        # 3. Determine tags, extract first-order tags (name, branch, fork, parent, flow)
+        # 3. Determine tags, extract first-order tags (name, parent)
         is_vdf_cell = None
         cell_name = None
         def_lang = None
@@ -95,21 +97,22 @@ class VdfProcessor:
                     def_lang = None
                 tags = parse_tags(raw_lines[1:])
                 t_name, t_parent = get_name(tags), get_parent(tags)
-                # NOTE: tags may span across multiple lines if lines are ending with \
+                # NOTE: tags may span across multiple lines
+                # if lines are ending with \
                 # and "lines merging" is not natively supported by input format
             else:
                 # TODO: look for tags in first non-empty line
                 # (may appear after commenting sequence)
                 raise NotImplementedError(
                     "Code cells except VDF cells aren't supported yet!")
-                tags, t_name, t_parent = [None]*3
+                tags, t_name, t_parent = TagsInstances([]), None, None
         else:
             pass # TODO: look for tags in first non-empty line
             # TODO: if there were tags - remove line with tags from output
             # NOTE: tags may be span across multiple lines if line ends with \
             # and "lines merging" is not natively supported by input format
             # So in this case need to remove multiple lines from output
-            tags, t_name, t_parent = [None]*3
+            tags, t_name, t_parent = TagsInstances([]), None, None
 
         # TODO: make sure that all tags are allowed / defined
 
@@ -126,7 +129,8 @@ class VdfProcessor:
         if t_parent is not None:
             parent = d.lookup_episode_by_cell_name(t_parent)
             if parent is None:
-                raise ValueError(f"Parent cell with name '{t_parent}' was not found!")
+                raise ValueError(
+                    f"Parent cell with name '{t_parent}' was not found!")
             else:
                 parent = parent['episode']
         else:
@@ -136,7 +140,8 @@ class VdfProcessor:
             # - last stage in default branch
             # - last stage in specified branch
             # - root of document for new branch without parent
-            parent = d.last_episode_in_branch(default_branch_name, not_exist_ok=True)
+            parent = d.last_episode_in_branch(
+                default_branch_name, not_exist_ok=True)
 
         # Apply tags (step 5,6,7)
 
@@ -174,21 +179,21 @@ class VdfProcessor:
 
         branch_name = "__main__"    # TODO: get from output_cell? applied_tags?
 
-        # 8. # TODO: Update produced files
+        # 8. Update produced files
         # (in output_cell.context)
+        for f in output_cell.output_context.files.list:
+            f.render(output_cell.run_context)
 
-        # 9. Put result into branch / flow
+        # 9. Put result into branch
         # (in d)
         # a stub for now
-        d.ensure_branch(branch_name, parent)
-        d.branches.by_name(branch_name).append(new_episode)
-        # TODO: Put result into flows
+        branch = d.ensure_branch(branch_name, parent)
+        branch.append(new_episode)
 
         return d, output_cell
 
 
-    @stub_alert
-    def apply_tags(self, document:Document, cell:Cell, def_lang:str) -> bool:
+    def apply_tags(self, document:Document, cell:Cell, def_lang:str):
         # Apply tags in following order
         #  1. set vars (temporary)
         #  2. check conditions
@@ -202,18 +207,9 @@ class VdfProcessor:
         # 10. other post-processing tags
         # 12. show/output (common action, not a tag)
 
-        # Determine output file name
-        # Depends on
-        #   - subject
-        #   - lang
-        #   - kind
-        #   - target
-
-        # If default code file were defined already
-        # (implicitly by the first #code tag)
-        # make sure subject and/or kind or target
-        # is defined for code tags with other lang
-        return True
+        for phase in TAG_PHASES_ORDER:
+            for t in cell.tags.list:
+                t.apply(phase, cell, def_lang)
 
     @critical_todo
     def initialize_doc(
@@ -222,6 +218,7 @@ class VdfProcessor:
     ) -> Document:
         """
         Initialize documents context
+        Returned result is a COPY of document, initial document isn't touched
         """
         # Don't touch original document - always add a layer
         _orig = document
@@ -235,7 +232,9 @@ class VdfProcessor:
             if defaults is not None:
                 for kk,vv in defaults:
                     if kk in root_context.attrs.data:
-                        raise ValueError(f"Attribute '{kk}' were already defined by previous tag!")
+                        raise ValueError(
+                            f"Attribute '{kk}' were already defined"
+                            " by previous tag!")
                 root_context.attrs.data[kk] = vv
             # TODO: define defaults for tags like
             # - fetch
@@ -244,7 +243,7 @@ class VdfProcessor:
         # Update attrs / vars
         if document.frontmatter is not None:
             frontmatter_raw = "".join(document.frontmatter.raw_lines()).encode()
-            frontmatter = yaml.safe_load(frontmatter_raw)
+            frontmatter = yaml.load(frontmatter_raw)
             if S_VARS in frontmatter:
                 for k,v in frontmatter[S_VARS].items():
                     root_context.vars.data[k] = v
@@ -263,9 +262,13 @@ class VdfProcessor:
     def process_doc(
         self,
         document    : Document
-    ):
+    ) -> list[tuple[Document, list, Cell]]:
         """
         Initialize document's context and process all source cells
+        Return data for all stages
+        - document at stage
+        - cell's location that were used on stage
+        - cell after processing
         """
         d = self.initialize_doc(document)
 

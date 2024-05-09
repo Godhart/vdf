@@ -1,16 +1,20 @@
 import re
-import yaml
+import ruamel.yaml
+yaml = ruamel.yaml.YAML()
 from pathlib import Path
-from ..helpers import *
 from .literals import *
+from ..helpers import *
 
 
-def load_source_formats(path):
+def load_source_formats(path:str) -> dict[str:dict]:
+    """
+    Load source files formats from YAML file
+    """
     with open(path, "rb") as f:
-        data = yaml.safe_load(f)
-    for k,v in data[S_FALLBACK][S_SPEC].items():
+        data = yaml.load(f)
+    for k,v in data[C_FALLBACK][S_SPEC].items():
         for format_ in data:
-            if format_ == S_FALLBACK:
+            if format_ == C_FALLBACK:
                 continue
             if S_SPEC not in data[format_]:
                 data[format_][S_SPEC] = {}
@@ -66,11 +70,11 @@ class SourceText:
             setattr(self, k, spec[k])
 
     @property
-    def source(self):
+    def source(self) -> list:
         return [*self._source]
 
     @property
-    def lines(self):
+    def lines(self) -> list[str]:
         """
         List of lines
         Each item is tuple of two with
@@ -79,13 +83,13 @@ class SourceText:
         """
         return self._lines
 
-    def replace_escaped(self, line:str, replacement_char:str):
+    def replace_escaped(self, line:str, replacement_char:str) -> str:
         """
         Replaces escaped chars in line with replacement_char
         """
         return replace_escaped(line, replacement_char, self.escape_symbol)
 
-    def fenced_check(self, line:str):
+    def fenced_check(self, line:str) -> tuple[str|None,str|None]:
         """
         Checks that line is a start of fenced section.
         If so - full fence sequence and fenced type are returned
@@ -98,7 +102,7 @@ class SourceText:
         else:
             return None, None
 
-    def split_ahead(self, lines:str, offs:int):
+    def split_ahead(self, lines:str, offs:int) -> tuple[bool,int]:
         """
         Checks that lines starting from offs are cells split sequence
         Returns tuple of two with
@@ -137,23 +141,8 @@ class Line:
     def raw_lines(self) -> list[str]:
         return [self.content]
 
-    def flat_lines(self):
-        result = [self]
-
-
-class GeneratedLine:
-    """
-    Class contains generated line data and reference
-    to source that was used to produce it
-    """
-    def __init__(self, value, source_line_location: list):
-        self.value = value
-        self.source_line_location = [*source_line_location]
-        # NOTE: source line location is rather abstract
-        # but recommended content is:
-        # - VDF file location
-        # - cell location (starting line of cell within VDF file)
-        # - line location (starting line within cell's data)
+    def flat_lines(self) -> list:
+        return [self]
 
 
 class Fenced:
@@ -178,11 +167,11 @@ class Fenced:
             result += v.flat_lines()
         return result
 
-def load_from_file(path):
+def load_from_file(path:str) -> SourceText|SourceBinary:
     path = Path(path)
     file_kind = None
     for k,v in SOURCE_FORMATS.items():
-        if k == S_FALLBACK:
+        if k == C_FALLBACK:
             continue
         if path.suffix in v[S_EXT]:
             file_kind = k

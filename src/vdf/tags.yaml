@@ -48,11 +48,23 @@ tag_test1   :
       format          : "[\\w\\s\\/]+"
   output    : [__default__]
 
+raw         :
+  kind      : main
+  runner    : TagCode
+  vars      :
+        content   : raw
+        section   : _default_
+        action    : new
+  args      :
+    - var_name    : action
+      mandatory   : False
+      format      : add|new
+
 code        :
   kind      : main
   runner    : TagCode
   vars      :
-        content   : both
+        content   : [declaration,body]
         section   : code
         action    : add
   subtags   :
@@ -77,7 +89,7 @@ header      :
   kind      : main
   runner    : TagCode
   vars      :
-        content   : both
+        content   : [declaration,body]
         section   : header
         action    : add
   subtags   :
@@ -102,7 +114,7 @@ unit        :
   kind      : main
   runner    : TagCode
   vars      :
-        content   : both
+        content   : [generics,interface]
         section   : unit
         action    : add
   subtags   :
@@ -127,7 +139,7 @@ package     :
   kind      : main
   runner    : TagCode
   vars      :
-        content   : both
+        content   : [declaration,body]
         section   : package
         action    : add
   requires  : # Mandatory attribute tags

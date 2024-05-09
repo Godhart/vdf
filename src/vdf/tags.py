@@ -1,6 +1,7 @@
 from pathlib import Path
 from copy import deepcopy
-import yaml
+import ruamel.yaml
+yaml = ruamel.yaml.YAML()
 from .literals import *
 from ..helpers import *
 
@@ -49,7 +50,7 @@ class TagDef:
             self,
             name      : str,
             kind      : str,
-            runner    : str,    # TODO: |callable into typehint,
+            runner    : str,    # TODO: |callable into type-hint,
             vars      : dict,
             subtags   : dict,
             args      : list[dict],
@@ -64,13 +65,13 @@ class TagDef:
         if isinstance(runner, str):
             if runner[:1] == "_":
                 raise ValueError(f"Can use only public methods / classes, got '{runner}'!")
-            runner_obj = None
+            runner_class = None
             for v in _RUNNERS:
                 if hasattr(v, runner):
-                    runner_obj = getattr(v, runner)
-            if runner_obj is None:
+                    runner_class = getattr(v, runner)
+            if runner_class is None:
                 raise ValueError(f"Runner with name '{runner}' wan't found within tags runners!")
-            runner = runner_obj
+            runner = runner_class
         self.runner = runner
 
         self.vars = {}
@@ -91,16 +92,20 @@ class TagDef:
         self.accumulate = accumulate
         self.requires = requires
 
-    def match(self, line, offs) -> int:
+    @not_implemented
+    def match(self, line:str, offs:int) -> int:
         """
         Check if tag definition matches data in line (starting from offs)
         Return length of matched chars. 0 if not matched
         """
+        # TODO: move code from preset_tags or remove this method
 
-    def parse(self, line, offs, length):
+    @not_implemented
+    def parse(self, line:str, offs:int, length:int):
         """
         Parse line (starting from offs and with specified length) and return TagInstance
         """
+        # TODO: move code from preset_tags or remove this method
 
 
 class TagDefs:
@@ -130,32 +135,72 @@ class TagInstance:
         self.vars = vars
         self.args = args
         self.value = value
+        self.applied_phases = []
+        self.runner = self._tagdef.runner(self)
 
     @property
-    def tagdef_name(self):
+    def tagdef_name(self) -> str:
         return self._tagdef.name
+
+    def get_tagdef(self) -> TagDef:
+        # NOTE: don't make it property to avoid dumping into dict
+        return self._tagdef
+
+    def apply(self, phase:str, cell, def_lang:str):
+        """
+        Applies tag's actions for specified phase
+        Makes sure tag is not applied twice
+        Returns .tag_runners._TagRunnerResult
+        """
+        if phase not in self.applied_phases:
+            result = self.runner.apply(
+                phase, self, cell, def_lang)
+            cell.stdout.append((result.phase, result.tag, result.stdout))
+            cell.stderr.append((result.phase, result.tag, result.stderr))
+            if result.value is not None:
+                if cell.value is not None:
+                    raise ValueError(
+                        f"Tag '{self.line}' overrides already applied cell's value"
+                        f" '{cell.value} with new value '{result.value}'!"
+                        f" (phase '{phase}' for cell at {':'.join(cell.location)})")
+                else:
+                    cell.value = result.value
+            self.applied_phases.append(phase)
+            return result
+        else:
+            raise ValueError(
+                f"Tag '{self.line}' were already applied at phase '{phase}'!"
+                f" (cell at {':'.join(cell.location)})")
+
 
 class TagsInstances:
     """
     Class for tags instances consolidation
     """
     def __init__(self, tags: list[TagInstance]):
-        self.tags = tags
+        self._tags = tags
+
+    @property
+    def list(self) -> list[TagInstance]:
+        return self._tags
 
 
-# NOTE: import and _RUNNERS redefined here due to circular references troubles
+# NOTE: import and _RUNNERS defined here due to circular references troubles
 from . import tags_runners
 _RUNNERS.append(tags_runners)
 
 
 # NOTE: load tags here since classes are defined above
 @unsafe
-def load_tags(path):
+def load_tags(path:str) -> TagDefs:
+    """
+    Load tags descriptions from YAML file
+    """
     with open(path, "rb") as f:
-        data = yaml.safe_load(f)
-    for k,v in data[S_FALLBACK].items():
+        data = yaml.load(f)
+    for k,v in data[C_FALLBACK].items():
         for tagdef in data:
-            if tagdef == S_FALLBACK:
+            if tagdef == C_FALLBACK:
                 continue
             if tagdef[:1] == "_":
                 raise ValueError(f"Tag name shouldn't start with '_' (tag name = '{tagdef}')")
@@ -163,10 +208,10 @@ def load_tags(path):
                 data[tagdef][k] = v
     # TODO: more sanity/safety checks
     for tagdef in data:
-        if tagdef == S_FALLBACK:
+        if tagdef == C_FALLBACK:
             continue
         data[tagdef] = TagDef(name=tagdef,**data[tagdef])
-    del data[S_FALLBACK]
+    del data[C_FALLBACK]
     result = TagDefs(data)
     return result
 
@@ -174,7 +219,16 @@ def load_tags(path):
 TAG_DEFS = load_tags(Path(__file__).parent / "tags.yaml")
 
 
-def _apply_tag_var(tag_def:TagDef, vars, name, value, line):
+def _apply_tag_var(
+        tag_def:TagDef,
+        vars:dict[str:TagVar],
+        name:str,
+        value,
+        line:str
+):
+    """
+    Applies value to tag's var
+    """
     if name not in tag_def.vars:
         raise ValueError(
             f"Variable with name '{name}' is not specified for tag!"
@@ -357,8 +411,8 @@ def parse_tags(lines:list[str]) -> TagsInstances:
             raise ValueError("Not terminated multiline magic!")
         magic_line = magic_line[:-1] + lines[i]
 
-    if magic_line[:len(S_VDF_PREAMBLE)] == S_VDF_PREAMBLE:
-        magic_line = magic_line[len(S_VDF_PREAMBLE):]
+    if magic_line[:len(C_VDF_PREAMBLE)] == C_VDF_PREAMBLE:
+        magic_line = magic_line[len(C_VDF_PREAMBLE):]
 
     i = -1
     stack = None
@@ -371,7 +425,7 @@ def parse_tags(lines:list[str]) -> TagsInstances:
 
         if char_e == "#" and (prev_char_e == " " or prev_char_e is None):
             if stack is not None:
-                result.tags.append(parse_tag(stack[1:].rstrip()))
+                result.list.append(parse_tag(stack[1:].rstrip()))
             stack = ""
 
         prev_char_e = char_e
@@ -380,16 +434,28 @@ def parse_tags(lines:list[str]) -> TagsInstances:
         stack += char
 
     if stack is not None:
-        result.tags.append(parse_tag(stack[1:].rstrip()))
+        result.list.append(parse_tag(stack[1:].rstrip()))
 
     return result
 
 
-@stub_alert
-def get_name(tags: list[TagsInstances]|None) -> str|None:
+def get_name(tags: TagsInstances|None) -> str|None:
+    """
+    Function to get cell's name from tags ad-hoc, i.e. without applying tags
+    """
+    for t in tags.list:
+        if t.tagdef_name == S_NAME:
+            return t.vars[S_NAME].value
     return None
 
 
-@stub_alert
-def get_parent(tags: list[TagsInstances]|None) -> str|None:
+@critical_todo
+def get_parent(tags: TagsInstances|None) -> str|None:
+    """
+    Function to get cell's parent from tags ad-hoc, i.e. without applying tags
+    """
+    for t in tags.list:
+        if t.tagdef_name == S_PARENT:
+            return t.vars[S_PARENT].value
+    # TODO: other tags like insert etc.
     return None

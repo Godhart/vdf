@@ -1,9 +1,12 @@
+from .literals import *
 from .source_io import SourceText, Line, Fenced
 from .cells import Cell, CellsStream, CodeCell, DocCell
-from .literals import *
 
 
-def is_vdf(kind, content):
+def is_vdf(kind:str|None, content:list[str]|list[Line]) -> bool:
+    """
+    Check if provided content is vdf cell
+    """
     if kind is not None:
         if kind == S_VDF or kind[-1-len(S_VDF):] == "-"+S_VDF:
             return True
@@ -13,7 +16,7 @@ def is_vdf(kind, content):
             first_line = content[1]
         else:
             first_line = content[1].content
-        if first_line[:len(S_VDF_PREAMBLE)] == S_VDF_PREAMBLE:
+        if first_line[:len(C_VDF_PREAMBLE)] == C_VDF_PREAMBLE:
             return True
 
     return False
@@ -34,7 +37,7 @@ class RawDocument:
             self.frontmatter = None
 
     @property
-    def source(self):
+    def source(self) -> SourceText:
         return self._source
 
     @source.setter
@@ -56,16 +59,23 @@ class RawDocument:
         # 3. Split into raw cells
 
         ## Step 1.
-        step1 = []  # Lines are merged
-        join_lines = False
+        step1 = []      # Lines are merged
+        join_lines = 0  # If above zero - amount of chars to drop before joining following line
         for idx, line in source.lines:
-            if join_lines:
-                step1[-1][1] += line
+            if join_lines > 0:
+                step1[-1][1] = step1[-1][1][:-join_lines] + line
+                join_lines = 0
             else:
                 step1.append([idx, line,])
                 idx +=1
             tmp = source.replace_escaped(line, '~')
-            join_lines = (tmp[-2:] == "\\\n" or tmp[-3:] == "\\\r\n" or tmp[-3:] == "\\\n\r")
+
+            if tmp[-2:] == "\\\n":
+                join_lines = 2
+            if tmp[-3:] == "\\\r\n":
+                join_lines = 3
+            if tmp[-3:] == "\\\n\r":
+                join_lines = 3
 
 
         ## Step 2.
@@ -161,7 +171,10 @@ class RawDocument:
 
         return result
 
-    def raw_cells_stream_preprocess(self, raw_cells_stream: CellsStream) -> tuple[CellsStream, Cell]:
+    def raw_cells_stream_preprocess(
+            self,
+            raw_cells_stream: CellsStream
+        ) -> tuple[CellsStream, Cell]:
         """
         Parse stream of raw cells into specialized cells and frontmatter
         """
@@ -193,7 +206,10 @@ class RawDocument:
         result = CellsStream(result_cells)
         return result, frontmatter
 
-    def raw_cell_process(self, cell:Cell):
+    def raw_cell_process(self, cell:Cell) -> list[DocCell|CodeCell]:
+        """
+        Parse raw cell into list of Doc/Code cells
+        """
         result = []
         doc_items = []
         for item in cell.content:
@@ -218,12 +234,17 @@ class RawDocument:
     def parse(self):
         """
         Parse attached source into internal objects (cells and frontmatter)
+        Result data is saved internally
         """
         raw_cells = self.lines_to_raw_cells_stream(self.source)
         self.cells, self.frontmatter = self.raw_cells_stream_preprocess(raw_cells)
 
     @staticmethod
     def parse_code_content(first_line:str, content:str) -> CodeCell:
+        """
+        Parse lines of code cell into CodeCell
+        This is the case for Jupyter code cells
+        """
         lines = [
             first_line,
             *[l+"\n" for l in content.split("\n")],

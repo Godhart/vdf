@@ -1,68 +1,104 @@
 __fallback__:
-  render: RenderGeneric
+  render: RenderJinja2
   ext: .generic
   sections: [content]
+  template : |-
+    {{ render_section('content') }}
 
 text:
-  render: RenderGeneric
+  render: RenderJinja2
   ext: .txt
   sections: [content]
+  template : |-
+    {{ render_section('content') }}
 
 markdown:
-  render: RenderMarkup
+  render: RenderJinja2
   ext: .md
   sections: [frontmatter, content]
+  template : |-
+    {% if 'frontmatter' in sections %}---
+    {{ render_section('header__body') }}
+
+    ---
+    {% endif %}
+    {% if 'content' in sections %}{{ render_section('content') }}{% endif %}
 
 vhdl:
-  render: RenderVHDL
+  render: RenderJinja2
   ext: .vhd
   sections:
-    - header_declaration
-    - unit_generics
-    - unit_interface
-    - header_body
-    - code_declaration
-    - code_body
+    - header__declaration
+    - header__body
+    - unit__generics
+    - unit__interface
+    - code__declaration
+    - code__body
+  template : |
+    {% if 'header__declaration' in sections %}{{ render_section('header__declaration') }}
+    {% endif %}
+    entity {{ vars.subject }} is{% if 'unit__generics' in sections %}
+        generic (
+    {{ render_section('unit__generics', '        ') }}
+        );{% endif %}{% if 'unit__interface' in sections %}
+        port (
+    {{ render_section('unit__interface', '        ') }}
+        );{% endif %}
+    end entity;
+
+
+    {% if 'header__body' in sections %}{{ render_section('header__body') }}
+
+    {% endif %}architecture rtl of {{ vars.subject }} is
+    {% if 'code__declaration' in sections %}{{ render_section('code__declaration', '    ') }}{% endif %}
+    begin
+    {% if 'code__body' in sections %}{{ render_section('code__body', '    ') }}{% endif %}
+    end architecture;
 
 vhdl-package:
-  render: RenderVHDL
+  render: RenderJinja2
   ext: .vhd
   sections:
-    - header_declaration
-    - header_body
-    - code_declaration
-    - code_body
+    - header__declaration
+    - header__body
+    - code__declaration
+    - code__body
+  template : "TODO: vhdl package template"
 
 verilog:
-  render: RenderVerilog
+  render: RenderJinja2
   ext: .v
   sections:
-    - header_declaration
-    - unit_generics
-    - unit_interface
-    - code_declaration
-    - code_body
+    - header__declaration
+    - unit__generics
+    - unit__interface
+    - code__declaration
+    - code__body
+  template : "TODO: verilog template"
 
 verilog-header:
-  render: RenderVerilog
+  render: RenderJinja2
   ext: .vh
   sections:
-    - header_declaration
-    - code_body
+    - header__declaration
+    - header__body
+  template : "TODO: verilog header template"
 
 sv:
-  render: Verilog
+  render: RenderJinja2
   ext: .sv
   sections:
-    - header_declaration
-    - unit_generics
-    - unit_interface
-    - code_declaration
-    - code_body
+    - header__declaration
+    - unit__generics
+    - unit__interface
+    - code__declaration
+    - code__body
+  template : "TODO: sv template"
 
 sv-header:
-  render: RenderVerilog
+  render: RenderJinja2
   ext: .svh
   sections:
-    - header_declaration
-    - code_body
+    - header__declaration
+    - code__body
+  template : "TODO: sv header template"

@@ -1,8 +1,9 @@
-from .source_io import Line, Fenced, GeneratedLine
-from .files import Files
-from .tags import TagInstance, TagsInstances
+from copy import deepcopy
 from hashlib import md5
-
+from .literals import *
+from .source_io import Line, Fenced
+from .tags import TagsInstances
+from .context import RunContext
 
 class Cell:
     """
@@ -12,8 +13,8 @@ class Cell:
     def __init__(self,
             content         : list[Line|Fenced],
             location        : list,
-            input_context     = None, # NOTE: type is RunContext, look below
-            tags            : TagsInstances = None,
+            input_context   : RunContext|None = None,
+            tags            : TagsInstances|None = None,
             name            : str|None = None,
     ):
         self._content = content
@@ -21,19 +22,23 @@ class Cell:
         self._hash = None
         self._location = location
         self.input_context = input_context
-        self.output_context = None
+        self.run_context = deepcopy(input_context)
+        self.output_context = deepcopy(input_context)
         self.tags = tags
+        self.stdout = []    # Accumulated stdout of tags
+        self.stderr = []    # Accumulated stderr of tags
+        self.value = None   # Resulting value (if there is any)
 
     @property
-    def cell_kind(self):
-        return "Cell"
+    def cell_kind(self) -> str:
+        return S_BASE_CELL
 
     @property
     def content(self):
         return [*self._content]
 
     @property
-    def name(self):
+    def name(self) -> str:
         if self._name is not None:
             return self._name
         location = self._location
@@ -42,11 +47,11 @@ class Cell:
         return "_"+":".join([str(v) for v in location])
 
     @property
-    def location(self):
+    def location(self) -> list:
         return [*self._location]
 
     @property
-    def hash(self):
+    def hash(self) -> str:
         """
         Return self's hash
         Cell's name doesn't affects hash
@@ -81,8 +86,8 @@ class DocCell(Cell):
     Class for documentation-related cell representation
     """
     @property
-    def cell_kind(self):
-        return "DocCell"
+    def cell_kind(self) -> str:
+        return S_DOC_CELL
 
 
 class CodeCell(Cell):
@@ -90,8 +95,8 @@ class CodeCell(Cell):
     Class for code-related cell representation
     """
     @property
-    def cell_kind(self):
-        return "CodeCell"
+    def cell_kind(self) -> str:
+        return S_CODE_CELL
 
 
 class CellsStream:
@@ -100,64 +105,3 @@ class CellsStream:
     """
     def __init__(self, cells:list[Cell]):
         self.cells = cells
-
-
-class Vars:
-    """
-    Variables collection
-    Class is required since complex things like scope would be used
-    """
-    def __init__(self, vars:dict):
-        self.data = vars
-        # TODO: var's scopes
-
-
-class Attrs:
-    """
-    Attributes collection
-    Class to handle things that can't be foreseen now
-    """
-    def __init__(self, attrs:dict):
-        self.data = attrs
-
-
-class RunContext:
-    """
-    Run Context
-    Contains vars, cells's data etc.
-    """
-    def __init__(
-            self,
-            doc     :CellsStream,   # DocCells
-            files   :Files,         # All produced files
-            code    :CellsStream,   # CodeCells
-            vars    :Vars,          # All the variables
-            attrs   :Attrs,         # All the tag-defined attributes
-            vdf_ver :str,           # Used VDF spec version
-    ):
-        self._doc   = doc
-        self._files = files
-        self._code  = code
-        self._vars  = vars
-        self._attrs  = attrs
-        self.vdf_ver = vdf_ver
-
-    @property
-    def doc(self):
-        return self._doc
-
-    @property
-    def files(self):
-        return self._files
-
-    @property
-    def code(self):
-        return self._code
-
-    @property
-    def vars(self):
-        return self._vars
-
-    @property
-    def attrs(self):
-        return self._attrs

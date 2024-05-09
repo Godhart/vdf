@@ -1,8 +1,10 @@
 # Classes for handling large VDF structures
 from copy import deepcopy
-from .cells import Cell, CellsStream, Vars, Attrs, RunContext
-from .files import Files
+from .literals import *
 from ..helpers import *
+from .context import Vars, Attrs, RunContext
+from .cells import Cell, CellsStream
+from .files import Files
 
 
 class Episode:
@@ -69,45 +71,43 @@ class Stories:
 class Document:
     """
     Class for whole document **state** representation
-    Contains all it's history, branches, flows etc. at current point
+    Contains all it's history, branches, etc. at current point
     """
-    def __init__(self, source:CellsStream, frontmatter:Cell|None, root_context:None):
+    def __init__(
+            self,
+            source      :CellsStream,
+            frontmatter :Cell|None,
+            root_context:RunContext|None
+    ):
         self._frontmatter = frontmatter # Frontmatter part
         self._source = source           # Document's source cell's (cells that are not processed)
         self._branches = Stories({})    # Registered cell's branches
-        self._flows = Stories({})       # Registered production flows
         self._root_context = root_context or RunContext(
-            CellsStream([]),
-            Files([]),
-            CellsStream([]),
-            Vars({}),
-            Attrs({}),
-            "1.0"
+            files=Files([]),
+            vars=Vars({}),
+            attrs=Attrs({}),
+            vdf_ver=C_FALLBACK_VDF_VER,
         )
-        self._default_branch = "__main__"
+        self._default_branch = C_MAIN
 
     @property
-    def frontmatter(self):
+    def frontmatter(self) -> Cell:
         return self._frontmatter
 
     @property
-    def source(self):
+    def source(self) -> CellsStream:
         return self._source
 
     @property
-    def branches(self):
+    def branches(self) -> Stories:
         return self._branches
 
     @property
-    def flows(self):
-        return self._flows
-
-    @property
-    def root_context(self):
+    def root_context(self) -> RunContext:
         return self._root_context
 
     @property
-    def default_branch(self):
+    def default_branch(self) -> str:
         return self._default_branch
 
     @critical_todo
@@ -118,7 +118,6 @@ class Document:
         result = Document(self._source, self._frontmatter, self._root_context)
         # TODO: will it save refs to source from cells?
         result._branches = deepcopy(self._branches)
-        result._flows = deepcopy(self._flows)
         result._default_branch = self._default_branch
         return result
 
@@ -166,7 +165,11 @@ class Document:
                     return result
         return None
 
-    def last_episode_in_branch(self, branch_name:str, not_exist_ok:bool=False) -> Episode|None:
+    def last_episode_in_branch(
+            self,
+            branch_name:str,
+            not_exist_ok:bool=False
+    ) -> Episode|None:
         """
         Get episode in specified branch
         if no episodes in branch then branch parent episode is returned
@@ -187,10 +190,10 @@ class Document:
 
         return branch.arc.episodes[-1]
 
-    def ensure_branch(self, branch_name:str, parent:Episode):
+    def ensure_branch(self, branch_name:str, parent:Episode) -> Story:
         """
         Make sure branch exists. If not create one
         """
-        if branch_name in self.branches.data:
-            return True
-        self.branches.data[branch_name] = Story(Arc([]), parent)
+        if branch_name not in self.branches.data:
+            self.branches.data[branch_name] = Story(Arc([]), parent)
+        return self.branches.data[branch_name]

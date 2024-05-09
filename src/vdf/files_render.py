@@ -1,65 +1,184 @@
 from pathlib import Path
-import yaml
+from copy import deepcopy
+import io
+import json
+import ruamel.yaml
+yaml = ruamel.yaml.YAML()
+from jinja2.sandbox import SandboxedEnvironment
+from .literals import *
 from ..helpers import *
+from .context import RunContext, GeneratedLine
 
 
 class _FileRender:
     """
     Renders sections of file into file content
-    Also makes references of generated lines to their
+    Also makes references of generated lines to their source
     """
-    def flatten(self, file):
+    def __init__(self):
+        self._cleanup()
+
+    def _cleanup(self):
         """
-        Puts data from file sections all-together into flat list
-        Override this function for format-specific rendering
+        Reset to defaults internal data
         """
+        self._prepared_sections = None
+        self._prepared_data = None
+
+    @staticmethod
+    def _to_yaml(value, margins:int=0, **kwargs) -> str:
+        """
+        Helper to convert value to yaml dict/list/scalar string in renders
+        """
+        yaml_raw = io.BytesIO()
+        yaml.dump(value, yaml_raw, **kwargs)
+        yaml_lines = yaml_raw.getvalue().decode()
+        if margins > 0:
+            margin = " "*margins
+            yaml_lines = "\n".join([margin + l for l in yaml_lines.split("\n")])
+        return yaml_lines
+
+    def _render_section(
+            self,
+            sections:dict[str:list[GeneratedLine]],
+            section_name:str,
+            not_exists_ok:bool=True,
+    ) -> str:
+        """
+        Renders single section of file to a string
+        Uses all subsections, sorted by their names, _default_ first
+        """
+        if section_name not in sections:
+            if not_exists_ok:
+                return ""
+            else:
+                raise ValueError(f"Section '{section_name}' is not found!")
         result = []
-        result_map = []
-        i = 0
-        for k, section_data in file.sections_data.items():
-            for sk in sorted(section_data.keys()):
-                subsection_data = section_data[sk]
-                for v in subsection_data:
-                    i+=1
-                    result.append(v.value)
-                    result_map.append([i, *[str(vv) for vv in v.source_line_location]])
-        return result, result_map
+        for line in sections[section_name]:
+            result.append(self._render_line(line))
+        return "\n".join(result)
 
-    def save(self, file, lines, lines_map, output_path=None):
+    @critical_todo
+    def _prepare(self, file, context:RunContext) -> dict:
         """
-        Saves rendered data into file
-        Also creates lines map file to find source of resulting line
+        Creates sandbox environment for using in renders
+        Environment contains
+        - main data to be rendered as
+          dict(sections) of dict(subsections) of list of lines
+        - vars as dict
+        - attrs as dict
+        - helpers
         """
-        if output_path is not None:
-            if lines is not None:
-                with open(Path(output_path) / file.path, "wb") as f:
-                    f.write("\n".join(lines).encode(file.encoding))
-            if lines_map is not None:
-                with open(Path(output_path) / (file.path + ".map.yaml"), "wb") as f:
-                    yaml.safe_dump(lines_map, f)
+        sections = {}
+        for section, subsections in file.sections_data.items():
+            subsections_keys = sorted(
+                [k for k in subsections.keys() if k != C_DEFAULT])
+            if C_DEFAULT in subsections:
+                subsections_keys = [C_DEFAULT] + subsections_keys
+            for sub in subsections_keys:
+                for line in subsections[sub]:
+                    if section not in sections:
+                        sections[section] = []
+                    sections[section].append(line)
+
+        def render_section(section_name:str, margin:str="", not_exists_ok:bool=True):
+            lines = self._render_section(sections, section_name, not_exists_ok)
+            if margin != "":
+                lines = "\n".join([margin + l for l in lines.split("\n")])
+            return lines
+
+        vars = {**file.vars}
+        if S_SUBJECT not in vars:
+            vars[S_SUBJECT] = Path(file.path).stem
+            # TODO: not so obvious, doc it or remove it!
+        data = to_dict(
+            sections = sections,
+            vars = EzClass(**deepcopy(vars)),
+            global_vars = EzClass(**deepcopy(context.vars.data)),
+            global_attrs = EzClass(**deepcopy(context.attrs.data)),
+            yaml = self._to_yaml,
+            json = json.dumps,
+            str = str,
+            render_section = render_section,
+        )
+        self._prepared_sections = sections
+        self._prepared_data     = data
+
+    def _render(self, template:str) -> list[str]:
+        """
+        Exact rendering function
+        """
+        raise NotImplementedError(
+            "This function should be implemented in derivative class!")
+
+    def _render_line(self, line:GeneratedLine) -> str:
+        """
+        Single line rendering
+        """
+        data = to_dict(
+            line = line.content,
+            source = any_to_dict_list_scalar(line.source),
+            context = any_to_dict_list_scalar(line.source)
+        )
+        return C_RENDER_MAGIC+json.dumps(data, separators=(',', ':'))
+
+    def render(self, file, context:RunContext) -> list[str]:
+        """
+        Render file structured data into flat lines using provided context
+        NOTE: rendered lines contains extra info
+        To get final result - use finalize_line for each line
+        """
+        self._prepare(file, context)
+        result = self._render(file.get_template())
+        self._cleanup()
+        return result
+
+    @critical_todo
+    def finalize_line(self, line:str, flow=None) -> tuple[str, str]|None:
+        """
+        Remove extra info from line
+        Returns pure line and mapping info (with description of line's source)
+        """
+        if C_RENDER_MAGIC not in line:
+            return line, "[[Template]]"
+        offs = line.index(C_RENDER_MAGIC)
+        data = json.loads(line[offs + len(C_RENDER_MAGIC):])
+        if flow is not None:
+            raise NotImplementedError(
+                "Flow separation is not implemented yet!")
+            # TODO: check flow, skip if line is for different flow
+            return None
+        return \
+            line[:offs] + data['line'], \
+            json.dumps(data['source'], separators=(',', ':')),
 
 
-class RenderGeneric(_FileRender):
+class RenderJinja2(_FileRender):
     """
-    Nothing more than in base class
+    Renders files using Jinja2
     """
 
+    def _render(self, template:str) -> list[str]:
+        """
+        Render template using jinja
+        """
+        if S_RAW in self._prepared_data['sections']:
+            template = "{% render_section('raw') %}"
+        jinja = SandboxedEnvironment()
+        result = jinja.from_string(template).render(**self._prepared_data)
+        result = result.split("\n")
+        return result
 
-class RenderVHDL(_FileRender):
-    """
-    Makes VHDL File
-    """
-
-    @not_implemented
-    def __init__(self):
-        pass
-
-
-class RenderVerilog(_FileRender):
-    """
-    Makes Verilog / System Verilog File
-    """
-
-    @not_implemented
-    def __init__(self):
-        pass
+    def _render_line(self, line:GeneratedLine) -> str:
+        """
+        Preprocess each line using jinja
+        Then call original method
+        """
+        content = line.content
+        prev_content = None
+        jinja = SandboxedEnvironment()  # TODO: use common env?
+        while content != prev_content:
+            prev_content = content
+            content = jinja.from_string(prev_content).render(**self._prepared_data)
+        j_line = GeneratedLine(content, line.source, line.context)
+        return super(RenderJinja2, self)._render_line(j_line)
