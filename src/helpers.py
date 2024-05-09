@@ -20,7 +20,15 @@ _DEFAULT_STUB_ALLOWED = "true"
 _DEFAULT_NOT_IMPLEMENTED_ALLOWED = "true"
 
 
-def any_to_dict_list_scalar(inst, instance_map=None, lists_as_tuple=True):
+def any_to_dict_list_scalar(
+        inst,
+        instance_map=None,
+        lists_as_tuple=True
+):
+    """
+    Translate any object's instance (fields) and it's content recursively
+    into dict/list/scalar as much as it's possible
+    """
     if instance_map is None:
         instance_map = {}
     result = None
@@ -178,19 +186,23 @@ def not_implemented(f):
     return wrapped
 
 
-def replace_escaped(line:str, replacement_char:str, escape_symbol:str="\\"):
-        """
-        Replaces escaped chars in line with replacement_char
-        """
-        if escape_symbol is None:
-            return line
-        result = ""
-        prev = None
-        for char in line:
-            if prev == escape_symbol:
-                result += replacement_char
-                prev = replacement_char
-            else:
-                result += char
-                prev = char
-        return result
+def replace_escaped(
+        line:str,
+        replacement_char:str,
+        escape_symbol:str="\\"
+    ) -> str:
+    """
+    Replaces escaped chars in line with replacement_char
+    """
+    if escape_symbol is None:
+        return line
+    result = ""
+    prev = None
+    for char in line:
+        if prev == escape_symbol:
+            result += replacement_char
+            prev = replacement_char
+        else:
+            result += char
+            prev = char
+    return result
