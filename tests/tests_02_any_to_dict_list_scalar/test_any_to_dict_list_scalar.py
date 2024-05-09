@@ -1,7 +1,8 @@
 import pytest
 import sys
 from pathlib import Path
-import yaml
+import ruamel.yaml
+yaml = ruamel.yaml.YAML()
 import json
 
 vdf_root_path = str((Path(__file__).absolute().parent.parent.parent).resolve())
@@ -44,7 +45,7 @@ def case1():
 
 
 @pytest.mark.parametrize("test_set", list_tests(__file__, ["test","gold"]))
-def test_selfcheck(test_set):
+def test_any_to_dict_list_scalar(test_set):
     """
     Make sure that any to dict/list/scalar works properly
     """
@@ -56,7 +57,7 @@ def test_selfcheck(test_set):
 
     result = any_to_dict_list_scalar(value)
     with open(output_path/"result.yaml", "w") as f:
-        yaml.safe_dump(result, f)
+        yaml.dump(result, f)
     with open(output_path/"result.json", "w") as f:
         f.write(json.dumps(result, indent=2))
 

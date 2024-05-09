@@ -32,14 +32,16 @@ TAG_DEFS:
             content:
               name: content
               value: declaration
-      value: null
+      value:
       vars:
         action:
           name: action
           value: add
         content:
           name: content
-          value: both
+          value:
+          - declaration
+          - body
         section:
           name: section
           value: code
@@ -87,14 +89,16 @@ TAG_DEFS:
             content:
               name: content
               value: declaration
-      value: null
+      value:
       vars:
         action:
           name: action
           value: add
         content:
           name: content
-          value: both
+          value:
+          - declaration
+          - body
         section:
           name: section
           value: header
@@ -131,17 +135,43 @@ TAG_DEFS:
             content:
               name: content
               value: declaration
-      value: null
+      value:
       vars:
         action:
           name: action
           value: add
         content:
           name: content
-          value: both
+          value:
+          - declaration
+          - body
         section:
           name: section
           value: package
+    raw:
+      accumulate: false
+      args:
+      - format: add|new
+        mandatory: false
+        var_name: action
+      kind: main
+      name: raw
+      output:
+      - value
+      requires: []
+      runner: <class 'src.vdf.tags_runners.TagCode'>
+      subtags: {}
+      value:
+      vars:
+        action:
+          name: action
+          value: new
+        content:
+          name: content
+          value: raw
+        section:
+          name: section
+          value: _default_
     show:
       accumulate: true
       args:
@@ -158,7 +188,7 @@ TAG_DEFS:
       requires: []
       runner: <class 'src.vdf.tags_runners.TagAttr'>
       subtags: {}
-      value: null
+      value:
       vars:
         action:
           name: action
@@ -179,11 +209,11 @@ TAG_DEFS:
       requires: []
       runner: <class 'src.vdf.tags_runners.TagAttr'>
       subtags: {}
-      value: null
+      value:
       vars:
         name:
           name: name
-          value: null
+          value:
     tag_test1:
       accumulate: false
       args:
@@ -237,11 +267,11 @@ TAG_DEFS:
             var_name:
               name: var_name
               value: var_value_when_sub5
-      value: null
+      value:
       vars:
         mandatory_arg:
           name: mandatory_arg
-          value: null
+          value:
         optional_arg:
           name: optional_arg
           value: optional_arg_default
@@ -280,14 +310,16 @@ TAG_DEFS:
             content:
               name: content
               value: interface
-      value: null
+      value:
       vars:
         action:
           name: action
           value: add
         content:
           name: content
-          value: both
+          value:
+          - generics
+          - interface
         section:
           name: section
           value: unit

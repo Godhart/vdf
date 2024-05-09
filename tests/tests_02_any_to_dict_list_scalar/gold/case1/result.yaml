@@ -1,5 +1,6 @@
 bool: true
-cls: <class 'tests.tests_02_any_to_dict_list_scalar.test_any_to_dict_list_scalar.case1.<locals>.Dictable'>
+cls: <class 
+  'tests.tests_02_any_to_dict_list_scalar.test_any_to_dict_list_scalar.case1.<locals>.Dictable'>
 complex: (0.2+0.3j)
 dict: &id001
   key1: value1
@@ -26,7 +27,8 @@ nested_list: &id005
 prop: it's a property
 ref:
   bool: true
-  cls: <class 'tests.tests_02_any_to_dict_list_scalar.test_any_to_dict_list_scalar.case1.<locals>.Dictable'>
+  cls: <class 
+    'tests.tests_02_any_to_dict_list_scalar.test_any_to_dict_list_scalar.case1.<locals>.Dictable'>
   complex: (0.2+0.3j)
   dict: *id001
   dictable: *id002
@@ -38,4 +40,4 @@ ref:
   prop: it's a property
 str: a string
 stringable: '1970-01-01 00:00:42+00:00'
-void: null
+void:

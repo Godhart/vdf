@@ -71,27 +71,3 @@ s <= sum(s,a,b) when rising_edge(clk);
 ```
 
 ---
-
-Let's check the source:
-
-```
-%%vdf #show-sources
-```
-
----
-
-Now let's try to check our function inline
-Following expression won't affect source for following cells
-
-```vhdl
-%%vdf #display
-sum(x"15",x"26",x"37",x"42")
-```
-
----
-
-```
-%%vdf #show-sources
-```
-
-As you can see - even though expression under display tag were evaluated, sources weren't changed

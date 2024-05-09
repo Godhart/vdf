@@ -56,7 +56,10 @@
           },
           "content": {
             "name": "content",
-            "value": "both"
+            "value": [
+              "declaration",
+              "body"
+            ]
           },
           "section": {
             "name": "section",
@@ -133,7 +136,10 @@
           },
           "content": {
             "name": "content",
-            "value": "both"
+            "value": [
+              "declaration",
+              "body"
+            ]
           },
           "section": {
             "name": "section",
@@ -198,11 +204,47 @@
           },
           "content": {
             "name": "content",
-            "value": "both"
+            "value": [
+              "declaration",
+              "body"
+            ]
           },
           "section": {
             "name": "section",
             "value": "package"
+          }
+        }
+      },
+      "raw": {
+        "accumulate": false,
+        "args": [
+          {
+            "format": "add|new",
+            "mandatory": false,
+            "var_name": "action"
+          }
+        ],
+        "kind": "main",
+        "name": "raw",
+        "output": [
+          "value"
+        ],
+        "requires": [],
+        "runner": "<class 'src.vdf.tags_runners.TagCode'>",
+        "subtags": {},
+        "value": null,
+        "vars": {
+          "action": {
+            "name": "action",
+            "value": "new"
+          },
+          "content": {
+            "name": "content",
+            "value": "raw"
+          },
+          "section": {
+            "name": "section",
+            "value": "_default_"
           }
         }
       },
@@ -415,7 +457,10 @@
           },
           "content": {
             "name": "content",
-            "value": "both"
+            "value": [
+              "generics",
+              "interface"
+            ]
           },
           "section": {
             "name": "section",

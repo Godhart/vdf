@@ -1,7 +1,8 @@
 import pytest
 import sys
 from pathlib import Path
-import yaml
+import ruamel.yaml
+yaml = ruamel.yaml.YAML()
 import json
 
 vdf_root_path = str((Path(__file__).absolute().parent.parent.parent).resolve())
@@ -17,11 +18,14 @@ from src.vdf.processing import VdfProcessor
 
 def preprocess_input_file(doc:Document):
     stages = VdfProcessor().process_doc(doc)
-    return stages[-1][0]
+    files = {}
+    for f in stages[-1][2].output_context.files.list:
+        files[f.path] = f.saves(flow=None)
+    return files
 
 
 @pytest.mark.parametrize("test_set", list_tests(__file__, ["test","gold"]))
-def no_test_preprocess_the_doc(test_set):
+def test_preprocess_the_doc(test_set):
     """
     Make sure that any to dict/list/scalar works properly
     """
@@ -32,7 +36,7 @@ def no_test_preprocess_the_doc(test_set):
 
     result = any_to_dict_list_scalar(value)
     with open(output_path/"result.yaml", "w") as f:
-        yaml.safe_dump(result, f, allow_unicode=True)
+        yaml.dump(result, f)
     with open(output_path/"result.json", "w") as f:
         f.write(json.dumps(result, indent=2))
 
