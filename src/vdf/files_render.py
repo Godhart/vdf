@@ -93,13 +93,14 @@ class _FileRender:
             # TODO: not so obvious, doc it or remove it!
         data = to_dict(
             sections = sections,
-            vars = EzClass(**deepcopy(vars)),
+            file_vars = EzClass(**deepcopy(vars)),
             global_vars = EzClass(**deepcopy(context.vars.data)),
             global_attrs = EzClass(**deepcopy(context.attrs.data)),
             yaml = self._to_yaml,
             json = json.dumps,
             str = str,
             render_section = render_section,
+            hasattr = hasattr,
         )
         self._prepared_sections = sections
         self._prepared_data     = data
@@ -118,7 +119,7 @@ class _FileRender:
         data = to_dict(
             line = line.content,
             source = any_to_dict_list_scalar(line.source),
-            context = any_to_dict_list_scalar(line.source)
+            context = any_to_dict_list_scalar(line.context)
         )
         return C_RENDER_MAGIC+json.dumps(data, separators=(',', ':'))
 
@@ -163,7 +164,7 @@ class RenderJinja2(_FileRender):
         Render template using jinja
         """
         if S_RAW in self._prepared_data['sections']:
-            template = "{% render_section('raw') %}"
+            template = "{{ render_section('raw') }}"
         jinja = SandboxedEnvironment()
         result = jinja.from_string(template).render(**self._prepared_data)
         result = result.split("\n")
