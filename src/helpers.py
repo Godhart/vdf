@@ -1,6 +1,7 @@
 import inspect
 from pathlib import Path
 import os
+import re
 
 
 _STRINGABLE = (Path, )
@@ -88,6 +89,22 @@ def to_dict(**kwargs):
     Returns dict, constructed from kwargs
     """
     return {**kwargs}
+
+
+class EzClass:
+    """
+    Produce class with fields that are kwargs' keys
+    """
+    def __init__(self, **kwargs):
+        for k,v in kwargs.items():
+            if not isinstance(k, str):
+                raise ValueError(f"Got non-string key: {k}!")
+            if re.match(r"^[a-zA-Z_]\w*$", k) is None:
+                raise ValueError(
+                    f"Bad error for key: {k}!"
+                    " Start with alpha or underscore,"
+                    " continue with alpha_numerics")
+            setattr(self, k, v)
 
 
 def unsafe(f):
