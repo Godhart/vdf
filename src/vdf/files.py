@@ -65,7 +65,7 @@ def load_file_formats(path:str) -> dict[str:FileSpec]:
     return result
 
 
-FILE_FORMATS = load_file_formats(Path(__file__).parent / "files.yaml")
+FILE_FORMATS = load_file_formats(Path(__file__).parent / "files.toml")
 
 
 class File:
