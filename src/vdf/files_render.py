@@ -94,8 +94,8 @@ class _FileRender:
         data = to_dict(
             sections = sections,
             file_vars = EzClass(**deepcopy(vars)),
-            global_vars = EzClass(**deepcopy(context.vars.data)),
-            global_attrs = EzClass(**deepcopy(context.attrs.data)),
+            doc_vars  = EzClass(**deepcopy(context.vars.data)),
+            doc_attrs = EzClass(**deepcopy(context.attrs.data)),
             yaml = self._to_yaml,
             json = json.dumps,
             str = str,
@@ -177,9 +177,14 @@ class RenderJinja2(_FileRender):
         """
         content = line.content
         prev_content = None
-        jinja = SandboxedEnvironment()  # TODO: use common env?
+        jinja = SandboxedEnvironment()  # TODO: use common env for performance?
+        data = to_dict(
+            cell_vars  = EzClass(**deepcopy(line.context.vars.data)),
+            cell_attrs = EzClass(**deepcopy(line.context.attrs.data)),
+        )
+        data = {**data, **self._prepared_data}
         while content != prev_content:
             prev_content = content
-            content = jinja.from_string(prev_content).render(**self._prepared_data)
+            content = jinja.from_string(prev_content).render(**data)
         j_line = GeneratedLine(content, line.source, line.context)
         return super(RenderJinja2, self)._render_line(j_line)
