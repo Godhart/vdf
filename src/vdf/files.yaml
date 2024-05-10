@@ -35,24 +35,34 @@ vhdl:
     - code__declaration
     - code__body
   template : |
-    {% if 'header__declaration' in sections %}{{ render_section('header__declaration') }}
+    {% if 'header__declaration' in sections -%}
+    {{ render_section('header__declaration') }}
     {% endif %}
-    entity {{ file_vars.subject }} is{% if 'unit__generics' in sections %}
+    entity {{ file_vars.subject }} is
+    {%- if 'unit__generics' in sections %}
         generic (
     {{ render_section('unit__generics', '        ') }}
-        );{% endif %}{% if 'unit__interface' in sections %}
+        );
+    {%- endif %}
+    {%- if 'unit__interface' in sections %}
         port (
     {{ render_section('unit__interface', '        ') }}
-        );{% endif %}
+        );
+    {%- endif %}
     end entity;
 
 
-    {% if 'header__body' in sections %}{{ render_section('header__body') }}
-
-    {% endif %}architecture rtl of {{ file_vars.subject }} is
-    {% if 'code__declaration' in sections %}{{ render_section('code__declaration', '    ') }}{% endif %}
+    {% if 'header__body' in sections -%}
+    {{ render_section('header__body') }}
+    {% endif -%}
+    architecture rtl of {{ file_vars.subject }} is
+    {%- if 'code__declaration' in sections %}
+    {{ render_section('code__declaration', '    ') }}
+    {%- endif %}
     begin
-    {% if 'code__body' in sections %}{{ render_section('code__body', '    ') }}{% endif %}
+    {%- if 'code__body' in sections %}
+    {{ render_section('code__body', '    ') }}
+    {%- endif %}
     end architecture;
 
 vhdl-package:
