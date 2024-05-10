@@ -19,12 +19,13 @@ For details - check spec:
 
 # Used software/techs stack
 
-## General
+## Core
 
 - Python
 - Jupyter
-- YAML
 - JSON
+- YAML
+- TOML
 - Jinja2
 <!--
 TODO:
