@@ -1,7 +1,5 @@
 from pathlib import Path
 from copy import deepcopy
-import ruamel.yaml
-yaml = ruamel.yaml.YAML()
 from .literals import *
 from ..helpers import *
 
@@ -196,8 +194,7 @@ def load_tags(path:str) -> TagDefs:
     """
     Load tags descriptions from YAML file
     """
-    with open(path, "rb") as f:
-        data = yaml.load(f)
+    data = load_jyt(path)
     for k,v in data[C_FALLBACK].items():
         for tagdef in data:
             if tagdef == C_FALLBACK:

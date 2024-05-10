@@ -1,6 +1,4 @@
 import re
-import ruamel.yaml
-yaml = ruamel.yaml.YAML()
 from pathlib import Path
 from .literals import *
 from ..helpers import *
@@ -10,8 +8,7 @@ def load_source_formats(path:str) -> dict[str:dict]:
     """
     Load source files formats from YAML file
     """
-    with open(path, "rb") as f:
-        data = yaml.load(f)
+    data = load_jyt(path)
     for k,v in data[C_FALLBACK][S_SPEC].items():
         for format_ in data:
             if format_ == C_FALLBACK:

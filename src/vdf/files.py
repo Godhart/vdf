@@ -1,6 +1,4 @@
 from pathlib import Path
-import ruamel.yaml
-yaml = ruamel.yaml.YAML()
 from .literals import *
 from ..helpers import *
 from .context import RunContext, GeneratedLine
@@ -50,10 +48,9 @@ class FileSpec:
 
 def load_file_formats(path:str) -> dict[str:FileSpec]:
     """
-    Load file formats description from YAML file
+    Load file formats description from JSON/YAML/TOML file
     """
-    with open(path, "rb") as f:
-        data = yaml.load(f)
+    data = load_jyt(path)
     for k,v in data[C_FALLBACK].items():
         for format_ in data:
             if format_ == C_FALLBACK:
