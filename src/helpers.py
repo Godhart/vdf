@@ -2,6 +2,10 @@ import inspect
 from pathlib import Path
 import os
 import re
+import toml
+import ruamel.yaml
+yaml = ruamel.yaml.YAML()
+import json
 
 
 _STRINGABLE = (Path, )
@@ -206,3 +210,26 @@ def replace_escaped(
             result += char
             prev = char
     return result
+
+
+def load_jyt(path: str) -> dict:
+    """
+    Load data from JSON / YAML / TOML file
+    If data in file is not a dict then dict is created
+    with '__root__' (C_ROOT) as key and loaded data as value
+    """
+    with open(path, "rb") as f:
+        sfx = Path(path).suffix
+        if sfx in (".yaml", ".yml"):
+            data = yaml.load(f)
+        elif sfx in (".toml", ):
+            data = toml.loads(f.read().decode())
+        elif sfx in (".json", ):
+            data = json.loads(f.read().decode())
+        else:
+            raise ValueError(
+                f"Unknown file format (extension '{sfx}')!"
+                " Use '.json', '.yaml', '.yml' or '.toml'")
+    if not isinstance(data, dict):
+        data = to_dict(__root__ = data)
+    return data
