@@ -7,6 +7,7 @@ main.vhd:
   - ''
   - ''
   - architecture rtl of main is
+  - ''
   - "    signal clk : std_logic := '0';"
   - '    signal a : unsigned(7 downto 0) := x"05";'
   - '    signal b : unsigned(7 downto 0) := x"07";'
@@ -16,12 +17,16 @@ main.vhd:
   - '        return a+b+c+d+e+f;'
   - '    end function;'
   - '    signal s : unsigned(7 downto 0) := x"00";'
+  - ''
   - begin
+  - ''
   - '    clk <= not clk after 5 ns;'
   - '    s <= sum(s,a,b) when rising_edge(clk);'
+  - ''
   - end architecture;
 - - '[["tests/tests_20_preprocess_the_doc/test/markdown-vhdl-01-simple/data.md",18],["tests/tests_20_preprocess_the_doc/test/markdown-vhdl-01-simple/data.md",16,"cell","header","code"]]'
   - '[["tests/tests_20_preprocess_the_doc/test/markdown-vhdl-01-simple/data.md",19],["tests/tests_20_preprocess_the_doc/test/markdown-vhdl-01-simple/data.md",16,"cell","header","code"]]'
+  - '[["Template"]]'
   - '[["Template"]]'
   - '[["Template"]]'
   - '[["Template"]]'
@@ -37,6 +42,9 @@ main.vhd:
   - '[["tests/tests_20_preprocess_the_doc/test/markdown-vhdl-01-simple/data.md",53],["tests/tests_20_preprocess_the_doc/test/markdown-vhdl-01-simple/data.md",48,"cell","code-declaration","code"]]'
   - '[["tests/tests_20_preprocess_the_doc/test/markdown-vhdl-01-simple/data.md",67],["tests/tests_20_preprocess_the_doc/test/markdown-vhdl-01-simple/data.md",64,"cell","code","code"]]'
   - '[["Template"]]'
+  - '[["Template"]]'
+  - '[["Template"]]'
   - '[["tests/tests_20_preprocess_the_doc/test/markdown-vhdl-01-simple/data.md",31],["tests/tests_20_preprocess_the_doc/test/markdown-vhdl-01-simple/data.md",27,"cell","code","code"]]'
   - '[["tests/tests_20_preprocess_the_doc/test/markdown-vhdl-01-simple/data.md",69],["tests/tests_20_preprocess_the_doc/test/markdown-vhdl-01-simple/data.md",64,"cell","code","code"]]'
+  - '[["Template"]]'
   - '[["Template"]]'
