@@ -187,7 +187,7 @@ class File:
             lines_map.append(l_map)
         return lines, lines_map
 
-    def save(self, output_path, flow=None, save_map=True) -> bool:
+    def save(self, output_path:str, flow=None, save_map=True) -> bool:
         """
         Save final result into file by specified path
         Mapping with info about line's sources is saved along
@@ -207,7 +207,7 @@ class File:
             f.write(lines_encoded)
         if save_map:
             with open(map_path, "w") as f:
-                f.writelines(lines_map)
+                f.writelines("\n".join(lines_map))
         return True
 
 
