@@ -55,13 +55,13 @@ end entity;
 {{ render_section('header__body') }}
 {% endif -%}
 architecture rtl of {{ file_vars.subject }} is
-{%- if 'code__declaration' in sections %}
+{% if 'code__declaration' in sections %}
 {{ render_section('code__declaration', '    ') }}
-{%- endif %}
+{% endif %}
 begin
-{%- if 'code__body' in sections %}
+{% if 'code__body' in sections %}
 {{ render_section('code__body', '    ') }}
-{%- endif %}
+{% endif %}
 end architecture;
 """
 
