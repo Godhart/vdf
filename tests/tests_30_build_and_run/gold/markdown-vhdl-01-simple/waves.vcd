@@ -1,0 +1,74 @@
+$version
+  GHDL v0
+$end
+$timescale
+  1 fs
+$end
+$scope module standard $end
+$upscope $end
+$scope module std_logic_1164 $end
+$upscope $end
+$scope module numeric_std $end
+$upscope $end
+$scope module main $end
+$var reg 1 ! clk $end
+$var reg 8 " a[7:0] $end
+$var reg 8 # b[7:0] $end
+$var reg 8 $ s[7:0] $end
+$upscope $end
+$enddefinitions $end
+#0
+0!
+b00000101 "
+b00000111 #
+b00000000 $
+#5000000
+1!
+b00001100 $
+#10000000
+0!
+#15000000
+1!
+b00011000 $
+#20000000
+0!
+#25000000
+1!
+b00100100 $
+#30000000
+0!
+#35000000
+1!
+b00110000 $
+#40000000
+0!
+#45000000
+1!
+b00111100 $
+#50000000
+0!
+#55000000
+1!
+b01001000 $
+#60000000
+0!
+#65000000
+1!
+b01010100 $
+#70000000
+0!
+#75000000
+1!
+b01100000 $
+#80000000
+0!
+#85000000
+1!
+b01101100 $
+#90000000
+0!
+#95000000
+1!
+b01111000 $
+#100000000
+0!
