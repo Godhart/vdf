@@ -2,9 +2,10 @@ import os
 import shutil
 from pathlib import Path
 import filecmp
+import glob
 
 
-def init_test_paths(file_location, test_set):
+def init_test_paths(file_location, test_set) -> tuple[str,str,str]:
     input_path  = Path(file_location).parent / "test" / test_set
     gold_path   = Path(file_location).parent / "gold" / test_set
     output_path = Path(file_location).parent / ".out" / test_set
@@ -14,11 +15,20 @@ def init_test_paths(file_location, test_set):
     return input_path, gold_path, output_path
 
 
-def same_as_gold(gold_path, results_path):
-    cmp = filecmp.dircmp(gold_path, results_path)
+def same_as_gold(gold_path:str|Path, results_path:str|Path, ignore=None) -> bool:
+    ignore_list = []
+    ignore = ignore or []
+    results_path = Path(results_path)
+    for pattern in ignore:
+        ignore_list += [
+            str(Path(v).relative_to(results_path))
+            for v in glob.glob(os.path.join(results_path, pattern))
+        ]
+
+    cmp = filecmp.dircmp(gold_path, results_path, ignore_list)
     return (
             len(cmp.left_only)
-        +   len(cmp.right_only)
+        +   len([v for v in cmp.right_only if v not in ignore_list])
         +   len(cmp.diff_files)
         +   len(cmp.funny_files)
         ) == 0 and (
@@ -28,7 +38,7 @@ def same_as_gold(gold_path, results_path):
         )
 
 
-def copy_tree(src, dst, dirs_exist_ok=False, hidden=True):
+def copy_tree(src:str|Path, dst:str|Path, dirs_exist_ok=False, hidden=True):
     dst = Path(dst)
     for root, dirs, files in os.walk(src):
         root = Path(root)
@@ -42,7 +52,7 @@ def copy_tree(src, dst, dirs_exist_ok=False, hidden=True):
         break
 
 
-def list_tests(test_file_location, folders):
+def list_tests(test_file_location:str|Path, folders:list[str]) -> list[str]:
     tests = []
     for f in folders:
         for root, dirs, _ in os.walk(Path(test_file_location).parent / f):
