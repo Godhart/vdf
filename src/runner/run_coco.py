@@ -26,16 +26,19 @@ def run(build_spec_path:str|Path):
     sim = build_spec_data['hdl_sim']
 
     build_dir = Path(build_spec_data.get('build_dir', build_spec_path.parent) / ".build")
-    test_dir  = Path(build_spec_data.get('build_dir', build_spec_path.parent) / ".run")
-    if test_dir.exists():
-        # TODO: safely cleanup build dir
-        # TODO: don't clean on partial rebuild
-        shutil.rmtree(test_dir)
-    test_dir.mkdir(parents=True, exist_ok=True)
+    if False:
+        test_dir  = Path(build_spec_data.get('build_dir', build_spec_path.parent) / ".run")
+        if test_dir.exists():
+            # TODO: safely cleanup build dir
+            # TODO: don't clean on partial rebuild
+            shutil.rmtree(test_dir)
+        test_dir.mkdir(parents=True, exist_ok=True)
 
-    # TODO: this is sim-depended part...
-    if sim == 'ghdl':
-        shutil.copy2(build_dir / "main", test_dir / "main")
+        # TODO: this is sim-depended part...
+        if sim == 'ghdl':
+            shutil.copy2(build_dir / "main", test_dir / "main")
+    else:
+        test_dir = build_dir
 
     runner = get_runner(sim)
 
