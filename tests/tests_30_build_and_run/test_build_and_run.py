@@ -76,7 +76,8 @@ def test_build_and_run(test_set:str):
 
     # NOTE: waves.vcd contains header with run date (first 3 lines), drop it
     skip = False
-    with open(output_path / ".run" / "waves.vcd", "r") as fr:
+    run_dir = ".build"
+    with open(output_path / run_dir / "waves.vcd", "r") as fr:
         with open(output_path / "waves.vcd", "w") as fw:
             v = None
             while v != "":
@@ -97,9 +98,9 @@ def test_build_and_run(test_set:str):
             ".build",
             ".build/*",
             ".build/**/*",
-            ".run",
-            ".run/*",
-            ".run/**/*",
+            f"{run_dir}",
+            f"{run_dir}/*",
+            f"{run_dir}/**/*",
         ],
     ) == expected
 
