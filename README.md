@@ -57,8 +57,10 @@ TODO:
 ## RTL tools
 
 - GHDL
-- Verilator
+<!-- - #TODO: Verilator -->
+<!-- - #TODO: Icarus -->
 - Cocotb
+- to be continued...
 
 <!--
 TODO:
