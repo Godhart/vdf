@@ -39,8 +39,8 @@ Let's define some data signals
 
 ```vhdl
 %%vdf #code-declaration
-signal a : unsigned(7 downto 0) := x"05";
-signal b : unsigned(7 downto 0) := x"07";
+signal v1 : unsigned(7 downto 0) := x"05";
+signal v2 : unsigned(7 downto 0) := x"07";
 ```
 
 ---
@@ -68,7 +68,7 @@ It's value would be defined by result of sum function, running every clk period
 #code
 signal s : unsigned(7 downto 0) := x"00";
 ---
-s <= sum(s,a,b) when rising_edge(clk);
+s <= sum(s,v1,v2) when rising_edge(clk);
 ```
 
 ---
