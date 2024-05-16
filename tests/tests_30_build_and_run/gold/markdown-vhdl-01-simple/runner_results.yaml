@@ -1,0 +1,15 @@
+__exception__: []
+sample_s:
+  samples:
+  - time: 10.0 ns
+    values:
+      s: '00001100'
+  - time: 30.0 ns
+    values:
+      s: '00100100'
+  - time: 60.0 ns
+    values:
+      s: '01001000'
+  - time: 100.0 ns
+    values:
+      s: '01111000'

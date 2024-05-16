@@ -1,0 +1,18 @@
+max_runtime: 2.0
+min_simtime: 200  ns
+max_simtime: 1000 ns
+tasks:
+  sample_s:
+    kind: sample
+    signals:
+    - s
+    trigger: time
+    trigger_options:
+    - - 10
+      - ns
+    - - 20
+      - ns
+    - - 30
+      - ns
+    - - 40
+      - ns

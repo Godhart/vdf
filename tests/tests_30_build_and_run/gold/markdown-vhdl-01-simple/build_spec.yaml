@@ -8,4 +8,4 @@ hdl_toplevel_lang: vhdl
 hdl_toplevel_library: top
 hdl_toplevel: main
 hdl_toplevel_generics: {}
-cocotb_run_module: src.runner.run_coco_test_module
+cocotb_run_module: src.runner.run_coco_main_module
