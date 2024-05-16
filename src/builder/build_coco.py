@@ -1,6 +1,7 @@
 from pathlib import Path
 import shutil
 from cocotb.runner import get_runner
+from ..vdf.literals import *
 from ..helpers import *
 
 
@@ -63,7 +64,7 @@ def build(build_spec_path:str|Path):
 
         build_stages[-1]['sources'].append(source_data['path'])
 
-    build_dir = Path(build_spec_data.get('build_dir', build_spec_path.parent) / ".build")
+    build_dir = Path(build_spec_data.get('build_dir', build_spec_path.parent) / C_BUILD_PATH)
     if build_dir.exists():
         # TODO: safely cleanup build dir
         # TODO: don't clean on partial rebuild
