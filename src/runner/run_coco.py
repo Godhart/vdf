@@ -1,11 +1,12 @@
 from pathlib import Path
 import shutil
 from cocotb.runner import get_runner
+from ..vdf.literals import *
 from ..helpers import *
 
 
 # # NOTE: in original file (https://github.com/cocotb/cocotb/blob/master/examples/simple_dff/test_dff.py
-# it was like cocotb_tools). # TODO: Why?
+# it was like cocotb_tools). # TODO: Why? cocotb.runner is experimental now, switch to cocotb_tools?
 # from cocotb_tools.runner import get_runner
 
 SIM_PLUS_ARGS = to_dict(
@@ -25,20 +26,23 @@ def run(build_spec_path:str|Path):
 
     sim = build_spec_data['hdl_sim']
 
-    build_dir = Path(build_spec_data.get('build_dir', build_spec_path.parent) / ".build")
-    if False:
-        test_dir  = Path(build_spec_data.get('build_dir', build_spec_path.parent) / ".run")
-        if test_dir.exists():
+    build_dir = Path(
+        build_spec_data.get('build_dir', build_spec_path.parent) / C_BUILD_PATH)
+    run_dir   = Path(
+        build_spec_data.get('run_dir', build_spec_path.parent) / C_RUN_PATH)
+    if run_dir != build_dir:
+        if run_dir.exists():
             # TODO: safely cleanup build dir
             # TODO: don't clean on partial rebuild
-            shutil.rmtree(test_dir)
-        test_dir.mkdir(parents=True, exist_ok=True)
+            shutil.rmtree(run_dir)
+        run_dir.mkdir(parents=True, exist_ok=True)
 
         # TODO: this is sim-depended part...
         if sim == 'ghdl':
-            shutil.copy2(build_dir / "main", test_dir / "main")
-    else:
-        test_dir = build_dir
+            # TODO: copy compiled binary from build dir to run dir
+            raise NotImplementedError(
+                "Different run dir and build dir are not supported"
+                " for GHDL yet!")
 
     runner = get_runner(sim)
 
@@ -57,7 +61,7 @@ def run(build_spec_path:str|Path):
         waves=True,
         verbose=True,
 
-        test_dir            = test_dir,
+        test_dir            = run_dir,
         extra_env           = extra_env,
         plusargs            = plusargs,
         # test_args         = hdl_run_test_args,
