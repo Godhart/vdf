@@ -233,3 +233,22 @@ def load_jyt(path: str) -> dict:
     if not isinstance(data, dict):
         data = to_dict(__root__ = data)
     return data
+
+def save_jyt(data, path: str):
+    """
+    Save data to JSON / YAML / TOML file
+    """
+    sfx = Path(path).suffix
+    if sfx not in (".yaml", ".yml", ".toml", ".json", ):
+        raise ValueError(
+            f"Unknown file format (extension '{sfx}')!"
+            " Use '.json', '.yaml', '.yml' or '.toml'")
+
+    with open(path, "w") as f:
+        sfx = Path(path).suffix
+        if sfx in (".yaml", ".yml"):
+            yaml.dump(data, f)
+        elif sfx in (".toml", ):
+            toml.dump(data, f)
+        elif sfx in (".json", ):
+            data = json.dump(data, f, indent=2)
