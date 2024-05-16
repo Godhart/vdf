@@ -4,3 +4,5 @@
 # https://ipython.readthedocs.io/en/stable/interactive/reference.html#input-caching-system
 # https://jupyter-client.readthedocs.io/en/latest/kernels.html
 # https://discourse.jupyter.org/t/getting-syntax-highlighting-to-work-for-custom-cell-magic/11734/5
+
+# https://stackoverflow.com/questions/40518074/jupyter-get-arbitrary-notebook-cell-contents
