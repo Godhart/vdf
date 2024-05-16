@@ -1,12 +1,14 @@
 import pytest
 import sys
 from pathlib import Path
+import shutil
 
 vdf_root_path = str((Path(__file__).absolute().parent.parent.parent).resolve())
 if vdf_root_path not in sys.path:
     sys.path.insert(0, vdf_root_path)
 
 from tests.helpers import *
+from src.vdf.literals import *
 from src.helpers import *
 from tests.tests_10_read_the_doc.test_read_the_doc import parse_input_file
 from src.vdf.document import Document
@@ -59,30 +61,50 @@ def test_build_and_run(test_set:str):
         hdl_toplevel_generics = {},         # TODO: generics for top
 
         # CoCoTB Specific Spec              # TODO: depends on sim
-        cocotb_run_module = "src.runner.run_coco_test_module",
+        cocotb_run_module = "src.runner.run_coco_main_module",
     )
     spec_path = save_build_spec(build_spec, output_path)
+
+    schedule = to_dict(
+        max_runtime = 2.,
+        min_simtime = "200  ns",
+        max_simtime = "1000 ns",
+        tasks = to_dict(
+            sample_s = to_dict(
+                kind = "sample",
+                signals = ["s"],
+                trigger = "time",
+                trigger_options = [[10, "ns"], [20, "ns"], [30, "ns"], [40, "ns"]]
+            )
+        )
+    )
 
     # TODO: run with popen, get stdout, stderr
     build(spec_path)
 
+    save_jyt(schedule, output_path / C_RUN_PATH / "runner_schedule.yaml")
+
     # TODO: run with popen, get stdout, stderr
     run(spec_path)
 
+    # Copy waves from run dir to output dir
     # NOTE: waves.vcd contains header with run date (first 3 lines), drop it
-    skip = False
-    run_dir = ".build"
-    with open(output_path / run_dir / "waves.vcd", "r") as fr:
+    vcd_skip = False
+    with open(output_path / C_RUN_PATH / "waves.vcd", "r") as fr:
         with open(output_path / "waves.vcd", "w") as fw:
             v = None
             while v != "":
                 v = fr.readline()
                 if v == "$date\n":
-                    skip=True
-                if not skip:
+                    vcd_skip=True
+                if not vcd_skip:
                     fw.write(v)
                 if v == "$end\n":
-                    skip=False
+                    vcd_skip=False
+
+    # Copy runner related files (schedule, results)
+    for file_name in (C_RUNNER_RESULTS, C_RUNNER_SCHEDULE):
+        shutil.copy2(output_path / C_RUN_PATH / file_name, output_path / file_name)
 
     expected = [True, False][test_set[:4] == "err_"]
 
@@ -90,12 +112,12 @@ def test_build_and_run(test_set:str):
         gold_path,
         output_path,
         ignore=[
-            ".build",
-            ".build/*",
-            ".build/**/*",
-            f"{run_dir}",
-            f"{run_dir}/*",
-            f"{run_dir}/**/*",
+            C_BUILD_PATH,
+            f"{C_BUILD_PATH}/*",
+            f"{C_BUILD_PATH}/**/*",
+            C_RUN_PATH,
+            f"{C_RUN_PATH}/*",
+            f"{C_RUN_PATH}/**/*",
         ],
     ) == expected
 
