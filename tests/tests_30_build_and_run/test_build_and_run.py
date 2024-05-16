@@ -1,10 +1,6 @@
 import pytest
 import sys
 from pathlib import Path
-import ruamel.yaml
-yaml = ruamel.yaml.YAML()
-import json
-import shutil
 
 vdf_root_path = str((Path(__file__).absolute().parent.parent.parent).resolve())
 if vdf_root_path not in sys.path:
@@ -37,8 +33,7 @@ def preprocess_input_file(doc:Document, output_path:str) -> dict[str:dict]:
 
 def save_build_spec(build_data:dict, output_path:str|Path) -> Path:
     spec_path = Path(output_path) / "build_spec.yaml"
-    with open(spec_path, "w") as f:
-        yaml.dump(build_data, f)
+    save_jyt(build_data, spec_path)
     return spec_path
 
 

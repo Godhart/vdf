@@ -1,9 +1,6 @@
 import pytest
 import sys
 from pathlib import Path
-import ruamel.yaml
-yaml = ruamel.yaml.YAML()
-import json
 
 vdf_root_path = str((Path(__file__).absolute().parent.parent.parent).resolve())
 if vdf_root_path not in sys.path:
@@ -39,10 +36,8 @@ def test_parse_input_file(test_set):
     value = parse_input_file(input_path.relative_to(os.getcwd()) /"data.md")
 
     result = any_to_dict_list_scalar(value)
-    with open(output_path/"result.yaml", "w") as f:
-        yaml.dump(result, f)
-    with open(output_path/"result.json", "w") as f:
-        f.write(json.dumps(result, indent=2))
+    save_jyt(result, output_path/"result.yaml")
+    save_jyt(result, output_path/"result.json")
 
     expected = [True, False][test_set[:4] == "err_"]
 
