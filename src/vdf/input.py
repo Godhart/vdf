@@ -250,12 +250,12 @@ class RawDocument:
             *[l+"\n" for l in content.split("\n")],
         ]
         lines = \
-              [Line(None, "``````````````````````````````````````````")] \
-            + [Line(i,v) for i,v in enumerate(lines)] \
-            + [Line(None, "``````````````````````````````````````````")]
-        fenced = Fenced(0, lines)
+              [Line(None, "``````````````````````````````````````````", ["Notebook"])] \
+            + [Line(i,v, ["Notebook"]) for i,v in enumerate(lines)] \
+            + [Line(None, "``````````````````````````````````````````", ["Notebook"])]
+        fenced = Fenced(0, 'vhdl', lines, ["Notebook"])
         result = CodeCell(
-            content = fenced,
-            location= ["Unavailable"],  # TODO: get GUID of the cell
+            content = [fenced],
+            location= ["Notebook"],  # TODO: get GUID of the cell
         )
         return result
