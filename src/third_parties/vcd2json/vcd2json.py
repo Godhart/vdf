@@ -86,6 +86,12 @@ class WaveExtractor:
             new_path_dict = {}
             for path in path_list:
                 signal_def = path_dict.get(path, None)
+                # patch:
+                if not signal_def:
+                    for k in path_dict.keys():
+                        if path + "[" == k[:len(path)+1]:
+                            signal_def = path_dict[k]
+                            break
                 if not signal_def:
                     raise ValueError('Can\'t find path "{0}".'.format(path))
                 new_path_dict[path] = signal_def
