@@ -2,7 +2,7 @@ from copy import deepcopy
 from hashlib import md5
 from .literals import *
 from .source_io import Line, Fenced
-from .tags import TagsInstances
+# from .tags import TagsInstances
 from .context import RunContext
 
 class Cell:
@@ -14,7 +14,7 @@ class Cell:
             content         : list[Line|Fenced],
             location        : list,
             input_context   : RunContext|None = None,
-            tags            : TagsInstances|None = None,
+            tags            = None, # TODO: should be TagsInstances|None = but due to circular import fails
             name            : str|None = None,
     ):
         self._content = content
