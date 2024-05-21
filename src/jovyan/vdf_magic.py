@@ -6,6 +6,7 @@ import json
 import ruamel.yaml
 yaml = ruamel.yaml.YAML()
 from tempfile import TemporaryDirectory
+import shutil
 
 from ..vdf.literals import *
 from ..helpers import *
@@ -41,6 +42,9 @@ class VdfMagic(Magics):
             self._context[S_RUN_DIR] = self._context[S_BUILD_DIR]
             self._context[S_RUN] = None
             self._context[S_BUILD] = None
+
+    def __del__(self):
+        self._clean_temp()
 
     def _load_stage(self, stage) -> tuple[Document|Cell]:
         return self._context[S_STAGES][stage]
@@ -248,12 +252,19 @@ class VdfMagic(Magics):
         result = "\n".join(result)
         display(Markdown(result))
 
+    def _clean_temp(self):
+        self._build_dir().cleanup()
+        self._run_dir().cleanup()
+
+        for path in (self._build_dir().name, self._run_dir().name):
+            if Path(path).exists():
+                shutil.rmtree(path, ignore_errors=True)
+
     def _line_magic(self, line:str):
         ## special tags processing
         # - #vdf-reset  to init dir
         if "#reset" in line:
-            self._build_dir().cleanup()
-            self._run_dir().cleanup()
+            self._clean_temp()
             self._init_context(force=True)
 
         # - #vdf-load-N to load Nth cell result
