@@ -4,7 +4,7 @@ __version__ = '0.0.1'
 # as per
 # https://ipython.readthedocs.io/en/stable/config/custommagics.html#complete-example
 
-from .jovyan.vdf_magic import VdfMagic
+from src.jovyan.vdf_magic import VdfMagic
 
 _CONTEXT = {}
 
