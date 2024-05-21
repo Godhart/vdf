@@ -153,6 +153,9 @@ class VdfMagic(Magics):
                     # TODO: start-time / end-time
                     extractor.execute()
                     wave = load_jyt(json_path)
+                    # TODO: it's nice and neat to snow waveforms like this
+                    # but only works in jupyter
+                    # make universal and permanent way
                     waves_data[wave_group] = f"""
 <script type="WaveDrom">
 {wave}
@@ -272,7 +275,7 @@ class VdfMagic(Magics):
             self._vdf_debug(line)
 
         if "#wavedrom" in line:
-            # TODO: use cdn
+            # TODO: use cdn / path prefix from os.environ
             wave_script_load = ""
             wave_script_load += '<script src="https://wavedrom.com/skins/default.js"></script>'
             wave_script_load += '<script src="https://wavedrom.com/skins/dark.js"></script>'
