@@ -3,3 +3,7 @@ toml
 Jinja2
 pytest
 cocotb
+ipython
+jupyter
+jupyterlab
+ipywidgets
