@@ -16,6 +16,8 @@ For details - check spec:
  - [&#127479;&#127482; (original)](https://github.com/Godhart/vdf/blob/main/spec/vdf_specification_ru.md)
   - [&#127468;&#127463; (translation)](https://github.com/Godhart/vdf/blob/main/spec/vdf_specification_en.md)
 
+Here is a short [example](https://github.com/Godhart/vdf/blob/main/examples/jl-simple/hello-world.ipynb) how it may look like
+
 # Current state
 
 Specification declaration is at draft state - things may change without backward compatibility, a lot to think about and to check.
