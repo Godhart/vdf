@@ -60,9 +60,9 @@ end entity main;
 
 architecture rtl of main is
 
-    --- ```rdml
---- %%vdf rdml
---- regs description in RDML format or ref to outer file
+    --- ```rdl
+--- %%vdf rdl
+--- regs description in RDL format or ref to outer file
 
 -- NOTE: after section above a generated code with registers definitions should arise
 
