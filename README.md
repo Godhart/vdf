@@ -16,6 +16,8 @@
 
 Вот небольшой [пример](https://github.com/Godhart/vdf/blob/main/examples/jl-simple/hello-world.ipynb) того как это могло бы выглядеть.
 
+И ещё один наглядный [пример в облаке](https://colab.research.google.com/drive/1Vykh1FCfYiMd1jnHripufyOlN62Stxdc#scrollTo=oixMCurG7_IY)
+
 <!--
 # Специально для читателей FSM
 
