@@ -14,7 +14,7 @@
 
 Более подробные детали данной идеи можно посмотреть в [черновике спецификации](https://github.com/Godhart/vdf/blob/main/spec/vdf_specification_ru.md)
 
-Вот небольшой [пример](https://github.com/Godhart/vdf/blob/main/examples/jl-simple/hello-world-ru.ipynb) того как это могло бы выглядеть.
+Вот небольшой [пример](https://github.com/Godhart/vdf/blob/main/examples/jl-simple/hello-world.ipynb) того как это могло бы выглядеть.
 
 <!--
 # Специально для читателей FSM
