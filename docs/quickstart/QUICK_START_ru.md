@@ -71,3 +71,9 @@ jupyter lab
 > Это можно изменить через параметры [запуска](https://docs.jupyter.org/en/latest/running.html)
 
 Можете для начала открыть и попробовать примеры из `examples/jl-simple`
+
+## Запуск в облаке
+
+Работа над таким вариантом ведётся но ещё не завершена.
+
+Пока-что можно посмотреть на этот [тизер](https://colab.research.google.com/drive/1Vykh1FCfYiMd1jnHripufyOlN62Stxdc#scrollTo=oixMCurG7_IY)
