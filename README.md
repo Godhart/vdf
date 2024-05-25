@@ -16,9 +16,11 @@
 
 Вот небольшой [пример](https://github.com/Godhart/vdf/blob/main/examples/jl-simple/hello-world-ru.ipynb) того как это могло бы выглядеть.
 
+<!--
 # Специально для читателей FSM
 
 Дополнительную информацию к статье в журнале (ссылки и т.п.) можно посмотреть на [этой](https://github.com/Godhart/vdf/blob/main/docs/fsm/APPENDIX_ru.md) странице
+-->
 
 # Текущее состояние проекта
 
@@ -30,7 +32,7 @@
 
 На текущем уровне реализации уже можно выполнять интерактивный ввод исходного файла на языке VHDL и его симуляцию.
 
-Чтобы ознакомиться на практике с текущими возможностями воспользуйтесь [этим](https://github.com/Godhart/vdf/blob/main/docs/quickstart/QUICK_START_ru.md) руководством.
+Чтобы ознакомиться на практике с текущими возможностями воспользуйтесь [этим](https://github.com/Godhart/vdf/blob/main/docs/quickstart/QUICK_START_ru.md) руководством и [списком доступных команд](https://github.com/Godhart/vdf/blob/main/docs/quickstart/COMMANDS_ru.md).
 
 Направление планов по развитию проекта можно посмотреть в этой [дорожной карте](https://github.com/Godhart/vdf/blob/main/ROADMAP_ru.md).
 
