@@ -12,9 +12,7 @@ Mix doc and code and use whatever you want (or so)
 
 Ok. But you still need one more standard for this...
 
-For details - check spec:
- - [&#127479;&#127482; (original)](https://github.com/Godhart/vdf/blob/main/spec/vdf_specification_ru.md)
-  - [&#127468;&#127463; (translation)](https://github.com/Godhart/vdf/blob/main/spec/vdf_specification_en.md)
+For details - check [spec](https://github.com/Godhart/vdf/blob/main/spec/vdf_specification_en.md):
 
 Here is a short [example](https://github.com/Godhart/vdf/blob/main/examples/jl-simple/hello-world.ipynb) how it may look like
 
@@ -26,7 +24,7 @@ Specification core is implemented at minimal level for proof-of-concept and idea
 
 First specification use is designated for HDL languages like VHDL, Verilog etc. but it can be applied to any coding language (and even more)
 
-Check [roadmap](https://github.com/Godhart/vdf/blob/main/ROADMAP.md) for details.
+Check [roadmap](https://github.com/Godhart/vdf/blob/main/ROADMAP_en.md) for details.
 
 # Contribution
 
@@ -34,7 +32,7 @@ Contributions are appreciated.
 
 Way of contribution is not defined yet but will be soon.
 
-Preferred area for contributions is defined [here](https://github.com/Godhart/vdf/blob/main/TODO.md).
+Preferred area for contributions is defined [here](https://github.com/Godhart/vdf/blob/main/TODO_en.md).
 
 # Used software/techs stack
 
