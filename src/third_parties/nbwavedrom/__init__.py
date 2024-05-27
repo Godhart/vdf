@@ -3,11 +3,12 @@ import json
 import shutil
 import subprocess
 import tempfile
+from pathlib import Path
 
 import IPython.display
 
 
-def draw(data):
+def draw(data, png=False):
     """
     A function to provide digital waveform drawing in jupyter notebook.
     You need to have wavedrom-cli (https://github.com/wavedrom/cli) installed.
@@ -35,15 +36,28 @@ def draw(data):
     if not isinstance(data, str):
         data = json.dumps(data)
 
+    extra_args = []
+    png_path = None
     with tempfile.NamedTemporaryFile(mode="w", encoding="utf-8") as f:
+        if png:
+            png_path = f"{f.name}.png"
+            extra_args += ["-p", png_path]
+
         f.write(data)
         f.flush()
         result = subprocess.run(
-            [wavedrom_cli, "-i", f.name],
+            [wavedrom_cli, "-i", f.name, *extra_args],
             encoding="utf-8",
             input=data,
             capture_output=True,
             check=True,
         )
 
-    return IPython.display.SVG(result.stdout)
+        if png:
+            with open(png_path, "rb") as f_png:
+                result = f_png.read()
+            Path(png_path).unlink()
+        else:
+            result = IPython.display.SVG(result.stdout)
+
+    return result
