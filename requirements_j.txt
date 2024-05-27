@@ -1,0 +1,7 @@
+ruamel.yaml
+toml
+Jinja2
+pytest
+cocotb
+ipywidgets
+nbwavedrom
