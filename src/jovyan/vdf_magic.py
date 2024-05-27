@@ -16,6 +16,7 @@ from ..vdf.processing import VdfProcessor
 from ..builder.build_coco import build
 from ..runner.run_coco import run
 from ..third_parties.vcd2json.vcd2json import WaveExtractor
+from ..third_parties.nbwavedrom import draw as wave_draw
 # TODO: check also https://github.com/Toroid-io/vcd2wavedrom
 
 from IPython.display import display, Markdown, clear_output
@@ -75,7 +76,13 @@ class VdfMagic(Magics):
             for tab_content in tabs_dict.values():
                 with tab_content:
                     # clear_output()
-                    display(Markdown(tab_data))
+                    if isinstance(tab_data, str):
+                        display(Markdown(tab_data))
+                    else:
+                        if callable(tab_data):
+                            tab_data()
+                        else:
+                            display(tab_data)
 
     def _save(self):
         self._files_saved = False
@@ -157,17 +164,27 @@ class VdfMagic(Magics):
                     # TODO: start-time / end-time
                     extractor.execute()
                     wave = load_jyt(json_path)
-                    # TODO: it's nice and neat to snow waveforms like this
-                    # but only works in jupyter
-                    # make universal and permanent way
-                    waves_data[wave_group] = f"""
+                    if " #output-native" in line or shutil.which("wavedrom-cli") is None:
+                        # NOTE: If wavedrom-cli is not installed
+                        # use old way, but display works only in jupyter
+                        waves_data[wave_group] = f"""
 <script type="WaveDrom">
-{wave}
+{json.dumps(wave)}
 </script>
 <script type="text/javascript">WaveDrom.ProcessAll()</script>
 """
+                    else:
+                        wave_png = " #output-png" in line
+                        wave_pic = wave_draw(wave, png=wave_png)
+                        if wave_png:
+                            waves_data[wave_group] = markdown_png(wave_group, wave_pic)
+                        else:
+                            if False:   # TODO: determine if running in jupyter or markdown is wanted
+                                waves_data[wave_group] = f"{wave_pic.data}"
+                            else:
+                                waves_data[wave_group] = wave_pic
             if isinstance(waves_data, str):
-                waves_data={C_EXCEPTION: f"> {waves_data}"}
+                waves_data={C_EXCEPTION: f"{waves_data}"}
             if len(waves_data) > 0:
                 # TODO: should be
                 #   tabs_data[S_WAVES.capitalize()] = waves_data
@@ -286,14 +303,15 @@ class VdfMagic(Magics):
             self._vdf_debug(line)
 
         if "#wavedrom" in line:
-            # TODO: use cdn / path prefix from os.environ
-            wave_script_load = ""
-            wave_script_load += '<script src="https://wavedrom.com/skins/default.js"></script>'
-            wave_script_load += '<script src="https://wavedrom.com/skins/dark.js"></script>'
-            wave_script_load += '<script src="https://wavedrom.com/skins/narrow.js"></script>'
-            wave_script_load += '<script src="https://wavedrom.com/skins/lowkey.js"></script>'
-            wave_script_load += '<script src="https://wavedrom.com/wavedrom.min.js"></script>'
-            display(Markdown(wave_script_load))
+            if shutil.which("wavedrom-cli") is None:
+                # TODO: use cdn / path prefix from os.environ
+                wave_script_load = ""
+                wave_script_load += '<script src="https://wavedrom.com/skins/default.js"></script>'
+                wave_script_load += '<script src="https://wavedrom.com/skins/dark.js"></script>'
+                wave_script_load += '<script src="https://wavedrom.com/skins/narrow.js"></script>'
+                wave_script_load += '<script src="https://wavedrom.com/skins/lowkey.js"></script>'
+                wave_script_load += '<script src="https://wavedrom.com/wavedrom.min.js"></script>'
+                display(Markdown(wave_script_load))
 
     @line_cell_magic
     def vdf(self, line:str, cell=None):
@@ -305,13 +323,30 @@ class VdfMagic(Magics):
             wave_data = cell
             if "#format-yaml" in line:
                 wave_data = json.dumps(yaml.load(wave_data.encode()))
-            wave_out = f"""
+            wave_data = json.loads(wave_data)
+            if " #output-native" in line or shutil.which("wavedrom-cli") is None:
+                # NOTE: If wavedrom-cli is not installed
+                # use old way, but display works only in jupyter
+                wave_out = f"""
 <script type="WaveDrom">
-{wave_data}
+{json.dumps(wave_data)}
 </script>
 <script type="text/javascript">WaveDrom.ProcessAll()</script>
 """
-            display(Markdown(wave_out))
+            else:
+                wave_png = " #output-png" in line
+                wave_pic = wave_draw(wave_data, png=wave_png)
+                if wave_png:
+                    wave_out = markdown_png("wave", wave_pic)
+                else:
+                    if False:   # TODO: determine if running in jupyter or markdown is wanted
+                        wave_out = f"{wave_pic.data}"
+                    else:
+                        wave_out = wave_pic
+            if isinstance(wave_out, str):
+                display(Markdown(wave_out))
+            else:
+                display(wave_out)
             return
 
         if "#show-wave" in line:
