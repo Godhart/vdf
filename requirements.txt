@@ -7,3 +7,4 @@ ipython
 jupyter
 jupyterlab
 ipywidgets
+nbwavedrom
