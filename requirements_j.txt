@@ -4,4 +4,3 @@ Jinja2
 pytest
 cocotb
 ipywidgets
-nbwavedrom
