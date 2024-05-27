@@ -76,7 +76,13 @@ class VdfMagic(Magics):
             for tab_content in tabs_dict.values():
                 with tab_content:
                     # clear_output()
-                    display(Markdown(tab_data))
+                    if isinstance(tab_data, str):
+                        display(Markdown(tab_data))
+                    else:
+                        if callable(tab_data):
+                            tab_data()
+                        else:
+                            display(tab_data)
 
     def _save(self):
         self._files_saved = False
