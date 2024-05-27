@@ -184,7 +184,7 @@ class VdfMagic(Magics):
                             else:
                                 waves_data[wave_group] = wave_pic
             if isinstance(waves_data, str):
-                waves_data={C_EXCEPTION: f"> {waves_data}"}
+                waves_data={C_EXCEPTION: f"{waves_data}"}
             if len(waves_data) > 0:
                 # TODO: should be
                 #   tabs_data[S_WAVES.capitalize()] = waves_data
