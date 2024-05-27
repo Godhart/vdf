@@ -6,6 +6,7 @@ import toml
 import ruamel.yaml
 yaml = ruamel.yaml.YAML()
 import json
+import base64
 
 
 _STRINGABLE = (Path, )
@@ -252,3 +253,7 @@ def save_jyt(data, path: str):
             toml.dump(data, f)
         elif sfx in (".json", ):
             data = json.dump(data, f, indent=2)
+
+def markdown_png(text: str, data:bytes) -> str:
+    d64 = base64.b64encode(data).decode()
+    return f"![{text}](data:image/png;base64,{d64})"
