@@ -158,7 +158,7 @@ class VdfMagic(Magics):
                     # TODO: start-time / end-time
                     extractor.execute()
                     wave = load_jyt(json_path)
-                    waves_data[wave_group] = f"{nbwavedrom.draw(wave)}"
+                    waves_data[wave_group] = f"{nbwavedrom.draw(wave).data}"
             if isinstance(waves_data, str):
                 waves_data={C_EXCEPTION: f"> {waves_data}"}
             if len(waves_data) > 0:
@@ -292,7 +292,7 @@ class VdfMagic(Magics):
             if "#format-yaml" in line:
                 wave_data = json.dumps(yaml.load(wave_data.encode()))
             wave_data = json.loads(wave_data)
-            wave_out = f"{nbwavedrom.draw(wave_data)}"
+            wave_out = f"{nbwavedrom.draw(wave_data).data}"
             display(Markdown(wave_out))
             return
 
