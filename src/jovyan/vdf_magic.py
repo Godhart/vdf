@@ -7,7 +7,6 @@ import ruamel.yaml
 yaml = ruamel.yaml.YAML()
 from tempfile import TemporaryDirectory
 import shutil
-import nbwavedrom
 
 from ..vdf.literals import *
 from ..helpers import *
@@ -17,6 +16,7 @@ from ..vdf.processing import VdfProcessor
 from ..builder.build_coco import build
 from ..runner.run_coco import run
 from ..third_parties.vcd2json.vcd2json import WaveExtractor
+from ..third_parties.nbwavedrom import draw as wave_draw
 # TODO: check also https://github.com/Toroid-io/vcd2wavedrom
 
 from IPython.display import display, Markdown, clear_output
@@ -158,7 +158,8 @@ class VdfMagic(Magics):
                     # TODO: start-time / end-time
                     extractor.execute()
                     wave = load_jyt(json_path)
-                    waves_data[wave_group] = f"{nbwavedrom.draw(wave).data}"
+                    wave_png = wave_draw(wave, png=True)
+                    waves_data[wave_group] = markdown_png(wave_group, wave_png)
             if isinstance(waves_data, str):
                 waves_data={C_EXCEPTION: f"> {waves_data}"}
             if len(waves_data) > 0:
@@ -292,7 +293,8 @@ class VdfMagic(Magics):
             if "#format-yaml" in line:
                 wave_data = json.dumps(yaml.load(wave_data.encode()))
             wave_data = json.loads(wave_data)
-            wave_out = f"{nbwavedrom.draw(wave_data).data}"
+            wave_png = wave_draw(wave_data, png=True)
+            wave_out = markdown_png("wave", wave_png)
             display(Markdown(wave_out))
             return
 
