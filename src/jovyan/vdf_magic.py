@@ -7,6 +7,7 @@ import ruamel.yaml
 yaml = ruamel.yaml.YAML()
 from tempfile import TemporaryDirectory
 import shutil
+import nbwavedrom
 
 from ..vdf.literals import *
 from ..helpers import *
@@ -157,15 +158,7 @@ class VdfMagic(Magics):
                     # TODO: start-time / end-time
                     extractor.execute()
                     wave = load_jyt(json_path)
-                    # TODO: it's nice and neat to snow waveforms like this
-                    # but only works in jupyter
-                    # make universal and permanent way
-                    waves_data[wave_group] = f"""
-<script type="WaveDrom">
-{wave}
-</script>
-<script type="text/javascript">WaveDrom.ProcessAll()</script>
-"""
+                    waves_data[wave_group] = f"{nbwavedrom.draw(wave)}"
             if isinstance(waves_data, str):
                 waves_data={C_EXCEPTION: f"> {waves_data}"}
             if len(waves_data) > 0:
@@ -286,14 +279,7 @@ class VdfMagic(Magics):
             self._vdf_debug(line)
 
         if "#wavedrom" in line:
-            # TODO: use cdn / path prefix from os.environ
-            wave_script_load = ""
-            wave_script_load += '<script src="https://wavedrom.com/skins/default.js"></script>'
-            wave_script_load += '<script src="https://wavedrom.com/skins/dark.js"></script>'
-            wave_script_load += '<script src="https://wavedrom.com/skins/narrow.js"></script>'
-            wave_script_load += '<script src="https://wavedrom.com/skins/lowkey.js"></script>'
-            wave_script_load += '<script src="https://wavedrom.com/wavedrom.min.js"></script>'
-            display(Markdown(wave_script_load))
+            display(Markdown("> command is obsolete!"))
 
     @line_cell_magic
     def vdf(self, line:str, cell=None):
@@ -305,12 +291,8 @@ class VdfMagic(Magics):
             wave_data = cell
             if "#format-yaml" in line:
                 wave_data = json.dumps(yaml.load(wave_data.encode()))
-            wave_out = f"""
-<script type="WaveDrom">
-{wave_data}
-</script>
-<script type="text/javascript">WaveDrom.ProcessAll()</script>
-"""
+            wave_data = json.loads(wave_data)
+            wave_out = f"{nbwavedrom.draw(wave_data)}"
             display(Markdown(wave_out))
             return
 
