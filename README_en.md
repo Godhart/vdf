@@ -26,6 +26,8 @@ First specification use is designated for HDL languages like VHDL, Verilog etc. 
 
 Check [roadmap](https://github.com/Godhart/vdf/blob/main/ROADMAP_en.md) for details.
 
+> Just found out that [Quarto](https://quarto.org) have implemented many ideas behind this project. VDF approach would be reconsidered in respect to Quarto.
+
 # Contribution
 
 Contributions are appreciated.

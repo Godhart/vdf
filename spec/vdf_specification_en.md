@@ -23,3 +23,5 @@ The format allows you to create documentation, code and related artifacts and in
 Chains of document cells can be organized in both linear and non-linear ways to clearly show the difference between different options or to conduct experiments
 
 #TODO: will be translated as some things in original would be settled down
+
+> Just found out that [Quarto](https://quarto.org) have implemented many ideas behind this project. VDF approach would be reconsidered in respect to Quarto.
